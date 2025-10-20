@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Administração - Freelancer</title>
+  <link rel="stylesheet" href="assets/css/theme.css"/>
+  <style>
+    .admin-container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+      min-height: 100vh;
+      background: #f7f9ff;
+    }
+    
+    .admin-sidebar {
+      background: var(--c-white);
+      box-shadow: var(--shadow-small);
+      padding: 1.5rem;
+      border-radius: var(--rounded);
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+    
+    .admin-content {
+      padding: 2rem 0;
+    }
+    
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .admin-nav li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .admin-nav a {
+      display: block;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      color: #3a3f47;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    
+    .admin-nav a:hover,
+    .admin-nav a.active {
+      background: var(--c-purple);
+      color: var(--c-white);
+    }
+    
+    .admin-section {
+      display: none;
+      background: var(--c-white);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-small);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .admin-section.active {
+      display: block;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e9eefb;
+    }
+    
+    .section-header h2 {
+      margin: 0;
+      color: var(--c-black);
+    }
+    
+    .btn-add {
+      background: var(--c-purple);
+      color: var(--c-white);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-add:hover {
+      background: color-mix(in lab, var(--c-purple) 90%, black);
+    }
+    
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .service-card {
+      background: var(--c-white);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-small);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .service-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, var(--c-purple), var(--c-blue-deep));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-white);
+      font-size: 3rem;
+    }
+    
+    .service-body {
+      padding: 1.5rem;
+    }
+    
+    .service-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--c-black);
+    }
+    
+    .service-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-blue-deep);
+      margin-bottom: 1rem;
+    }
+    
+    .service-description {
+      color: #3a3f47;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .service-delivery {
+      font-size: 0.9rem;
+      color: #3a3f47;
+      margin-bottom: 1rem;
+    }
+    
+    .service-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .btn-action {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-edit {
+      background: var(--c-blue-deep);
+      color: var(--c-white);
+    }
+    
+    .btn-delete {
+      background: #dc3545;
+      color: var(--c-white);
+    }
+    
+    .btn-view {
+      background: #28a745;
+      color: var(--c-white);
+    }
+    
+    .btn-action:hover {
+      opacity: 0.8;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+    
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background: var(--c-white);
+      border-radius: var(--rounded);
+      padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e9eefb;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+      color: var(--c-black);
+    }
+    
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #3a3f47;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--c-black);
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #e3e8f6;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: 2px solid var(--c-purple);
+      border-color: transparent;
+    }
+    
+    .file-upload {
+      border: 2px dashed #e3e8f6;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .file-upload:hover {
+      border-color: var(--c-purple);
+      background: color-mix(in lab, var(--c-purple) 5%, white);
+    }
+    
+    .file-upload.dragover {
+      border-color: var(--c-purple);
+      background: color-mix(in lab, var(--c-purple) 10%, white);
+    }
+    
+    .uploaded-files {
+      margin-top: 1rem;
+    }
+    
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .file-item button {
+      background: #dc3545;
+      color: var(--c-white);
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: var(--c-white);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-small);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--c-purple);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: #3a3f47;
+      font-weight: 500;
+    }
+    
+    .portfolio-section {
+      background: var(--c-white);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-small);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .portfolio-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #e9eefb;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .portfolio-thumbnail {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--c-purple), var(--c-blue-deep));
+      border-radius: 8px;
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-white);
+      font-size: 1.5rem;
+    }
+    
+    .portfolio-info {
+      flex: 1;
+    }
+    
+    .portfolio-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--c-black);
+    }
+    
+    .portfolio-description {
+      color: #3a3f47;
+      font-size: 0.9rem;
+    }
+    
+    .availability-calendar {
+      background: var(--c-white);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-small);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .calendar-day {
+      padding: 0.8rem;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .calendar-day.available {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .calendar-day.busy {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .calendar-day.unavailable {
+      background: #f8f9fa;
+      color: #6c757d;
+    }
+    
+    .calendar-day:hover {
+      transform: scale(1.05);
+    }
+    
+    @media (max-width: 768px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .admin-sidebar {
+        position: static;
+        margin-bottom: 1rem;
+      }
+      
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container inner">
+      <a class="brand" href="index.html">
+        <span class="dot"></span>
+        <span>DevHub</span>
+      </a>
+      <nav style="display:flex; gap:1rem; align-items:center">
+        <a class="btn btn-outline" href="marketplace.html">Marketplace</a>
+        <a class="btn btn-primary" href="perfil-freelancer.html">Meu Perfil</a>
+        <button class="btn btn-outline" onclick="DevHubAuth.logout()">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="admin-container">
+      <aside class="admin-sidebar">
+        <h3 style="margin-top: 0; color: var(--c-black); margin-bottom: 1.5rem;">Painel Administrativo</h3>
+        <nav>
+          <ul class="admin-nav">
+            <li><a href="#" onclick="showSection('dashboard')" class="active">Dashboard</a></li>
+            <li><a href="#" onclick="showSection('services')">Meus Serviços</a></li>
+            <li><a href="#" onclick="showSection('add-service')">Adicionar Serviço</a></li>
+            <li><a href="#" onclick="showSection('portfolio')">Portfólio</a></li>
+            <li><a href="#" onclick="showSection('availability')">Disponibilidade</a></li>
+            <li><a href="#" onclick="showSection('analytics')">Analytics</a></li>
+            <li><a href="#" onclick="showSection('settings')">Configurações</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="admin-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="admin-section active">
+          <div class="section-header">
+            <h2>Dashboard</h2>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-number" id="total-services">0</div>
+              <div class="stat-label">Total de Serviços</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="active-services">0</div>
+              <div class="stat-label">Serviços Ativos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="total-views">0</div>
+              <div class="stat-label">Visualizações</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="completed-projects">0</div>
+              <div class="stat-label">Projetos Concluídos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="average-rating">0</div>
+              <div class="stat-label">Avaliação Média</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="total-earnings">0</div>
+              <div class="stat-label">Faturamento Total</div>
+            </div>
+          </div>
+          
+          <div style="background: var(--c-white); border-radius: var(--rounded); box-shadow: var(--shadow-small); padding: 2rem;">
+            <h3 style="margin-top: 0; margin-bottom: 1rem;">Serviços Recentes</h3>
+            <div id="recent-services">
+              <!-- Serviços recentes serão carregados aqui -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Services Management Section -->
+        <section id="services" class="admin-section">
+          <div class="section-header">
+            <h2>Meus Serviços</h2>
+            <button class="btn-add" onclick="showSection('add-service')">+ Adicionar Serviço</button>
+          </div>
+          
+          <div class="services-grid" id="services-grid">
+            <!-- Serviços serão carregados aqui -->
+          </div>
+        </section>
+
+        <!-- Add Service Section -->
+        <section id="add-service" class="admin-section">
+          <div class="section-header">
+            <h2>Adicionar Novo Serviço</h2>
+          </div>
+          
+          <form id="service-form" onsubmit="saveService(event)">
+            <div class="form-group">
+              <label for="service-title">Título do Serviço *</label>
+              <input type="text" id="service-title" required placeholder="Nome do seu serviço">
+            </div>
+            
+            <div class="form-group">
+              <label for="service-description">Descrição *</label>
+              <textarea id="service-description" required placeholder="Descreva seu serviço detalhadamente..."></textarea>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label for="service-price">Preço *</label>
+                <input type="number" id="service-price" step="0.01" required placeholder="0.00">
+              </div>
+              
+              <div class="form-group">
+                <label for="service-delivery">Prazo de Entrega (dias) *</label>
+                <input type="number" id="service-delivery" required placeholder="Ex: 7">
+              </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label for="service-category">Categoria *</label>
+                <select id="service-category" required>
+                  <option value="">Selecione uma categoria</option>
+                  <option value="design">Design</option>
+                  <option value="programacao">Programação</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="redacao">Redação</option>
+                  <option value="fotografia">Fotografia</option>
+                  <option value="video">Vídeo</option>
+                  <option value="musica">Música</option>
+                  <option value="consultoria">Consultoria</option>
+                  <option value="educacao">Educação</option>
+                  <option value="outros">Outros</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="service-type">Tipo de Serviço</label>
+                <select id="service-type">
+                  <option value="servico">Serviço</option>
+                  <option value="produto">Produto Digital</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Imagens do Serviço</label>
+              <div class="file-upload" id="image-upload" onclick="document.getElementById('image-input').click()">
+                <p>Clique para adicionar imagens ou arraste arquivos aqui</p>
+                <p style="font-size: 0.9rem; color: #3a3f47;">Formatos aceitos: JPG, PNG, GIF (máx. 5MB cada)</p>
+              </div>
+              <input type="file" id="image-input" multiple accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+              <div class="uploaded-files" id="uploaded-images"></div>
+            </div>
+            
+            <div class="form-group">
+              <label>Vídeos do Serviço</label>
+              <div class="file-upload" id="video-upload" onclick="document.getElementById('video-input').click()">
+                <p>Clique para adicionar vídeos ou arraste arquivos aqui</p>
+                <p style="font-size: 0.9rem; color: #3a3f47;">Formatos aceitos: MP4, MOV, AVI (máx. 50MB cada)</p>
+              </div>
+              <input type="file" id="video-input" multiple accept="video/*" style="display: none;" onchange="handleVideoUpload(event)">
+              <div class="uploaded-files" id="uploaded-videos"></div>
+            </div>
+            
+            <div class="form-group">
+              <label for="service-tags">Tags (separadas por vírgula)</label>
+              <input type="text" id="service-tags" placeholder="ex: web design, responsivo, moderno">
+            </div>
+            
+            <div class="form-group">
+              <label for="service-skills">Habilidades Necessárias</label>
+              <input type="text" id="service-skills" placeholder="ex: HTML, CSS, JavaScript, Photoshop">
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+              <button type="submit" class="btn btn-primary">Salvar Serviço</button>
+              <button type="button" class="btn btn-outline" onclick="showSection('services')">Cancelar</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="admin-section">
+          <div class="section-header">
+            <h2>Meu Portfólio</h2>
+            <button class="btn-add" onclick="addPortfolioItem()">+ Adicionar Item</button>
+          </div>
+          
+          <div class="portfolio-section">
+            <div id="portfolio-items">
+              <!-- Itens do portfólio serão carregados aqui -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Availability Section -->
+        <section id="availability" class="admin-section">
+          <div class="section-header">
+            <h2>Disponibilidade</h2>
+          </div>
+          
+          <div class="availability-calendar">
+            <h3 style="margin-top: 0; margin-bottom: 1rem;">Calendário de Disponibilidade</h3>
+            <p style="color: #3a3f47; margin-bottom: 1rem;">Configure sua disponibilidade para receber novos projetos.</p>
+            
+            <div class="calendar-grid" id="calendar-grid">
+              <!-- Calendário será gerado aqui -->
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+              <button class="btn btn-primary" onclick="saveAvailability()">Salvar Disponibilidade</button>
+              <button class="btn btn-outline" onclick="clearAvailability()">Limpar Tudo</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="admin-section">
+          <div class="section-header">
+            <h2>Analytics</h2>
+          </div>
+          
+          <div style="background: var(--c-white); border-radius: var(--rounded); box-shadow: var(--shadow-small); padding: 2rem;">
+            <h3 style="margin-top: 0; margin-bottom: 1rem;">Estatísticas de Performance</h3>
+            <p style="color: #3a3f47;">Em breve: gráficos detalhados de visualizações, conversões e performance dos serviços.</p>
+          </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="admin-section">
+          <div class="section-header">
+            <h2>Configurações</h2>
+          </div>
+          
+          <div style="background: var(--c-white); border-radius: var(--rounded); box-shadow: var(--shadow-small); padding: 2rem;">
+            <h3 style="margin-top: 0; margin-bottom: 1rem;">Configurações do Freelancer</h3>
+            <p style="color: #3a3f47;">Configure suas preferências de notificação, valores por hora e outras opções.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal for Service Details -->
+  <div id="service-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Detalhes do Serviço</h3>
+        <button class="btn-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="modal-body">
+        <!-- Conteúdo do modal será inserido aqui -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Estado da aplicação
+    let currentUser = null;
+    let services = [];
+    let portfolioItems = [];
+    let uploadedImages = [];
+    let uploadedVideos = [];
+    let availability = {};
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+      loadUserData();
+      loadServices();
+      loadPortfolio();
+      loadAvailability();
+      setupFileUpload();
+      generateCalendar();
+    });
+
+    // Carregar dados do usuário
+    function loadUserData() {
+      const userData = localStorage.getItem('summitCurrentUser');
+      if (userData) {
+        currentUser = JSON.parse(userData);
+        if (currentUser.tipo !== 'freelancer') {
+          alert('Acesso negado. Esta página é apenas para freelancers.');
+          window.location.href = 'index.html';
+        }
+      } else {
+        alert('Usuário não logado.');
+        window.location.href = 'auth.html';
+      }
+    }
+
+    // Carregar serviços
+    function loadServices() {
+      const savedServices = localStorage.getItem('freelancerServices');
+      if (savedServices) {
+        services = JSON.parse(savedServices);
+      }
+      renderServices();
+      updateDashboard();
+    }
+
+    // Salvar serviços
+    function saveServices() {
+      localStorage.setItem('freelancerServices', JSON.stringify(services));
+    }
+
+    // Carregar portfólio
+    function loadPortfolio() {
+      const savedPortfolio = localStorage.getItem('freelancerPortfolio');
+      if (savedPortfolio) {
+        portfolioItems = JSON.parse(savedPortfolio);
+      }
+      renderPortfolio();
+    }
+
+    // Salvar portfólio
+    function savePortfolio() {
+      localStorage.setItem('freelancerPortfolio', JSON.stringify(portfolioItems));
+    }
+
+    // Carregar disponibilidade
+    function loadAvailability() {
+      const savedAvailability = localStorage.getItem('freelancerAvailability');
+      if (savedAvailability) {
+        availability = JSON.parse(savedAvailability);
+      }
+    }
+
+    // Salvar disponibilidade
+    function saveAvailability() {
+      localStorage.setItem('freelancerAvailability', JSON.stringify(availability));
+      alert('Disponibilidade salva com sucesso!');
+    }
+
+    // Mostrar seção
+    function showSection(sectionId) {
+      // Esconder todas as seções
+      document.querySelectorAll('.admin-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Remover classe active de todos os links
+      document.querySelectorAll('.admin-nav a').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Mostrar seção selecionada
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Adicionar classe active ao link
+      event.target.classList.add('active');
+      
+      // Carregar dados específicos da seção
+      if (sectionId === 'services') {
+        renderServices();
+      } else if (sectionId === 'dashboard') {
+        updateDashboard();
+      } else if (sectionId === 'portfolio') {
+        renderPortfolio();
+      } else if (sectionId === 'availability') {
+        generateCalendar();
+      }
+    }
+
+    // Renderizar serviços
+    function renderServices() {
+      const servicesGrid = document.getElementById('services-grid');
+      if (services.length === 0) {
+        servicesGrid.innerHTML = '<p style="text-align: center; color: #3a3f47; padding: 2rem;">Nenhum serviço cadastrado ainda.</p>';
+        return;
+      }
+
+      servicesGrid.innerHTML = services.map((service, index) => `
+        <div class="service-card">
+          <div class="service-image">
+            ${service.images && service.images.length > 0 ? 
+              `<img src="${service.images[0]}" alt="${service.title}" style="width: 100%; height: 100%; object-fit: cover;">` :
+              '💼'
+            }
+          </div>
+          <div class="service-body">
+            <h3 class="service-title">${service.title}</h3>
+            <div class="service-price">R$ ${service.price.toFixed(2)}</div>
+            <p class="service-description">${service.description.substring(0, 100)}${service.description.length > 100 ? '...' : ''}</p>
+            <p class="service-delivery">Prazo: ${service.deliveryDays} dias</p>
+            <div class="service-actions">
+              <button class="btn-action btn-view" onclick="viewService(${index})">Ver</button>
+              <button class="btn-action btn-edit" onclick="editService(${index})">Editar</button>
+              <button class="btn-action btn-delete" onclick="deleteService(${index})">Excluir</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Atualizar dashboard
+    function updateDashboard() {
+      const totalServices = services.length;
+      const activeServices = services.filter(s => s.active !== false).length;
+      const totalViews = services.reduce((sum, s) => sum + (s.views || 0), 0);
+      const completedProjects = services.reduce((sum, s) => sum + (s.completedProjects || 0), 0);
+      const averageRating = services.length > 0 ? 
+        (services.reduce((sum, s) => sum + (s.rating || 0), 0) / services.length).toFixed(1) : 0;
+      const totalEarnings = services.reduce((sum, s) => sum + (s.earnings || 0), 0);
+
+      document.getElementById('total-services').textContent = totalServices;
+      document.getElementById('active-services').textContent = activeServices;
+      document.getElementById('total-views').textContent = totalViews;
+      document.getElementById('completed-projects').textContent = completedProjects;
+      document.getElementById('average-rating').textContent = averageRating;
+      document.getElementById('total-earnings').textContent = `R$ ${totalEarnings.toFixed(2)}`;
+
+      // Mostrar serviços recentes
+      const recentServices = services.slice(-3).reverse();
+      const recentServicesContainer = document.getElementById('recent-services');
+      
+      if (recentServices.length === 0) {
+        recentServicesContainer.innerHTML = '<p style="color: #3a3f47;">Nenhum serviço cadastrado ainda.</p>';
+      } else {
+        recentServicesContainer.innerHTML = recentServices.map(service => `
+          <div style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #e9eefb;">
+            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--c-purple), var(--c-blue-deep)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-right: 1rem;">
+              💼
+            </div>
+            <div>
+              <h4 style="margin: 0; color: var(--c-black);">${service.title}</h4>
+              <p style="margin: 0; color: #3a3f47; font-size: 0.9rem;">R$ ${service.price.toFixed(2)} - ${service.deliveryDays} dias</p>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Salvar serviço
+    function saveService(event) {
+      event.preventDefault();
+      
+      const service = {
+        id: Date.now(),
+        title: document.getElementById('service-title').value,
+        description: document.getElementById('service-description').value,
+        price: parseFloat(document.getElementById('service-price').value),
+        deliveryDays: parseInt(document.getElementById('service-delivery').value),
+        category: document.getElementById('service-category').value,
+        type: document.getElementById('service-type').value,
+        tags: document.getElementById('service-tags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+        skills: document.getElementById('service-skills').value.split(',').map(skill => skill.trim()).filter(skill => skill),
+        images: [...uploadedImages],
+        videos: [...uploadedVideos],
+        views: 0,
+        completedProjects: 0,
+        rating: 0,
+        earnings: 0,
+        active: true,
+        createdAt: new Date().toISOString()
+      };
+
+      services.push(service);
+      saveServices();
+      
+      // Limpar formulário
+      document.getElementById('service-form').reset();
+      uploadedImages = [];
+      uploadedVideos = [];
+      updateUploadedFiles();
+      
+      alert('Serviço salvo com sucesso!');
+      showSection('services');
+    }
+
+    // Ver serviço
+    function viewService(index) {
+      const service = services[index];
+      const modal = document.getElementById('service-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBody = document.getElementById('modal-body');
+
+      modalTitle.textContent = service.title;
+      modalBody.innerHTML = `
+        <div style="margin-bottom: 1rem;">
+          <strong>Preço:</strong> R$ ${service.price.toFixed(2)}
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong>Prazo de Entrega:</strong> ${service.deliveryDays} dias
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong>Categoria:</strong> ${service.category}
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong>Tipo:</strong> ${service.type}
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong>Descrição:</strong><br>
+          ${service.description}
+        </div>
+        ${service.tags.length > 0 ? `
+          <div style="margin-bottom: 1rem;">
+            <strong>Tags:</strong> ${service.tags.join(', ')}
+          </div>
+        ` : ''}
+        ${service.skills.length > 0 ? `
+          <div style="margin-bottom: 1rem;">
+            <strong>Habilidades:</strong> ${service.skills.join(', ')}
+          </div>
+        ` : ''}
+        ${service.images.length > 0 ? `
+          <div style="margin-bottom: 1rem;">
+            <strong>Imagens:</strong><br>
+            ${service.images.map(img => `<img src="${img}" style="width: 100px; height: 100px; object-fit: cover; margin: 0.5rem; border-radius: 8px;">`).join('')}
+          </div>
+        ` : ''}
+        <div style="margin-bottom: 1rem;">
+          <strong>Visualizações:</strong> ${service.views || 0}
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong>Projetos Concluídos:</strong> ${service.completedProjects || 0}
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong>Avaliação:</strong> ${service.rating || 0}/5
+        </div>
+        <div>
+          <strong>Criado em:</strong> ${new Date(service.createdAt).toLocaleDateString('pt-BR')}
+        </div>
+      `;
+
+      modal.classList.add('active');
+    }
+
+    // Editar serviço
+    function editService(index) {
+      const service = services[index];
+      
+      // Preencher formulário
+      document.getElementById('service-title').value = service.title;
+      document.getElementById('service-description').value = service.description;
+      document.getElementById('service-price').value = service.price;
+      document.getElementById('service-delivery').value = service.deliveryDays;
+      document.getElementById('service-category').value = service.category;
+      document.getElementById('service-type').value = service.type;
+      document.getElementById('service-tags').value = service.tags.join(', ');
+      document.getElementById('service-skills').value = service.skills.join(', ');
+      
+      uploadedImages = [...service.images];
+      uploadedVideos = [...service.videos];
+      updateUploadedFiles();
+      
+      // Salvar índice para edição
+      document.getElementById('service-form').setAttribute('data-edit-index', index);
+      
+      showSection('add-service');
+    }
+
+    // Excluir serviço
+    function deleteService(index) {
+      if (confirm('Tem certeza que deseja excluir este serviço?')) {
+        services.splice(index, 1);
+        saveServices();
+        renderServices();
+        updateDashboard();
+        alert('Serviço excluído com sucesso!');
+      }
+    }
+
+    // Renderizar portfólio
+    function renderPortfolio() {
+      const portfolioContainer = document.getElementById('portfolio-items');
+      if (portfolioItems.length === 0) {
+        portfolioContainer.innerHTML = '<p style="text-align: center; color: #3a3f47; padding: 2rem;">Nenhum item no portfólio ainda.</p>';
+        return;
+      }
+
+      portfolioContainer.innerHTML = portfolioItems.map((item, index) => `
+        <div class="portfolio-item">
+          <div class="portfolio-thumbnail">
+            ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">` : '🎨'}
+          </div>
+          <div class="portfolio-info">
+            <h4 class="portfolio-title">${item.title}</h4>
+            <p class="portfolio-description">${item.description}</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-action btn-edit" onclick="editPortfolioItem(${index})">Editar</button>
+            <button class="btn-action btn-delete" onclick="deletePortfolioItem(${index})">Excluir</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Adicionar item ao portfólio
+    function addPortfolioItem() {
+      const title = prompt('Título do projeto:');
+      if (!title) return;
+      
+      const description = prompt('Descrição do projeto:');
+      if (!description) return;
+      
+      const portfolioItem = {
+        id: Date.now(),
+        title,
+        description,
+        image: null,
+        createdAt: new Date().toISOString()
+      };
+      
+      portfolioItems.push(portfolioItem);
+      savePortfolio();
+      renderPortfolio();
+    }
+
+    // Editar item do portfólio
+    function editPortfolioItem(index) {
+      const item = portfolioItems[index];
+      const newTitle = prompt('Novo título:', item.title);
+      if (newTitle) {
+        item.title = newTitle;
+      }
+      
+      const newDescription = prompt('Nova descrição:', item.description);
+      if (newDescription) {
+        item.description = newDescription;
+      }
+      
+      savePortfolio();
+      renderPortfolio();
+    }
+
+    // Excluir item do portfólio
+    function deletePortfolioItem(index) {
+      if (confirm('Tem certeza que deseja excluir este item do portfólio?')) {
+        portfolioItems.splice(index, 1);
+        savePortfolio();
+        renderPortfolio();
+      }
+    }
+
+    // Gerar calendário
+    function generateCalendar() {
+      const calendarGrid = document.getElementById('calendar-grid');
+      const today = new Date();
+      const currentMonth = today.getMonth();
+      const currentYear = today.getFullYear();
+      
+      // Cabeçalho dos dias da semana
+      const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+      let calendarHTML = '';
+      
+      // Adicionar cabeçalho
+      weekDays.forEach(day => {
+        calendarHTML += `<div style="text-align: center; font-weight: 600; padding: 0.5rem; background: #f8f9fa; border-radius: 4px;">${day}</div>`;
+      });
+      
+      // Gerar dias do mês
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+      
+      // Adicionar dias vazios no início
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        calendarHTML += '<div></div>';
+      }
+      
+      // Adicionar dias do mês
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const status = availability[dateKey] || 'unavailable';
+        const isToday = day === today.getDate() && currentMonth === today.getMonth();
+        
+        calendarHTML += `
+          <div class="calendar-day ${status} ${isToday ? 'today' : ''}" 
+               onclick="toggleAvailability('${dateKey}')" 
+               style="${isToday ? 'border: 2px solid var(--c-purple);' : ''}">
+            ${day}
+          </div>
+        `;
+      }
+      
+      calendarGrid.innerHTML = calendarHTML;
+    }
+
+    // Alternar disponibilidade
+    function toggleAvailability(dateKey) {
+      const currentStatus = availability[dateKey] || 'unavailable';
+      let newStatus;
+      
+      switch (currentStatus) {
+        case 'unavailable':
+          newStatus = 'available';
+          break;
+        case 'available':
+          newStatus = 'busy';
+          break;
+        case 'busy':
+          newStatus = 'unavailable';
+          break;
+        default:
+          newStatus = 'available';
+      }
+      
+      availability[dateKey] = newStatus;
+      generateCalendar();
+    }
+
+    // Limpar disponibilidade
+    function clearAvailability() {
+      if (confirm('Tem certeza que deseja limpar toda a disponibilidade?')) {
+        availability = {};
+        generateCalendar();
+      }
+    }
+
+    // Configurar upload de arquivos
+    function setupFileUpload() {
+      const imageUpload = document.getElementById('image-upload');
+      const videoUpload = document.getElementById('video-upload');
+
+      // Drag and drop para imagens
+      imageUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageUpload.classList.add('dragover');
+      });
+
+      imageUpload.addEventListener('dragleave', () => {
+        imageUpload.classList.remove('dragover');
+      });
+
+      imageUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageUpload.classList.remove('dragover');
+        handleFileDrop(e.dataTransfer.files, 'image');
+      });
+
+      // Drag and drop para vídeos
+      videoUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        videoUpload.classList.add('dragover');
+      });
+
+      videoUpload.addEventListener('dragleave', () => {
+        videoUpload.classList.remove('dragover');
+      });
+
+      videoUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        videoUpload.classList.remove('dragover');
+        handleFileDrop(e.dataTransfer.files, 'video');
+      });
+    }
+
+    // Manipular upload de imagens
+    function handleImageUpload(event) {
+      handleFileUpload(event.target.files, 'image');
+    }
+
+    // Manipular upload de vídeos
+    function handleVideoUpload(event) {
+      handleFileUpload(event.target.files, 'video');
+    }
+
+    // Manipular upload de arquivos
+    async function handleFileUpload(files, type) {
+      for (const file of Array.from(files)) {
+        if (type === 'image' && file.type.startsWith('image/')) {
+          if (file.size > 5 * 1024 * 1024) {
+            alert('Imagem muito grande. Máximo 5MB.');
+            continue;
+          }
+          await uploadFile(file, type);
+        } else if (type === 'video' && file.type.startsWith('video/')) {
+          if (file.size > 50 * 1024 * 1024) {
+            alert('Vídeo muito grande. Máximo 50MB.');
+            continue;
+          }
+          await uploadFile(file, type);
+        }
+      }
+    }
+
+    // Manipular drop de arquivos
+    function handleFileDrop(files, type) {
+      handleFileUpload(files, type);
+    }
+
+    // Upload de arquivo (real)
+    async function uploadFile(file, type) {
+      try {
+        const formData = new FormData();
+        formData.append('files', file);
+
+        const response = await fetch('http://localhost:8080/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'ok' && result.files.length > 0) {
+          const uploadedFile = result.files[0];
+          
+          if (type === 'image') {
+            uploadedImages.push(uploadedFile.url);
+          } else if (type === 'video') {
+            uploadedVideos.push(uploadedFile.url);
+          }
+
+          updateUploadedFiles();
+          return true;
+        } else {
+          throw new Error(result.message || 'Erro no upload');
+        }
+      } catch (error) {
+        console.error('Erro no upload:', error);
+        alert('Erro ao fazer upload do arquivo: ' + error.message);
+        return false;
+      }
+    }
+
+    // Atualizar lista de arquivos carregados
+    function updateUploadedFiles() {
+      const imagesContainer = document.getElementById('uploaded-images');
+      const videosContainer = document.getElementById('uploaded-videos');
+
+      imagesContainer.innerHTML = uploadedImages.map((img, index) => `
+        <div class="file-item">
+          <span>Imagem ${index + 1}</span>
+          <button onclick="removeImage(${index})">Remover</button>
+        </div>
+      `).join('');
+
+      videosContainer.innerHTML = uploadedVideos.map((video, index) => `
+        <div class="file-item">
+          <span>Vídeo ${index + 1}</span>
+          <button onclick="removeVideo(${index})">Remover</button>
+        </div>
+      `).join('');
+    }
+
+    // Remover imagem
+    function removeImage(index) {
+      uploadedImages.splice(index, 1);
+      updateUploadedFiles();
+    }
+
+    // Remover vídeo
+    function removeVideo(index) {
+      uploadedVideos.splice(index, 1);
+      updateUploadedFiles();
+    }
+
+    // Fechar modal
+    function closeModal() {
+      document.getElementById('service-modal').classList.remove('active');
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem('summitCurrentUser');
+      window.location.href = 'index.html';
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById('service-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
