@@ -71,19 +71,7 @@
   </style>
 </head>
 <body>
-<header class="navbar">
-  <div class="container inner">
-    <a class="brand" href="index.html">
-      <span class="dot"></span>
-        <span>DevHub</span>
-    </a>
-    <nav style="display:flex; gap:1rem; align-items:center">
-      <a class="btn btn-outline" href="marketplace.html">Marketplace</a>
-      <a class="btn btn-primary" href="perfil-cliente.html">Meu Perfil</a>
-      <button class="btn btn-outline" onclick="DevHubAuth.logout()">Sair</button>
-    </nav>
-  </div>
-</header>
+<header class="navbar"><div class="container inner"><a class="brand" href="index.html"><span class="dot"></span>Summit</a></div></header>
 <main class="container section">
   <h2>Bem-vindo, <span id="nome-display"></span></h2>
 
@@ -109,7 +97,7 @@
     <div class="profile-picture-container">
       <img id="profile-pic-edit" src="assets/img/placeholder-hero.png" alt="Foto de perfil" style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
       <input type="file" id="upload-pic" accept="image/*" style="display:none;">
-      <button class="btn btn-sm" onclick="document.getElementById('upload-pic').click();">Alterar Foto</button>
+      <button class="btn btn-sm" onclick="document.getElementById(\'upload-pic\').click();">Alterar Foto</button>
     </div>
     <div class="form" style="max-width:420px">
       <label for="cfg-nome">Nome Principal:</label>
@@ -123,7 +111,7 @@
       <label for="cfg-itens-principais">Itens Principais (separados por vírgula):</label>
       <input id="cfg-itens-principais" class="input" placeholder="Ex: Designer, Marketing, Vendas">
       <label for="cfg-email">E-mail:</label>
-      <input id="cfg-email" class="input" type="email" placeholder="Seu e-mail">
+      <input id="cfg-email" class="input" placeholder="Seu e-mail">
       <label for="cfg-senha">Senha:</label>
       <input id="cfg-senha" class="input" type="password" placeholder="Nova senha">
       <button class="btn btn-outline" onclick="salvarCfg()">Salvar alterações</button>
@@ -133,81 +121,75 @@
   <h3>Seus favoritos</h3><div id="favoritos"></div>
   <h3>Compras recentes</h3><div id="compras"></div>
 </main>
-<script src="assets/js/app.js"></script>
 <script>
-  const user = JSON.parse(localStorage.getItem('devhubCurrentUser')||"null");
-  if (!user) {
-    window.location.href = 'auth.html';
-  } else if (user.tipo && user.tipo !== 'cliente') {
-    window.location.href = `perfil-${user.tipo}.html`;
-  }
+  const user = JSON.parse(localStorage.getItem(\'summitCurrentUser\')||"null");
   
   function loadProfileData() {
     if (user) {
-      document.getElementById('nome-display').textContent = user.nome || user.email;
+      document.getElementById(\'nome-display\').textContent = user.nome || user.email;
 
       // View Mode
-      document.getElementById('profile-pic-view').src = user.profilePic || 'assets/img/placeholder-hero.png';
-      document.getElementById('view-nome').textContent = user.nome || 'Não informado';
-      document.getElementById('view-contato').textContent = user.contato || 'Não informado';
-      document.getElementById('view-site').textContent = user.site || 'Não informado';
-      document.getElementById('view-biografia').textContent = user.biografia || 'Não informado';
-      document.getElementById('view-itens-principais').textContent = user.itensPrincipais ? user.itensPrincipais.join(", ") : 'Não informado';
-      document.getElementById('view-email').textContent = user.email || 'Não informado';
+      document.getElementById(\'profile-pic-view\').src = user.profilePic || \'assets/img/placeholder-hero.png\';
+      document.getElementById(\'view-nome\').textContent = user.nome || \'Não informado\';
+      document.getElementById(\'view-contato\').textContent = user.contato || \'Não informado\';
+      document.getElementById(\'view-site\').textContent = user.site || \'Não informado\';
+      document.getElementById(\'view-biografia\').textContent = user.biografia || \'Não informado\';
+      document.getElementById(\'view-itens-principais\').textContent = user.itensPrincipais ? user.itensPrincipais.join(\", \") : \'Não informado\';
+      document.getElementById(\'view-email\').textContent = user.email || \'Não informado\';
 
       // Edit Mode
-      document.getElementById('profile-pic-edit').src = user.profilePic || 'assets/img/placeholder-hero.png';
-      document.getElementById('cfg-nome').value = user.nome || '';
-      document.getElementById('cfg-email').value = user.email || '';
-      document.getElementById('cfg-contato').value = user.contato || '';
-      document.getElementById('cfg-site').value = user.site || '';
-      document.getElementById('cfg-biografia').value = user.biografia || '';
-      document.getElementById('cfg-itens-principais').value = user.itensPrincipais ? user.itensPrincipais.join(", ") : '';
+      document.getElementById(\'profile-pic-edit\').src = user.profilePic || \'assets/img/placeholder-hero.png\';
+      document.getElementById(\'cfg-nome\').value = user.nome || \'\';
+      document.getElementById(\'cfg-email\').value = user.email || \'\';
+      document.getElementById(\'cfg-contato\').value = user.contato || \'\';
+      document.getElementById(\'cfg-site\').value = user.site || \'\';
+      document.getElementById(\'cfg-biografia\').value = user.biografia || \'\';
+      document.getElementById(\'cfg-itens-principais\').value = user.itensPrincipais ? user.itensPrincipais.join(\", \") : \'\';
     }
   }
 
-  document.getElementById('upload-pic').addEventListener('change', function(event) {
+  document.getElementById(\'upload-pic\').addEventListener(\'change\', function(event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById('profile-pic-view').src = e.target.result;
-        document.getElementById('profile-pic-edit').src = e.target.result;
-        const u = JSON.parse(localStorage.getItem('devhubCurrentUser'));
+        document.getElementById(\'profile-pic-view\').src = e.target.result;
+        document.getElementById(\'profile-pic-edit\').src = e.target.result;
+        const u = JSON.parse(localStorage.getItem(\'summitCurrentUser\'));
         u.profilePic = e.target.result;
-        localStorage.setItem('devhubCurrentUser', JSON.stringify(u));
+        localStorage.setItem(\'summitCurrentUser\', JSON.stringify(u));
       };
       reader.readAsDataURL(file);
     }
   });
 
   function salvarCfg(){
-    const u = JSON.parse(localStorage.getItem('devhubCurrentUser'));
-    u.nome = document.getElementById('cfg-nome').value || u.nome;
-    u.email = document.getElementById('cfg-email').value || u.email;
-    const novaSenha = document.getElementById('cfg-senha').value;
+    const u = JSON.parse(localStorage.getItem(\'summitCurrentUser\'));
+    u.nome = document.getElementById(\'cfg-nome\').value || u.nome;
+    u.email = document.getElementById(\'cfg-email\').value || u.email;
+    const novaSenha = document.getElementById(\'cfg-senha\').value;
     if (novaSenha) {
       u.senha = novaSenha;
     }
-    u.contato = document.getElementById('cfg-contato').value;
-    u.site = document.getElementById('cfg-site').value;
-    u.biografia = document.getElementById('cfg-biografia').value;
-    u.itensPrincipais = document.getElementById('cfg-itens-principais').value.split(',').map(item => item.trim()).filter(item => item !== '');
-    localStorage.setItem('devhubCurrentUser', JSON.stringify(u));
-    alert('Atualizado!');
+    u.contato = document.getElementById(\'cfg-contato\').value;
+    u.site = document.getElementById(\'cfg-site\').value;
+    u.biografia = document.getElementById(\'cfg-biografia\').value;
+    u.itensPrincipais = document.getElementById(\'cfg-itens-principais\').value.split(\'\\,\').map(item => item.trim()).filter(item => item !== \'\');
+    localStorage.setItem(\'summitCurrentUser\', JSON.stringify(u));
+    alert(\'Atualizado!\');
     loadProfileData(); // Recarregar dados para o modo de visualização
     toggleEditMode(); // Voltar para o modo de visualização
   }
 
   function toggleEditMode() {
-    const viewMode = document.getElementById('view-mode');
-    const editMode = document.getElementById('edit-mode');
-    if (viewMode.style.display === 'none') {
-      viewMode.style.display = 'block';
-      editMode.style.display = 'none';
+    const viewMode = document.getElementById(\'view-mode\');
+    const editMode = document.getElementById(\'edit-mode\');
+    if (viewMode.style.display === \'none\') {
+      viewMode.style.display = \'block\';
+      editMode.style.display = \'none\';
     } else {
-      viewMode.style.display = 'none';
-      editMode.style.display = 'block';
+      viewMode.style.display = \'none\';
+      editMode.style.display = \'block\';
       // Preencher os campos de edição com os dados atuais antes de mostrar
       loadProfileData(); 
     }

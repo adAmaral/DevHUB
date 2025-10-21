@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Entrar ou criar conta — Summit</title>
+  <title>Entrar ou criar conta — Summit (Firebase)</title>
   <link rel="stylesheet" href="assets/css/theme.css"/>
 </head>
 <body>
@@ -47,6 +47,16 @@
     </div>
   </main>
 
-  <script src="assets/js/app.js"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Configuração Firebase -->
+  <script src="assets/js/firebase-config.js"></script>
+  
+  <!-- App principal -->
+  <script src="assets/js/app-firebase.js"></script>
 </body>
 </html>
+

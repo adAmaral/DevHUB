@@ -1,0 +1,30 @@
+{
+  "name": "devhub-firebase",
+  "version": "2.0.0",
+  "description": "DevHUB - Plataforma de conexão entre desenvolvedores e empresas (Firebase)",
+  "main": "backend/server-firebase.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server-firebase.js",
+    "dev": "node backend/server-firebase.js",
+    "build": "echo 'Build completed'"
+  },
+  "keywords": [
+    "devhub",
+    "freelancer",
+    "marketplace",
+    "firebase"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
