@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DevHUB - Auth</title>
+    <style>
+        body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
+        h1 { margin-bottom: 0.5rem; }
+        form { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; max-width: 420px; }
+        label { display: block; margin-top: 0.5rem; }
+        input, select { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
+        button { margin-top: 0.75rem; padding: 0.6rem 1rem; }
+        pre { background: #f7f7f7; padding: 1rem; border-radius: 8px; max-width: 640px; overflow: auto; }
+    </style>
+    <script>
+        async function postJson(path, payload) {
+            const res = await fetch(path, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const text = await res.text();
+            let data;
+            try { data = JSON.parse(text); } catch { data = text; }
+            return { status: res.status, data };
+        }
+
+        async function onRegister(e) {
+            e.preventDefault();
+            const nome = document.querySelector('#r-nome').value;
+            const email = document.querySelector('#r-email').value;
+            const senha = document.querySelector('#r-senha').value;
+            const tipo = document.querySelector('#r-tipo').value;
+            const out = document.querySelector('#out');
+            const res = await postJson('auth/register', { nome, email, senha, tipo });
+            out.textContent = JSON.stringify(res, null, 2);
+        }
+
+        async function onLogin(e) {
+            e.preventDefault();
+            const email = document.querySelector('#l-email').value;
+            const senha = document.querySelector('#l-senha').value;
+            const out = document.querySelector('#out');
+            const res = await postJson('auth/login', { email, senha });
+            out.textContent = JSON.stringify(res, null, 2);
+        }
+    </script>
+    </head>
+<body>
+    <h1>DevHUB - Teste de Autenticação</h1>
+    <p>Use os formulários abaixo para testar <code>/auth/register</code> e <code>/auth/login</code>.</p>
+
+    <form onsubmit="onRegister(event)">
+        <h3>Registrar</h3>
+        <label>Nome<input id="r-nome" required /></label>
+        <label>Email<input id="r-email" type="email" required /></label>
+        <label>Senha<input id="r-senha" type="password" required /></label>
+        <label>Tipo
+            <select id="r-tipo" required>
+                <option value="cliente">cliente</option>
+                <option value="empresa">empresa</option>
+                <option value="freelancer">freelancer</option>
+            </select>
+        </label>
+        <button type="submit">Registrar</button>
+    </form>
+
+    <form onsubmit="onLogin(event)">
+        <h3>Login</h3>
+        <label>Email<input id="l-email" type="email" required /></label>
+        <label>Senha<input id="l-senha" type="password" required /></label>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <h3>Resposta</h3>
+    <pre id="out">Aguardando...</pre>
+</body>
+</html>
