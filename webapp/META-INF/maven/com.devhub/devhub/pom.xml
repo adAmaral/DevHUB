@@ -74,45 +74,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>local-deploy</id>
-            <activation>
-                <property>
-                    <name>env.TOMCAT_HOME</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <id>copy-war-to-tomcat</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <echo message="Deploying WAR to ${env.TOMCAT_HOME}/webapps"/>
-                                        <delete dir="${env.TOMCAT_HOME}/webapps/devhub" failonerror="false"/>
-                                        <delete file="${env.TOMCAT_HOME}/webapps/devhub.war" failonerror="false"/>
-                                        <mkdir dir="${env.TOMCAT_HOME}/webapps"/>
-                                        <copy file="${project.build.directory}/${project.artifactId}.war"
-                                              tofile="${env.TOMCAT_HOME}/webapps/${project.artifactId}.war"/>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
 
 

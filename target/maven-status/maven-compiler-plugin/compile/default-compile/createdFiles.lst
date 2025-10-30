@@ -1,0 +1,6 @@
+dao\UsuarioDAO.class
+model\Usuario.class
+util\PasswordUtil.class
+filter\CORSFilter.class
+servlet\AuthServlet.class
+util\Conexao.class

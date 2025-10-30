@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Entrar ou criar conta — Summit</title>
+  <title>Entrar ou criar conta — DevHub</title>
   <link rel="stylesheet" href="assets/css/theme.css"/>
 </head>
 <body>
   <header class="navbar">
     <div class="container inner">
-      <a class="brand" href="index.html"><span class="dot"></span>Summit</a>
+      <a class="brand" href="index.html"><span class="dot"></span>DevHub</a>
       <nav><a class="btn btn-outline" href="index.html">Voltar ao início</a></nav>
     </div>
   </header>
@@ -18,7 +18,7 @@
     <div class="container" style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem">
       <div class="card" style="display:grid; gap:1rem">
         <h2>Entrar</h2>
-        <form class="form" onsubmit="return SummitAuth.login(event)">
+        <form class="form" onsubmit="return DevHubAuth.login(event)">
           <input id="login-email" class="input" type="email" required placeholder="E-mail" />
           <input id="login-senha" class="input" type="password" required placeholder="Senha" />
           <button class="btn btn-primary" type="submit">Entrar</button>
@@ -28,7 +28,7 @@
 
       <div class="card" style="display:grid; gap:1rem; border:2px dashed var(--c-blue-light)">
         <h2>Criar conta</h2>
-        <form class="form" onsubmit="return SummitAuth.register(event)">
+        <form class="form" onsubmit="return DevHubAuth.register(event)">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:.6rem">
             <input id="cad-nome" class="input" type="text" required placeholder="Nome"/>
             <select id="cad-tipo" class="input" required>
