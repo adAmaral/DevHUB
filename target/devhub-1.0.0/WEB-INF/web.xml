@@ -16,6 +16,16 @@
         <url-pattern>/auth/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ServicoServlet</servlet-name>
+        <servlet-class>servlet.ServicoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServicoServlet</servlet-name>
+        <url-pattern>/servicos/*</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>CORSFilter</filter-name>
         <filter-class>filter.CORSFilter</filter-class>

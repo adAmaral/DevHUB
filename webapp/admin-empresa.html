@@ -3,19 +3,36 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Administração - Empresa</title>
+  <title>Painel da Empresa — DevHub</title>
   <link rel="stylesheet" href="assets/css/theme.css"/>
+  <style>
+    .dashboard    { display: grid; gap: 2rem; }
+    .cards        { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .card-sm      { background: var(--c-white); border-radius: var(--rounded); box-shadow: var(--shadow-small); padding: 1.5rem; }
+    .card-sm strong { display: block; font-size: 2rem; color: var(--c-purple); margin-bottom: .2rem; }
+    .layout       { display: grid; gap: 2rem; grid-template-columns: 2fr 1fr; }
+    .box          { background: var(--c-white); border-radius: var(--rounded); box-shadow: var(--shadow-small); padding: 1.8rem; }
+    .products     { display: grid; gap: 1rem; }
+    .product-row  { border: 1px solid #e3e8f6; border-radius: 12px; padding: 1rem; display: grid; gap: .6rem; }
+    .product-row h3 { margin: 0; font-size: 1.2rem; color: var(--c-black); }
+    .product-row footer { display: flex; gap: .5rem; }
+    .product-row footer button { border: none; border-radius: 8px; padding: .5rem 1rem; cursor: pointer; font-size: .9rem; }
+    .btn-secondary { background: var(--c-blue-deep); color: #fff; }
+    .btn-danger    { background: #dc3545; color: #fff; }
+    form.form-grid { display: grid; gap: 1rem; }
+    .grid-2        { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .input, textarea, select { width: 100%; padding: .75rem; border-radius: 8px; border: 1px solid #d5d9eb; }
+    textarea { min-height: 120px; resize: vertical; }
+    .tags { font-size: .9rem; color: #4a4f58; }
+    @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body data-page="admin-empresa">
   <header class="navbar">
     <div class="container inner">
-      <a class="brand" href="index.html">
-        <span class="dot"></span>
-        <span>DevHub</span>
-      </a>
+      <a class="brand" href="index.html"><span class="dot"></span>DevHub</a>
       <nav style="display:flex; gap:1rem; align-items:center">
         <a class="btn btn-outline" href="marketplace.html">Marketplace</a>
-        <a class="btn btn-primary" href="perfil-empresa.html">Meu Perfil</a>
         <button class="btn btn-outline" id="btn-logout">Sair</button>
       </nav>
     </div>
@@ -97,7 +114,6 @@
 
   <script src="assets/js/app.js"></script>
   <script src="assets/js/admin.js"></script>
-
 </body>
 </html>
 

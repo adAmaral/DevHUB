@@ -65,4 +65,24 @@ public class UsuarioDAO {
         }
         return null;
     }
+
+    public Usuario buscarPorId(int id) {
+        String sql = "SELECT id_usuario, nome, email, tipo FROM usuarios WHERE id_usuario = ? AND ativo = TRUE";
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Usuario u = new Usuario();
+                u.setId(rs.getInt("id_usuario"));
+                u.setNome(rs.getString("nome"));
+                u.setEmail(rs.getString("email"));
+                u.setTipo(rs.getString("tipo"));
+                return u;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

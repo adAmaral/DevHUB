@@ -1,6 +1,11 @@
-C:\Users\Adriel\OneDrive\Codes\DevHUB\src\util\PasswordUtil.java
-C:\Users\Adriel\OneDrive\Codes\DevHUB\src\model\Usuario.java
-C:\Users\Adriel\OneDrive\Codes\DevHUB\src\servlet\AuthServlet.java
-C:\Users\Adriel\OneDrive\Codes\DevHUB\src\filter\CORSFilter.java
-C:\Users\Adriel\OneDrive\Codes\DevHUB\src\dao\UsuarioDAO.java
-C:\Users\Adriel\OneDrive\Codes\DevHUB\src\util\Conexao.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\filter\CORSFilter.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\model\Servico.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\util\PasswordUtil.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\servlet\AuthServlet.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\servlet\ServicoServlet.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\dao\ServicoDAO.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\util\Conexao.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\dao\CategoriaDAO.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\model\Categoria.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\dao\UsuarioDAO.java
+C:\Users\Adriel\OneDrive\Codes\Projeto_Summit\src\model\Usuario.java

@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Marketplace — Summit</title>
+  <title>Marketplace — DevHub</title>
   <link rel="stylesheet" href="assets/css/theme.css"/>
 </head>
 <body>
   <header class="navbar">
     <div class="container inner">
-      <a class="brand" href="index.html"><span class="dot"></span>Summit</a>
+      <a class="brand" href="index.html"><span class="dot"></span>DevHub</a>
       <div class="searchbar" style="flex:1; margin: 0 1rem;">
         <input class="input" id="search" placeholder="Buscar serviços, produtos ou perfis"/>
-        <button class="btn btn-primary" onclick="Summit.search()">Buscar</button>
+        <button class="btn btn-primary" id="btn-search" type="button">Buscar</button>
       </div>
       <nav style="display:flex; gap:.6rem">
-        <a class="btn btn-outline" href="auth.html">Minha conta</a>
-        <a class="btn btn-primary" href="#">Publicar</a>
+        <a class="btn btn-outline" href="auth.html" data-auth-link>Minha conta</a>
+        <a class="btn btn-primary" href="auth.html" data-auth-link>Publicar</a>
       </nav>
     </div>
   </header>
@@ -44,7 +44,7 @@
           <option>Menor preço</option>
           <option>Maior preço</option>
         </select>
-        <button class="btn btn-outline" onclick="Summit.applyFilters()">Aplicar filtros</button>
+        <button class="btn btn-outline" id="btn-filters" type="button">Aplicar filtros</button>
       </div>
       <hr style="margin:1rem 0; border:none; border-top:1px solid #edf1ff"/>
       <p style="font-size:.92rem; color:#4a4f58">Dica: use os filtros para refinar sua busca e salve palavras-chave.</p>
@@ -59,10 +59,10 @@
 
   <footer class="footer">
     <div class="container" style="padding:1.2rem 0; display:flex; gap:1rem; justify-content:space-between; align-items:center;">
-      <small>© 2025 Summit. Todos os direitos reservados.</small>
+      <small>© 2025 DevHub. Todos os direitos reservados.</small>
       <div style="display:flex; gap:.6rem">
         <a href="index.html">Sobre</a>
-        <a href="auth.html">Conta</a>
+        <a href="auth.html" data-auth-link>Conta</a>
       </div>
     </div>
   </footer>

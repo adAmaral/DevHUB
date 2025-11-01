@@ -1,6 +1,12 @@
+model\Categoria.class
+dao\CategoriaDAO.class
+servlet\ServicoServlet.class
 dao\UsuarioDAO.class
 model\Usuario.class
+model\Servico.class
 util\PasswordUtil.class
 filter\CORSFilter.class
 servlet\AuthServlet.class
+servlet\ServicoServlet$ServicoPayload.class
+dao\ServicoDAO.class
 util\Conexao.class
