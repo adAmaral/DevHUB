@@ -1,17 +1,5 @@
 package servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import dao.CategoriaDAO;
-import dao.ServicoDAO;
-import model.Categoria;
-import model.Servico;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +7,20 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import dao.CategoriaDAO;
+import dao.ServicoDAO;
+import model.Categoria;
+import model.Servico;
 
 public class ServicoServlet extends HttpServlet {
 
@@ -199,8 +201,8 @@ public class ServicoServlet extends HttpServlet {
         if (payload == null) {
             throw new IllegalArgumentException("Dados obrigatórios não informados");
         }
-        if (payload.titulo == null || payload.titulo.isBlank() ||
-            payload.descricao == null || payload.descricao.isBlank() ||
+        if (payload.titulo == null || payload.titulo.isEmpty() ||
+            payload.descricao == null || payload.descricao.isEmpty() ||
             payload.preco == null || payload.preco.compareTo(BigDecimal.ZERO) <= 0 ||
             payload.categoriaId == null || payload.categoriaId <= 0) {
             throw new IllegalArgumentException("Preencha todos os campos obrigatórios");

@@ -1,10 +1,5 @@
 package dao;
 
-import com.google.gson.Gson;
-import model.Servico;
-import util.Conexao;
-import org.postgresql.util.PGobject;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,11 +9,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.postgresql.util.PGobject;
+
+import com.google.gson.Gson;
+
+import model.Servico;
+import util.Conexao;
+
 public class ServicoDAO {
 
     private final Gson gson = new Gson();
 
-    private static final String INSERT_SERVICO =
+    private static final String INSERT_SERVICO =    
             "INSERT INTO servicos (usuario_id, categoria_id, titulo, descricao, tipo, preco, prazo_entrega, tags, ativo) " +
             "VALUES (?, ?, ?, ?, ?::tipo_servico, ?, ?, ?::jsonb, TRUE) RETURNING id_servico";
 
@@ -49,7 +51,7 @@ public class ServicoDAO {
     }
 
     private List<String> parseTags(String json) {
-        if (json == null || json.isBlank()) {
+        if (json == null || json.isEmpty()) {
             return Collections.emptyList();
         }
         List<?> raw = gson.fromJson(json, List.class);
@@ -58,7 +60,7 @@ public class ServicoDAO {
             if (item != null) {
                 result.add(item.toString());
             }
-        }
+        }   
         return result;
     }
 
@@ -130,7 +132,7 @@ public class ServicoDAO {
     }
 
     public List<Servico> listarPorUsuario(int usuarioId, String tipo) throws Exception {
-        String filtroTipo = (tipo != null && !tipo.isBlank()) ? "AND s.tipo = ?::tipo_servico" : "";
+        String filtroTipo = (tipo != null && !tipo.isEmpty()) ? "AND s.tipo = ?::tipo_servico" : "";
         String sql = String.format(SELECT_POR_USUARIO, filtroTipo);
         try (Connection connection = Conexao.conectar();
              PreparedStatement statement = connection.prepareStatement(sql)) {

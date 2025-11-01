@@ -19,7 +19,7 @@ function Resolve-TomcatHome([string]$inputPath) {
     }
     $candidates = @(
         "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0",
-        "C:\\apache-tomcat-9.0.111"
+        "C:\\apache-tomcat-9.0"
     )
     foreach ($c in $candidates) {
         if (Test-Path $c) { return (Resolve-Path $c).Path }

@@ -20,6 +20,6 @@ public class Conexao {
 
     private static String valueFromEnv(String key, String fallback) {
        String value = System.getenv(key);
-       return (value == null || value.isBlank()) ? fallback : value;
+       return (value == null || value.isEmpty()) ? fallback : value;
     }
 }
