@@ -39,7 +39,7 @@ public class PasswordUtil {
         byte[] salt = Base64.getDecoder().decode(parts[2]);
         byte[] expected = Base64.getDecoder().decode(parts[3]);
 
-        byte[] test = pbkdf2(plainPassword.toCharArray(), salt, iterations, expected.length * 8);
+        byte[] test = pbkdf2(plainPassword.toCharArray(), salt, iterations, KEY_LENGTH);
         return slowEquals(expected, test);
     }
 

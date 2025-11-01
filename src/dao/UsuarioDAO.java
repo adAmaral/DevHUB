@@ -42,8 +42,8 @@ public class UsuarioDAO {
                     return u;
                 }
                 // Fallback: senha armazenada em texto puro (seed antigo). Migra para PBKDF2 se bater
-                if (storedHash != null && !storedHash.contains(":")) {
-                    if (senha != null && senha.equals(storedHash)) {
+                if (storedHash != null && !storedHash.contains(":") && senha != null) {
+                    if (senha.equals(storedHash)) {
                         String newHash = PasswordUtil.hashPassword(senha);
                         try (PreparedStatement up = c.prepareStatement(
                                 "UPDATE usuarios SET senha = ? WHERE id_usuario = ?")) {
