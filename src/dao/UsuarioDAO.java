@@ -1,9 +1,12 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import model.Usuario;
 import util.Conexao;
 import util.PasswordUtil;
-import java.sql.*;
 
 public class UsuarioDAO {
 
