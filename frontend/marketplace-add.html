@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Adicionar serviço ou produto — DevHub</title>
+  <link rel="stylesheet" href="assets/css/theme.css"/>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container inner">
+      <a class="brand" href="index.html"><span class="dot"></span>DevHub</a>
+      <nav class="header-actions">
+        <a class="btn btn-outline" href="marketplace.html">Voltar ao marketplace</a>
+        <a class="btn btn-primary" href="auth.html">Entrar / Cadastrar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container create-layout">
+      <article class="create-card">
+        <h1>Adicionar serviço ou produto</h1>
+        <p>Use este formulário para enviar o seu anúncio ao time DevHub. Após a revisão, publicaremos o conteúdo no marketplace.</p>
+
+        <form class="form-grid" onsubmit="event.preventDefault(); alert('Recebemos seu envio! Entraremos em contato em breve.'); this.reset();">
+          <div class="grid-2">
+            <label>
+              Tipo de anúncio
+              <select required>
+                <option value="">Selecione</option>
+                <option value="servico">Serviço</option>
+                <option value="produto">Produto</option>
+              </select>
+            </label>
+            <label>
+              Categoria
+              <select required>
+                <option value="">Selecione uma categoria</option>
+                <option value="design">Design</option>
+                <option value="programacao">Programação</option>
+                <option value="marketing">Marketing</option>
+                <option value="consultoria">Consultoria</option>
+                <option value="educacao">Educação</option>
+                <option value="comercio">Comércio</option>
+                <option value="outros">Outros</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Título do anúncio
+            <input class="input" type="text" placeholder="Ex.: Consultoria em produtividade" required />
+          </label>
+
+          <label>
+            Descrição detalhada
+            <textarea rows="6" placeholder="Descreva o que você entrega, diferenciais, formatos e garantias." required></textarea>
+          </label>
+
+          <div class="grid-2">
+            <label>
+              Investimento (R$)
+              <input class="input" type="number" step="0.01" min="0" placeholder="Valor ou faixa de preço" required />
+            </label>
+            <label>
+              Prazo médio de entrega (dias)
+              <input class="input" type="number" min="0" placeholder="Ex.: 5" />
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Localização / Atendimento
+              <input class="input" type="text" placeholder="Cidade/UF ou Atendimento remoto" />
+            </label>
+            <label>
+              Link de portfólio ou site
+              <input class="input" type="url" placeholder="https://" />
+            </label>
+          </div>
+
+          <label>
+            Palavras-chave (separe por vírgula)
+            <input class="input" type="text" placeholder="marketing digital, social media, tráfego pago" />
+          </label>
+
+          <div class="grid-2">
+            <label>
+              E-mail de contato
+              <input class="input" type="email" placeholder="seuemail@empresa.com" required />
+            </label>
+            <label>
+              WhatsApp / Telefone
+              <input class="input" type="tel" placeholder="(00) 90000-0000" />
+            </label>
+          </div>
+
+          <label style="display:flex; align-items:center; gap:.6rem;">
+            <input type="checkbox" required style="width:auto;" />
+            Concordo com os termos de publicação do DevHub.
+          </label>
+
+          <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <button class="btn btn-primary" type="submit">Enviar para análise</button>
+            <button class="btn btn-outline" type="button" onclick="window.location.href='auth.html'">Acessar minha conta</button>
+          </div>
+        </form>
+      </article>
+
+      <aside class="create-sidebar">
+        <h2>Dicas rápidas</h2>
+        <p>Reúna informações relevantes, utilize materiais de apoio (portfólio, vídeos, depoimentos) e destaque o que torna sua oferta única.</p>
+        <div class="notice-card">
+          <strong>Quer gerenciar anúncios?</strong>
+          <p>Crie uma conta como empresa ou freelancer e utilize o painel administrativo para publicar, editar e acompanhar resultados em tempo real.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="padding:1.5rem 0; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+      <small>© 2025 DevHub. Todos os direitos reservados.</small>
+      <a href="marketplace.html">Voltar ao marketplace</a>
+    </div>
+  </footer>
+</body>
+</html>
+

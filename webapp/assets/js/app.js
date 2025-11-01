@@ -331,9 +331,98 @@
     return { init };
   })();
 
+  const DevHubTheme = (() => {
+    const STORAGE_KEY = 'devhub-theme';
+    let currentTheme = 'light';
+
+    function updateButtonLabel() {
+      const button = document.getElementById('btn-theme-toggle');
+      if (!button) return;
+      if (currentTheme === 'dark') {
+        button.textContent = 'Modo claro';
+        button.setAttribute('aria-label', 'Ativar modo claro');
+      } else {
+        button.textContent = 'Modo escuro';
+        button.setAttribute('aria-label', 'Ativar modo escuro');
+      }
+    }
+
+    function apply(theme, persist = true) {
+      currentTheme = theme === 'dark' ? 'dark' : 'light';
+      document.body.classList.toggle('theme-dark', currentTheme === 'dark');
+      document.body.classList.toggle('theme-light', currentTheme !== 'dark');
+      updateButtonLabel();
+      if (persist) {
+        try {
+          localStorage.setItem(STORAGE_KEY, currentTheme);
+        } catch (err) {
+          console.warn('Não foi possível salvar tema:', err.message);
+        }
+      }
+    }
+
+    function ensureButton() {
+      const inner = document.querySelector('.navbar .inner');
+      if (!inner) return;
+
+      let nav = inner.querySelector('nav');
+      if (!nav) {
+        nav = document.createElement('nav');
+        nav.className = 'header-actions';
+        inner.appendChild(nav);
+      }
+
+      let button = document.getElementById('btn-theme-toggle');
+      if (!button) {
+        button = document.createElement('button');
+        button.id = 'btn-theme-toggle';
+        button.type = 'button';
+        button.className = 'btn btn-outline btn-theme';
+        button.addEventListener('click', () => {
+          apply(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+        nav.appendChild(button);
+      }
+      updateButtonLabel();
+    }
+
+    function init() {
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem(STORAGE_KEY);
+      } catch (err) {
+        savedTheme = null;
+      }
+      apply(savedTheme === 'dark' ? 'dark' : 'light', false);
+      ensureButton();
+    }
+
+    return { init };
+  })();
+
+  const DevHubForms = (() => {
+    function initCreateListingForm() {
+      const form = document.getElementById('create-listing-form');
+      if (!form) return;
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        ApiClient.showMessage('Recebemos seu envio! Nossa equipe entrará em contato em breve para validar e publicar seu anúncio.', 'success');
+        form.reset();
+      });
+    }
+
+    function init() {
+      initCreateListingForm();
+    }
+
+    return { init };
+  })();
+
   document.addEventListener('DOMContentLoaded', async () => {
+    DevHubTheme.init();
     DevHubAuth.attachHandlers();
     DevHubUI.init();
+    DevHubForms.init();
 
     const bodyPage = document.body?.dataset?.page;
     if (!bodyPage || bodyPage === 'auth') {
@@ -347,4 +436,5 @@
 
   window.ApiClient = ApiClient;
   window.DevHubAuth = DevHubAuth;
+  window.DevHubTheme = DevHubTheme;
 })();

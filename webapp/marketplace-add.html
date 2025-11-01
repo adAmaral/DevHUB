@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Adicionar serviço ou produto — DevHub</title>
+  <link rel="stylesheet" href="assets/css/theme.css"/>
+</head>
+<body data-page="marketplace-add">
+  <header class="navbar">
+    <div class="container inner">
+      <a class="brand" href="index.html"><span class="dot"></span>DevHub</a>
+      <nav class="header-actions">
+        <a class="btn btn-outline" href="marketplace.html">Voltar ao marketplace</a>
+        <a class="btn btn-primary" href="auth.html" data-auth-link>Entrar / Cadastrar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container create-layout">
+      <article class="create-card">
+        <h1>Adicionar serviço ou produto</h1>
+        <p>Preencha os campos abaixo com os detalhes do seu serviço ou produto. Após o envio, nossa equipe revisará os dados e publicará o anúncio no marketplace.</p>
+
+        <form id="create-listing-form" class="form-grid">
+          <div class="grid-2">
+            <label>
+              Tipo de anúncio
+              <select name="tipo" required>
+                <option value="">Selecione</option>
+                <option value="servico">Serviço</option>
+                <option value="produto">Produto</option>
+              </select>
+            </label>
+            <label>
+              Categoria principal
+              <select name="categoria" required>
+                <option value="">Selecione uma categoria</option>
+                <option value="design">Design</option>
+                <option value="programacao">Programação</option>
+                <option value="marketing">Marketing</option>
+                <option value="consultoria">Consultoria</option>
+                <option value="educacao">Educação</option>
+                <option value="comercio">Comércio</option>
+                <option value="outros">Outros</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Título do anúncio
+            <input class="input" name="titulo" type="text" placeholder="Ex.: Criação de identidade visual completa" required />
+          </label>
+
+          <label>
+            Descrição detalhada
+            <textarea name="descricao" rows="6" placeholder="Explique o que você oferece, diferenciais, formatos de entrega e requisitos." required></textarea>
+          </label>
+
+          <div class="grid-2">
+            <label>
+              Investimento (R$)
+              <input class="input" name="preco" type="number" step="0.01" min="0" placeholder="Valor ou faixa de preço" required />
+            </label>
+            <label>
+              Prazo médio de entrega (dias)
+              <input class="input" name="prazo" type="number" min="0" placeholder="Ex.: 7" />
+            </label>
+          </div>
+
+          <div class="grid-2">
+            <label>
+              Localização / Atendimento
+              <input class="input" name="localizacao" type="text" placeholder="Ex.: Curitiba/PR ou Atendimento 100% remoto." />
+            </label>
+            <label>
+              Link de portfólio ou site
+              <input class="input" name="portfolio" type="url" placeholder="https://" />
+            </label>
+          </div>
+
+          <label>
+            Palavras-chave (separe por vírgula)
+            <input class="input" name="tags" type="text" placeholder="branding, landing page, social media" />
+          </label>
+
+          <div class="grid-2">
+            <label>
+              E-mail de contato
+              <input class="input" name="email" type="email" placeholder="seuemail@empresa.com" required />
+            </label>
+            <label>
+              WhatsApp / Telefone
+              <input class="input" name="telefone" type="tel" placeholder="(00) 90000-0000" />
+            </label>
+          </div>
+
+          <label style="display:flex; align-items:center; gap:.6rem;">
+            <input type="checkbox" name="aceite" required style="width:auto;" />
+            Confirmo que li e aceito os termos de uso e de publicação do DevHub.
+          </label>
+
+          <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <button class="btn btn-primary" type="submit">Enviar para análise</button>
+            <button class="btn btn-outline" type="button" onclick="window.location.href='admin-empresa.html'">Sou empresa, acessar painel</button>
+          </div>
+        </form>
+      </article>
+
+      <aside class="create-sidebar">
+        <h2>Como funciona</h2>
+        <p>Os anúncios passam por uma curadoria para garantir qualidade e segurança. Você receberá um e-mail com o status do seu envio em até 24 horas úteis.</p>
+        <div class="notice-card">
+          <strong>Importante</strong>
+          <p>Para editar ou remover anúncios com rapidez, recomendamos criar uma conta e utilizar o painel administrativo disponível para empresas e freelancers.</p>
+        </div>
+        <div>
+          <h3>Boas práticas</h3>
+          <div class="chip-list">
+            <span class="chip">Descrição objetiva</span>
+            <span class="chip">Materiais de exemplo</span>
+            <span class="chip">FAQ para clientes</span>
+            <span class="chip">Valores claros</span>
+          </div>
+        </div>
+        <p>Precisa de ajuda? Envie um e-mail para <a href="mailto:contato@summit.com">contato@summit.com</a>.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="padding:1.5rem 0; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+      <small>© 2025 DevHub. Todos os direitos reservados.</small>
+      <a href="marketplace.html">Voltar ao marketplace</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
+
