@@ -14,9 +14,8 @@
         <input class="input" id="search" placeholder="Buscar serviços, produtos ou perfis"/>
         <button class="btn btn-primary" id="btn-search" type="button">Buscar</button>
       </div>
-      <nav style="display:flex; gap:.6rem">
-        <a class="btn btn-outline" href="auth.html" data-auth-link>Minha conta</a>
-        <a class="btn btn-primary" href="auth.html" data-auth-link>Publicar</a>
+      <nav class="header-actions">
+        <a class="btn btn-primary" href="marketplace-add.html">Adicionar um novo serviço/produto</a>
       </nav>
     </div>
   </header>
@@ -52,7 +51,87 @@
 
     <section>
       <h2 style="margin-top:0">Destaques</h2>
-      <div class="grid-cards" id="cards">
+      <div class="grid-cards" id="cards" data-manual="true">
+        <article class="item-card">
+          <div class="cover">
+            <img src="assets/img/idendidadevisual.jpeg" alt="Logo e Identidade Visual"/>
+          </div>
+          <div class="body">
+            <strong>Logo e Identidade Visual</strong>
+            <div class="meta">
+              <span class="badge">Design · Serviço</span>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <div class="meta">
+              <span class="price">R$ 450,00</span>
+              <button class="btn btn-primary" type="button">Contatar</button>
+            </div>
+          </div>
+        </article>
+        <article class="item-card">
+          <div class="cover">
+            <img src="assets/img/page-profissional.jpeg" alt="Landing Page Profissional"/>
+          </div>
+          <div class="body">
+            <strong>Landing Page Profissional</strong>
+            <div class="meta">
+              <span class="badge">Programação · Serviço</span>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <div class="meta">
+              <span class="price">R$ 1.200,00</span>
+              <button class="btn btn-primary" type="button">Contatar</button>
+            </div>
+          </div>
+        </article>
+        <article class="item-card">
+          <div class="cover">
+            <img src="assets/img/gestao-trafego.jpeg" alt="Gestão de Tráfego 30 dias"/>
+          </div>
+          <div class="body">
+            <strong>Gestão de Tráfego 30 dias</strong>
+            <div class="meta">
+              <span class="badge">Marketing · Serviço</span>
+              <span class="rating">★ 4.7</span>
+            </div>
+            <div class="meta">
+              <span class="price">R$ 850,00</span>
+              <button class="btn btn-primary" type="button">Contatar</button>
+            </div>
+          </div>
+        </article>
+        <article class="item-card">
+          <div class="cover">
+            <img src="assets/img/kit-embalagem.jpeg" alt="Kit embalagens personalizadas"/>
+          </div>
+          <div class="body">
+            <strong>Kit embalagens personalizadas</strong>
+            <div class="meta">
+              <span class="badge">Comércio · Produto</span>
+              <span class="rating">★ 4.6</span>
+            </div>
+            <div class="meta">
+              <span class="price">R$ 199,00</span>
+              <button class="btn btn-primary" type="button">Contatar</button>
+            </div>
+          </div>
+        </article>
+        <article class="item-card">
+          <div class="cover">
+            <img src="assets/img/logo-devhub.png" alt="Consultoria para branding DevHub"/>
+          </div>
+          <div class="body">
+            <strong>Consultoria para branding DevHub</strong>
+            <div class="meta">
+              <span class="badge">Design · Serviço</span>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <div class="meta">
+              <span class="price">R$ 650,00</span>
+              <button class="btn btn-primary" type="button">Contatar</button>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </main>

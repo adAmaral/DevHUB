@@ -149,7 +149,7 @@ INSERT INTO categorias (nome, descricao, icone) VALUES
 ('Comércio', 'Produtos físicos, artesanato, vendas', 'shopping');
 
 INSERT INTO usuarios (nome, email, senha, tipo, descricao) VALUES
-('Administrador Summit', 'admin@summit.com', 'admin123', 'empresa', 'Conta administrativa da plataforma Summit');
+('Administrador DevHub', 'admin@summit.com', 'admin123', 'empresa', 'Conta administrativa da plataforma DevHub');
 
 CREATE OR REPLACE VIEW vw_estatisticas_usuarios AS
 SELECT 

@@ -241,7 +241,8 @@
       { id: 1, title: 'Logo e Identidade Visual', type: 'Serviço', cat: 'Design', price: 450, rating: 4.9 },
       { id: 2, title: 'Landing Page Profissional', type: 'Serviço', cat: 'Programação', price: 1200, rating: 4.8 },
       { id: 3, title: 'Gestão de Tráfego 30 dias', type: 'Serviço', cat: 'Marketing', price: 850, rating: 4.7 },
-      { id: 4, title: 'Kit embalagens personalizadas', type: 'Produto', cat: 'Comércio', price: 199, rating: 4.6 }
+      { id: 4, title: 'Kit embalagens personalizadas', type: 'Produto', cat: 'Comércio', price: 199, rating: 4.6 },
+      { id: 5, title: 'Consultoria para branding DevHub', type: 'Serviço', cat: 'Design', price: 650, rating: 4.9 }
     ];
 
     function render(list = fallbackProducts) {
@@ -268,11 +269,119 @@
         </article>`).join('');
     }
 
+    function extractCardData(card) {
+      const titleEl = card.querySelector('strong');
+      const badgeEl = card.querySelector('.badge');
+      const priceEl = card.querySelector('.price');
+      const ratingEl = card.querySelector('.rating');
+
+      if (!titleEl || !badgeEl || !priceEl || !ratingEl) return null;
+
+      const title = titleEl.textContent.trim();
+      const badgeText = badgeEl.textContent.trim();
+      const [cat, type] = badgeText.split(' · ');
+      const priceText = priceEl.textContent.replace(/[^\d,]/g, '').replace(',', '.');
+      const price = parseFloat(priceText) || 0;
+      const ratingText = ratingEl.textContent.trim();
+      const rating = parseFloat(ratingText.replace(/[^\d.]/g, '')) || 0;
+
+      return { title, cat: cat || '', type: type || '', price, rating, element: card };
+    }
+
+    function filterManualCards() {
+      const container = document.getElementById('cards');
+      if (!container || container.dataset.manual !== 'true') return;
+
+      const cards = Array.from(container.querySelectorAll('.item-card'));
+      if (!cards.length) return;
+
+      const searchQuery = (document.getElementById('search')?.value || '').trim().toLowerCase();
+      const category = document.getElementById('f-cat')?.value || '';
+      const type = document.getElementById('f-type')?.value || '';
+      const order = document.getElementById('f-order')?.value || '';
+
+      const cardData = cards.map(extractCardData).filter(Boolean);
+      
+      let filtered = cardData.filter(data => {
+        const matchSearch = !searchQuery || data.title.toLowerCase().includes(searchQuery);
+        const matchCategory = !category || data.cat === category;
+        const matchType = !type || data.type === type;
+        return matchSearch && matchCategory && matchType;
+      });
+
+      // Aplicar ordenação
+      switch (order) {
+        case 'Mais recentes':
+          filtered = [...filtered].reverse();
+          break;
+        case 'Menor preço':
+          filtered.sort((a, b) => a.price - b.price);
+          break;
+        case 'Maior preço':
+          filtered.sort((a, b) => b.price - a.price);
+          break;
+        case 'Melhor avaliados':
+          filtered.sort((a, b) => b.rating - a.rating);
+          break;
+        default:
+          break;
+      }
+
+      // Ocultar todos os cards primeiro
+      cards.forEach(card => {
+        card.style.display = 'none';
+      });
+
+      // Mostrar apenas os filtrados, na ordem correta
+      if (filtered.length === 0) {
+        const noResults = container.querySelector('.no-results');
+        if (!noResults) {
+          const p = document.createElement('p');
+          p.className = 'no-results';
+          p.style.cssText = 'color:#4a4f58; grid-column: 1 / -1; padding: 2rem; text-align: center;';
+          p.textContent = 'Nenhuma oferta encontrada.';
+          container.appendChild(p);
+        }
+      } else {
+        const noResults = container.querySelector('.no-results');
+        if (noResults) noResults.remove();
+
+        // Se há ordenação específica, reordenar visualmente movendo elementos
+        if (order && order !== '') {
+          // Coletar todos os elementos filtrados
+          const elementsToReorder = filtered.map(data => data.element);
+          // Remover temporariamente do DOM
+          elementsToReorder.forEach(el => {
+            if (el.parentNode === container) {
+              el.remove();
+            }
+          });
+          // Reinserir na ordem correta
+          elementsToReorder.forEach(el => {
+            container.appendChild(el);
+          });
+        }
+
+        // Mostrar os cards filtrados
+        filtered.forEach(data => {
+          data.element.style.display = '';
+        });
+      }
+    }
+
     function searchData(query) {
       return fallbackProducts.filter(item => item.title.toLowerCase().includes(query.toLowerCase()));
     }
 
     function applyFilters() {
+      const container = document.getElementById('cards');
+      if (!container) return;
+
+      if (container.dataset.manual === 'true') {
+        filterManualCards();
+        return;
+      }
+
       const category = document.getElementById('f-cat')?.value || '';
       const type = document.getElementById('f-type')?.value || '';
       const order = document.getElementById('f-order')?.value || '';
@@ -303,14 +412,28 @@
     }
 
     function attachSearch() {
+      const container = document.getElementById('cards');
+      const isManual = container?.dataset.manual === 'true';
+
       const searchInput = document.getElementById('search');
       if (!searchInput) return;
+
       const execute = () => {
-        const query = searchInput.value.trim();
-        render(query ? searchData(query) : fallbackProducts);
+        if (isManual) {
+          filterManualCards();
+        } else {
+          const query = searchInput.value.trim();
+          render(query ? searchData(query) : fallbackProducts);
+        }
       };
+
       searchInput.addEventListener('input', execute);
-      searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); execute(); } });
+      searchInput.addEventListener('keydown', e => { 
+        if (e.key === 'Enter') { 
+          e.preventDefault(); 
+          execute(); 
+        } 
+      });
 
       const searchButton = document.getElementById('btn-search');
       if (searchButton) {
@@ -324,6 +447,14 @@
     }
 
     function init() {
+      const container = document.getElementById('cards');
+      if (!container) return;
+      
+      if (container.dataset.manual === 'true') {
+        attachSearch();
+        return;
+      }
+      
       render();
       attachSearch();
     }
@@ -333,18 +464,17 @@
 
   const DevHubTheme = (() => {
     const STORAGE_KEY = 'devhub-theme';
+    const ICON_MOON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 0111.21 3 7 7 0 0012 17a7 7 0 009-4.21z"></path></svg>';
+    const ICON_SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line></svg>';
     let currentTheme = 'light';
 
     function updateButtonLabel() {
       const button = document.getElementById('btn-theme-toggle');
       if (!button) return;
-      if (currentTheme === 'dark') {
-        button.textContent = 'Modo claro';
-        button.setAttribute('aria-label', 'Ativar modo claro');
-      } else {
-        button.textContent = 'Modo escuro';
-        button.setAttribute('aria-label', 'Ativar modo escuro');
-      }
+      const isDark = currentTheme === 'dark';
+      button.innerHTML = isDark ? ICON_SUN : ICON_MOON;
+      button.setAttribute('aria-label', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
+      button.setAttribute('title', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
     }
 
     function apply(theme, persist = true) {
@@ -371,6 +501,7 @@
         nav.className = 'header-actions';
         inner.appendChild(nav);
       }
+      nav.classList.add('header-actions');
 
       let button = document.getElementById('btn-theme-toggle');
       if (!button) {
