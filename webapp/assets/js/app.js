@@ -66,31 +66,81 @@
     let currentUser = null;
 
     async function loadSession(force = false) {
-      if (currentUser && !force) return currentUser;
+      if (currentUser && !force) {
+        console.log('[LOAD SESSION DEBUG] Usando usuário em cache');
+        return currentUser;
+      }
+      
       try {
+        console.log('[LOAD SESSION DEBUG] Tentando carregar sessão via GET /auth/me');
+        console.log('[LOAD SESSION DEBUG] URL completa:', `${API_BASE_URL}/auth/me`);
+        console.log('[LOAD SESSION DEBUG] Credentials: include');
+        
         const user = await ApiClient.request('/auth/me');
-        currentUser = user;
-        return user;
+        console.log('[LOAD SESSION DEBUG] Sessão carregada com sucesso:', user);
+        console.log('[LOAD SESSION DEBUG] Campos do usuário:', Object.keys(user || {}));
+        console.log('[LOAD SESSION DEBUG] user.id:', user?.id, 'user.id_usuario:', user?.id_usuario);
+        console.log('[LOAD SESSION DEBUG] user.tipo:', user?.tipo);
+        
+        // Aceitar tanto 'id' quanto 'id_usuario'
+        const userId = user?.id || user?.id_usuario;
+        
+        if (user && userId && user.tipo) {
+          // Normalizar para sempre usar 'id'
+          if (!user.id && user.id_usuario) {
+            user.id = user.id_usuario;
+          }
+          currentUser = user;
+          return user;
+        } else {
+          console.warn('[LOAD SESSION DEBUG] Usuário retornado é inválido:', user);
+          console.warn('[LOAD SESSION DEBUG] userId:', userId, 'tipo:', user?.tipo);
+          currentUser = null;
+          return null;
+        }
       } catch (err) {
+        console.error('[LOAD SESSION DEBUG] Erro ao carregar sessão:', err);
+        console.error('[LOAD SESSION DEBUG] Erro message:', err.message);
+        console.error('[LOAD SESSION DEBUG] Erro completo:', err);
         currentUser = null;
         return null;
       }
     }
 
     function redirectByType(user) {
-      if (!user) return;
+      if (!user) {
+        console.error('[REDIRECT DEBUG] Usuário não fornecido para redirecionamento');
+        return;
+      }
+      
+      if (!user.tipo) {
+        console.error('[REDIRECT DEBUG] Usuário não tem tipo!', user);
+        return;
+      }
+      
+      console.log('[REDIRECT DEBUG] Redirecionando usuário tipo:', user.tipo);
+      
+      let redirectUrl = null;
       switch (user.tipo) {
         case 'empresa':
-          window.location.href = 'admin-empresa.html';
+          redirectUrl = 'admin-empresa.html';
           break;
         case 'freelancer':
-          window.location.href = 'admin-freelancer.html';
+          redirectUrl = 'admin-freelancer.html';
           break;
         case 'cliente':
-          window.location.href = 'perfil-cliente.html';
+          redirectUrl = 'perfil-cliente.html';
           break;
         default:
-          window.location.href = 'marketplace.html';
+          redirectUrl = 'marketplace.html';
+          console.warn('[REDIRECT DEBUG] Tipo desconhecido, redirecionando para marketplace:', user.tipo);
+      }
+      
+      if (redirectUrl) {
+        console.log('[REDIRECT DEBUG] Redirecionando para:', redirectUrl);
+        window.location.href = redirectUrl;
+      } else {
+        console.error('[REDIRECT DEBUG] URL de redirecionamento não definida!');
       }
     }
 
@@ -109,13 +159,52 @@
         throw new Error('A senha deve ter pelo menos 6 caracteres.');
       }
 
-      await ApiClient.request('/auth/register', { method: 'POST', body: payload });
-      ApiClient.showMessage('Cadastro realizado com sucesso!', 'success');
-
-      // login automático
-      const user = await ApiClient.request('/auth/login', { method: 'POST', body: { email: payload.email, senha: payload.senha } });
-      currentUser = user;
-      redirectByType(user);
+      console.log('[REGISTER DEBUG] Tentando cadastrar usuário:', payload.email);
+      const registerResult = await ApiClient.request('/auth/register', { method: 'POST', body: payload });
+      console.log('[REGISTER DEBUG] Cadastro retornou:', registerResult);
+      
+      if (registerResult && registerResult.sucesso) {
+        // login automático após registro bem-sucedido
+        // Pequeno delay para garantir que o INSERT foi commitado no banco
+        console.log('[REGISTER DEBUG] Aguardando 800ms antes do login automático...');
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        console.log('[REGISTER DEBUG] Fazendo login automático após cadastro...');
+        console.log('[REGISTER DEBUG] Email para login:', payload.email);
+        console.log('[REGISTER DEBUG] Senha (tamanho):', payload.senha ? payload.senha.length : 0);
+        
+        try {
+          const user = await ApiClient.request('/auth/login', { method: 'POST', body: { email: payload.email, senha: payload.senha } });
+          console.log('[REGISTER DEBUG] Login automático bem-sucedido:', user);
+          
+          if (!user || !user.tipo) {
+            throw new Error('Login retornou usuário inválido');
+          }
+          
+          // Mostrar mensagem de sucesso apenas após login bem-sucedido
+          ApiClient.showMessage(`Bem-vindo, ${user.nome}!`, 'success');
+          
+          currentUser = user;
+          setTimeout(() => {
+            console.log('[REGISTER DEBUG] Redirecionando após login automático');
+            redirectByType(user);
+          }, 500);
+        } catch (loginErr) {
+          console.error('[REGISTER DEBUG] Erro no login automático após cadastro:', loginErr);
+          console.error('[REGISTER DEBUG] Erro message:', loginErr.message);
+          
+          // Não mostrar mensagem de erro, apenas redirecionar para login
+          // O cadastro foi bem-sucedido, apenas o login automático falhou
+          console.log('[REGISTER DEBUG] Login automático falhou, mas cadastro foi bem-sucedido. Redirecionando...');
+          
+          // Não mostrar mensagem de erro aqui, apenas redirecionar silenciosamente
+          setTimeout(() => {
+            window.location.href = 'auth.html';
+          }, 1000);
+        }
+      } else {
+        throw new Error('Cadastro não foi bem-sucedido');
+      }
     }
 
     async function login(data) {
@@ -129,9 +218,26 @@
       }
 
       const user = await ApiClient.request('/auth/login', { method: 'POST', body: payload });
+      console.log('[LOGIN DEBUG] Usuário retornado:', user);
+      console.log('[LOGIN DEBUG] Tipo do usuário:', user?.tipo);
+      
+      if (!user) {
+        throw new Error('Login falhou - usuário não retornado');
+      }
+      
+      if (!user.tipo) {
+        console.error('[LOGIN DEBUG] Usuário não tem tipo!', user);
+        throw new Error('Erro: tipo de usuário não encontrado');
+      }
+      
       currentUser = user;
       ApiClient.showMessage(`Bem-vindo, ${user.nome}!`, 'success');
-      redirectByType(user);
+      
+      // Pequeno delay para garantir que a mensagem seja exibida antes do redirect
+      setTimeout(() => {
+        console.log('[LOGIN DEBUG] Redirecionando para tipo:', user.tipo);
+        redirectByType(user);
+      }, 500);
     }
 
     async function logout() {
@@ -142,17 +248,31 @@
     }
 
     async function ensureAuthenticated({ requiredType } = {}) {
-      const user = await loadSession();
+      console.log('[ENSURE AUTH DEBUG] Verificando autenticação, requiredType:', requiredType);
+      
+      // Tentar carregar sessão com force=true para garantir que verifica no servidor
+      const user = await loadSession(true);
+      console.log('[ENSURE AUTH DEBUG] Usuário retornado do loadSession:', user);
+      
       if (!user) {
+        console.warn('[ENSURE AUTH DEBUG] Usuário não encontrado, redirecionando para login');
+        console.warn('[ENSURE AUTH DEBUG] Pode ser que a sessão expirou ou não foi criada corretamente');
         ApiClient.showMessage('Faça login para continuar.', 'warning');
-        setTimeout(() => window.location.href = 'auth.html', 1200);
+        setTimeout(() => {
+          console.log('[ENSURE AUTH DEBUG] Redirecionando para auth.html');
+          window.location.href = 'auth.html';
+        }, 1200);
         throw new Error('Sessão não encontrada');
       }
+      
       if (requiredType && user.tipo !== requiredType) {
+        console.warn('[ENSURE AUTH DEBUG] Tipo não corresponde. Esperado:', requiredType, 'Encontrado:', user.tipo);
         ApiClient.showMessage('Você não tem acesso a esta área.', 'error');
-        redirectByType(user);
+        setTimeout(() => redirectByType(user), 500);
         throw new Error('Perfil sem permissão');
       }
+      
+      console.log('[ENSURE AUTH DEBUG] Autenticação verificada com sucesso para:', user.email);
       return user;
     }
 

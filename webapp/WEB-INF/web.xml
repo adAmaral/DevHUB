@@ -9,6 +9,7 @@
     <servlet>
         <servlet-name>AuthServlet</servlet-name>
         <servlet-class>servlet.AuthServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
@@ -33,11 +34,22 @@
     <filter-mapping>
         <filter-name>CORSFilter</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
     </filter-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
+    <!-- Garantir que /auth/* sempre seja tratado pelo servlet, não como arquivo estático -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AuthServlet</web-resource-name>
+            <url-pattern>/auth/*</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
 
 </web-app>
 

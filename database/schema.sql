@@ -149,7 +149,8 @@ INSERT INTO categorias (nome, descricao, icone) VALUES
 ('Comércio', 'Produtos físicos, artesanato, vendas', 'shopping');
 
 INSERT INTO usuarios (nome, email, senha, tipo, descricao) VALUES
-('Administrador DevHub', 'admin@summit.com', 'admin123', 'empresa', 'Conta administrativa da plataforma DevHub');
+('Administrador DevHub', 'admin@summit.com', 'pbkdf2_sha256:65536:tb7UTjqCI70Bmxk7tK6tWg==:sRQwPeSgdX6gHZBmx968MwJGNTu1F8R/24HKYC7BeJo=', 'empresa', 'Conta administrativa da plataforma DevHub');
+-- Senha: 123 (hash PBKDF2 gerado)
 
 CREATE OR REPLACE VIEW vw_estatisticas_usuarios AS
 SELECT 
@@ -319,7 +320,7 @@ BEGIN
    IF NOT EXISTS (
       SELECT FROM pg_catalog.pg_roles
       WHERE  rolname = 'devhub_app') THEN
-      CREATE ROLE devhub_app LOGIN PASSWORD '12345';
+      CREATE ROLE devhub_app LOGIN PASSWORD '123';
    END IF;
 END
 $do$;
