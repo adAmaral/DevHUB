@@ -325,8 +325,16 @@ dropdown.classList.add('hidden');
 });
 function sair() {
 if (confirm('Tem certeza que deseja sair?')) {
-alert('Saindo do sistema...');
+authService.logout();
+window.location.href = 'Cadastro.html';
 }
+}
+</script>
+<script src="auth.js"></script>
+<script>
+// Proteção de rota - apenas empresas podem acessar
+if (!authService.protectRoute('empresa')) {
+// Redirecionamento automático já foi feito pelo protectRoute
 }
 </script>
 </body></html>
