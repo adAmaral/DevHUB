@@ -2,7 +2,7 @@
 <html class="light" lang="pt-br"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Marketplace - Encontre os melhores serviços</title>
+<title>DevHub - Encontre os melhores serviços</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
@@ -53,7 +53,7 @@
 <div class="flex items-center gap-4">
 <a class="flex items-center gap-2 text-primary" href="#">
 <span class="material-symbols-outlined text-3xl">store</span>
-<span class="text-xl font-bold text-text-light dark:text-text-dark">Marketplace</span>
+<span class="text-xl font-bold text-text-light dark:text-text-dark">DevHub</span>
 </a>
 </div>
 <div class="hidden md:flex flex-1 justify-center">
@@ -67,13 +67,19 @@
 <div class="hidden md:flex items-center gap-4">
 <a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">Explorar</a>
 <a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">Meus Pedidos</a>
-<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-border-light dark:hover:bg-border-dark transition-colors">
-<span class="material-symbols-outlined text-xl">notifications</span>
+<div class="relative" id="profileDropdown">
+<button onclick="toggleDropdownPerfil()" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-border-light dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
 </button>
-<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-border-light dark:hover:bg-border-dark transition-colors">
-<span class="material-symbols-outlined text-xl">shopping_cart</span>
-</button>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBghEG7OlVugTaqDbWk8PS0BL48bHxkLzY6Tyhx6PhSxv5zYV4PqNj_OVQsfyKXrmsvaqJigj4GRj_KHH-A669tL2jcVv7pmJh13TnYQtg-_1WmMKERnGtXyMnQbC6e1F3HOUBZurc8LJ2B1PlNcGcTY4JU1pwEugVkSgk05IO-6-863mzW2onHTjuDzZPQbXGuVINUalsbv8udVto0taj0mIqU428czmRX0RB9xfhVTS2Uho0TKrAAw3ZD5llSqVwRuM0bhnn--uXU");'></div>
+<div id="dropdownPerfil" class="hidden absolute right-0 mt-2 w-48 bg-card-light dark:bg-card-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark z-50">
+<div class="py-2">
+<a href="#" id="profileLink" class="block px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-input-light dark:hover:bg-input-dark">Meu Perfil</a>
+<a href="configuracoes.html" class="block px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-input-light dark:hover:bg-input-dark">Configurações</a>
+<div class="border-t border-border-light dark:border-border-dark my-1"></div>
+<a href="#" onclick="sair(); return false;" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-input-light dark:hover:bg-input-dark">Sair</a>
+</div>
+</div>
+</div>
 </div>
 <button class="md:hidden flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
 <span class="material-symbols-outlined text-xl">menu</span>
@@ -162,7 +168,7 @@
 <div class="flex items-center gap-2">
 <span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Ordenar por:</span>
 <div class="relative">
-<select class="form-select appearance-none block w-full pl-3 pr-8 py-2 text-sm font-medium border-border-light dark:border-border-dark rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+<select class="form-select appearance-none block w-full pl-3 pr-8 py-2 text-sm font-medium border-border-light dark:border-border-dark rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" title="Ordenar resultados">
 <option>Mais Relevantes</option>
 <option>Maior Preço</option>
 <option>Menor Preço</option>
@@ -283,5 +289,49 @@
 </main>
 </div>
 </div>
+<script src="auth.js"></script>
+<script>
+// Proteção de rota - permite todos os tipos de conta autenticados
+if (!authService.protectMarketplace()) {
+    // Redirecionamento automático já foi feito pelo protectMarketplace
+}
 
+// Função para toggle do dropdown
+function toggleDropdownPerfil() {
+    const dropdown = document.getElementById('dropdownPerfil');
+    dropdown.classList.toggle('hidden');
+}
+
+// Fechar dropdown ao clicar fora
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('dropdownPerfil');
+    const button = document.getElementById('profileDropdown');
+    if (!button.contains(event.target)) {
+        dropdown.classList.add('hidden');
+    }
+});
+
+// Função de logout
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = 'Cadastro.html';
+    }
+}
+
+// Redirecionar para o perfil correto baseado no tipo de conta
+document.addEventListener('DOMContentLoaded', function() {
+    const session = authService.getSession();
+    if (session) {
+        const profileLink = document.getElementById('profileLink');
+        const routes = {
+            'empresa': 'Perfil-Empresa.html',
+            'freelancer': 'freelancer.html',
+            'cliente': 'perfil-cliente.html'
+        };
+        const profileRoute = routes[session.accountType] || 'perfil-cliente.html';
+        profileLink.href = profileRoute;
+    }
+});
+</script>
 </body></html>

@@ -57,9 +57,13 @@
 </div>
 </div>
 <nav class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="freelancer.html">
 <span class="material-symbols-outlined fill">home</span>
 <p class="text-sm font-medium leading-normal">Início</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="Marketplace.html">
+<span class="material-symbols-outlined">store</span>
+<p class="text-sm font-medium leading-normal">Marketplace</p>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="#">
 <span class="material-symbols-outlined">inventory_2</span>
@@ -80,7 +84,7 @@
 </nav>
 </div>
 <div class="mt-auto">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="#" onclick="sair(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <p class="text-sm font-medium leading-normal">Sair</p>
 </a>
@@ -215,4 +219,19 @@
 </div>
 </main>
 </div>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = 'Cadastro.html';
+    }
+}
+</script>
+<script src="auth.js"></script>
+<script>
+// Proteção de rota - apenas freelancers podem acessar
+if (!authService.protectRoute('freelancer')) {
+// Redirecionamento automático já foi feito pelo protectRoute
+}
+</script>
 </body></html>

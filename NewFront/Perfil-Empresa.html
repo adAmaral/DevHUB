@@ -50,9 +50,13 @@
 </div>
 </div>
 <nav class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="index.html">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="Perfil-Empresa.html">
 <span class="material-symbols-outlined text-primary dark:text-white">dashboard</span>
 <p class="text-primary dark:text-white text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="Marketplace.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">store</span>
+<p class="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white text-sm font-medium leading-normal">Marketplace</p>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="vendas.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">trending_up</span>
@@ -82,7 +86,11 @@
 <!-- Main Content -->
 <main class="flex-1 flex flex-col">
 <!-- TopNavBar -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-10 py-3 bg-white dark:bg-gray-900/50">
+<header class="relative flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-10 py-3 bg-white dark:bg-gray-900/50">
+<div class="flex items-center gap-2 absolute left-1/2 transform -translate-x-1/2">
+<img src="logo.png" alt="DevHub" class="w-10 h-10">
+<h1 class="text-xl font-bold text-gray-900 dark:text-white">DevHub</h1>
+</div>
 <label class="flex flex-col min-w-40 !h-10 max-w-64">
 <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
 <div class="text-gray-500 dark:text-gray-400 flex border-none bg-background-light dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
@@ -313,8 +321,16 @@ dropdown.classList.add('hidden');
 });
 function sair() {
 if (confirm('Tem certeza que deseja sair?')) {
-alert('Saindo do sistema...');
+authService.logout();
+window.location.href = 'Cadastro.html';
 }
+}
+</script>
+<script src="auth.js"></script>
+<script>
+// Proteção de rota - apenas empresas podem acessar
+if (!authService.protectRoute('empresa')) {
+// Redirecionamento automático já foi feito pelo protectRoute
 }
 </script>
 </body></html>
