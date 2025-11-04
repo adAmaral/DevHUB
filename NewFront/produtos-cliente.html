@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Produtos Adquiridos - Cliente</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#135bec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-white dark:bg-[#111722] p-4 border-r border-gray-200 dark:border-gray-800">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Avatar de Beatriz Costa" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFr0mkRqul_7bLxaTYkd2N6aXZFyyh_9xilhfOQrfAOJzuLyqytTVz6h6zgf8tseE-IEgmQDh0PpvT_vKu2bBXM1mWwZk7cQebOIzg-t_My2c5TtBzedFBgVRrIgEbDkP3alixyOMh4f0uZ3e0iRDwCN0wfijgp3IDiRCMnYQziouwwxcj45Y5_DZTy91cZH_JbXGmPV1xC-cXohKTMCX30z40eoH_imXHHqqgE0xv6Ibn5uqMlJ8FB9bjWVZsdqgKgk6rwp1NuwEC");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Beatriz Costa</h1>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">InnovateTech</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="Marketplace.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">store</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-[#232f48]" href="produtos-cliente.html">
+<span class="material-symbols-outlined text-primary dark:text-white" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<p class="text-primary dark:text-white text-sm font-bold leading-normal">Produtos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="historico-cliente.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">history</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Histórico</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="detalhes-conta-cliente.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">manage_accounts</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Detalhes da Conta</p>
+</a>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="ajuda-cliente.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">help_outline</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Ajuda</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#" onclick="sair(); return false;">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">logout</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-8">
+<div class="mx-auto max-w-7xl">
+<div class="flex items-center justify-between mb-6">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Produtos Adquiridos</h1>
+<button onclick="window.location.href='Marketplace.html'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white gap-2 pl-3 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="material-symbols-outlined text-white text-base">add_circle</span>
+<span class="truncate">Adicionar Novo Produto</span>
+</button>
+</div>
+
+<div class="mt-6">
+<!-- ImageGrid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para Plano de Gerenciamento Pro" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKQz3Kt9cI15mNzhE9UZumUyIiqGM0mobi3fEIaF8HB0-3pnKvDDb_OHrYtsIV6Xwnv7F5jFjM-O5Hh6hTSfBvoqUn0018Z-AWjK0BKhGE9RcsRemUMq9RbqZ3nUT3PjZFoPyp045lszN1WFavyrmKB8zWicYChYBYzseJ8xS4XD4Yu2xLv60DcVPcCRvZvNlV3K1RnLmnSZ-66shr6m0YpxKEPQh5vz5ox1ygTBilGdi_32CWJZ0Z_r-DlcCOfI9Kek7vyLbz7u36");' onclick="alert('Visualizar detalhes do produto: Plano de Gerenciamento Pro')"></div>
+<div>
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Plano de Gerenciamento Pro</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 15/03/2023</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Ativo</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Avaliando produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Avaliar</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para Consultoria de SEO" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-XSKQhykwpKSp62LA6MoSpgKIEVY4_9YBwMdDO9uzBhzHnwpFLIdy2F1IuB0Vswbo33a0QR9PtBu7SXlJKYD4wN23ZY_6r9gb8bkhkVZCMUwzWI2BUPSB7S0ayA_BFSNbbU-6z6yxe3E0i7HTIeD3qMVej5hBf-4HvheIGURja1GxlfqusF01DQBk5DQnbd2UAK3HOKdxQEP2yUr6xlAh971339GtvIPw1UAag-jECFl4bkXkBgwltR28vGYsZjhEbTsAjorawrGY");' onclick="alert('Visualizar detalhes do produto: Consultoria de SEO')"></div>
+<div>
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Consultoria de SEO</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 02/01/2023</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-gray-500 bg-gray-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Concluído</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Avaliando produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Avaliar</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para API de Integração" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMwIYqMct4r6ibNPkv_k3CPwEJxjyJtNQ0yBLsh-ezLqYuJj0jA0nwPgFypR9TSY2TwFq9u-363aU7BjgYRzA2O7bW_8OMjCkTVXmVfvrMBMSq5rlIYJ3UDGSIu06_lP0qhOrhjAAvIXVHQJeuUVJ7IIriVVDQ5ade-ST2Vi96WErwTDXSsPA5T4kNIz3eUuTb-Z7G5f51sFX62xiWvkxsC6zCiUq0WOfyLRL-dWntKKLhpDQI7_VRQJjg706ORgLTWsKWZQB9fgbj");' onclick="alert('Visualizar detalhes do produto: API de Integração')"></div>
+<div>
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal">API de Integração</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 10/11/2022</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Expirado</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Renovar produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Renovar</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para Suporte Premium" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHN1E-tlU0PLSHHkp9TT-Af0R7Xv2KzcIzM7cJ0fKCPwvcRIbiIGiz90IxEP13rS41007pdMgq_mSmsa2ceVCTTaZGsotK4qZAX95LtFp1tMV-3yAVKMhfL073cB2IuQW891dfc7tPFrv0Y8k9yukP5feo1HmViLGRdrpW8hwvGIlhBubYtIdt6F9GeG6K43OzffvO1rW6RiOMWT0e88c0uyyCkBJpqBvEHc8VWKJTT5b2q0E5c6eLtE9q2JBsUpe9YSznxhPTcn6f");' onclick="alert('Visualizar detalhes do produto: Suporte Premium')"></div>
+<div>
+<p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Suporte Premium</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 20/02/2023</p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Ativo</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Solicitando suporte...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Suporte</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-center p-4 mt-6">
+<button onclick="paginarProdutos(-1)" class="flex size-10 items-center justify-center text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-full cursor-pointer">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button onclick="paginarProdutos(1)" id="pagina-1" class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-primary cursor-pointer">1</button>
+<button onclick="paginarProdutos(2)" id="pagina-2" class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">2</button>
+<button onclick="paginarProdutos(3)" id="pagina-3" class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">3</button>
+<button onclick="paginarProdutos(4)" id="pagina-4" class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">4</button>
+<button onclick="paginarProdutos('proximo')" class="flex size-10 items-center justify-center text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-full cursor-pointer">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = 'Cadastro.html';
+    }
+}
+
+let paginaAtual = 1;
+
+function paginarProdutos(pagina) {
+    if (pagina === 'proximo') {
+        if (paginaAtual < 4) {
+            paginaAtual++;
+        } else {
+            return;
+        }
+    } else if (pagina === -1 || pagina < 0) {
+        if (paginaAtual > 1) {
+            paginaAtual--;
+        } else {
+            return;
+        }
+    } else if (typeof pagina === 'number' && pagina > 0 && pagina <= 4) {
+        paginaAtual = pagina;
+    }
+    
+    for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`pagina-${i}`);
+        if (btn) {
+            if (i === paginaAtual) {
+                btn.classList.remove('text-gray-700', 'dark:text-white', 'hover:bg-gray-100', 'dark:hover:bg-white/5', 'font-normal');
+                btn.classList.add('text-white', 'bg-primary', 'font-bold');
+            } else {
+                btn.classList.remove('text-white', 'bg-primary', 'font-bold');
+                btn.classList.add('text-gray-700', 'dark:text-white', 'hover:bg-gray-100', 'dark:hover:bg-white/5', 'font-normal');
+            }
+        }
+    }
+    
+    console.log(`Página atual: ${paginaAtual}`);
+}
+</script>
+<script src="auth.js"></script>
+<script>
+if (!authService.protectRoute('cliente')) {
+}
+
+// Carregar dados do usuário
+function carregarDadosUsuario() {
+    const user = authService.getCurrentUser();
+    if (!user) return;
+
+    // Preencher informações no sidebar
+    const nomeElement = document.querySelector('aside h1');
+    const empresaElement = document.querySelector('aside p');
+    
+    if (nomeElement) {
+        nomeElement.textContent = user.nome || 'Usuário';
+    }
+    if (empresaElement && user.nomeEmpresa) {
+        empresaElement.textContent = user.nomeEmpresa;
+    } else if (empresaElement) {
+        empresaElement.textContent = 'Cliente';
+    }
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+</script>
+</body></html>
+

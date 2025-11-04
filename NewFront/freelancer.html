@@ -73,6 +73,10 @@
 <span class="material-symbols-outlined">shopping_cart</span>
 <p class="text-sm font-medium leading-normal">Vendas</p>
 </a>
+<a id="pedidosLink" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="pedidos-freelancer.html">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium leading-normal">Meus Pedidos</p>
+</a>
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="clientes-freelancer.html">
 <span class="material-symbols-outlined">group</span>
 <p class="text-sm font-medium leading-normal">Clientes</p>
@@ -233,5 +237,70 @@ function sair() {
 if (!authService.protectRoute('freelancer')) {
 // Redirecionamento automático já foi feito pelo protectRoute
 }
+
+// Carregar dados do usuário
+function carregarDadosUsuario() {
+    const user = authService.getCurrentUser();
+    if (!user) return;
+
+    // Preencher informações no sidebar
+    const nomeElement = document.querySelector('aside h1');
+    const planoElement = document.querySelector('aside p');
+    
+    if (nomeElement) {
+        // Pega o primeiro nome do usuário
+        const primeiroNome = user.nome ? user.nome.split(' ')[0] : 'Usuário';
+        nomeElement.textContent = primeiroNome + (user.nome && user.nome.split(' ').length > 1 ? ' ' + user.nome.split(' ')[1].charAt(0) + '.' : '');
+    }
+    if (planoElement) {
+        planoElement.textContent = 'Plano Pro';
+    }
+
+    // Preencher mensagem de boas-vindas
+    const titulos = document.querySelectorAll('main p.text-gray-900, main p.dark\\:text-white');
+    if (titulos.length > 0 && user.nome) {
+        const primeiroNome = user.nome.split(' ')[0];
+        // Procura o título que contém "Bem-vindo"
+        titulos.forEach(titulo => {
+            if (titulo.textContent.includes('Bem-vindo')) {
+                titulo.textContent = `Bem-vindo de volta, ${primeiroNome}!`;
+            }
+        });
+    }
+}
+
+// Sistema de configurações para mostrar/ocultar aba de pedidos
+function mostrarAbaPedidos() {
+    const settingsKey = 'freelancer_settings';
+    const settings = localStorage.getItem(settingsKey);
+    const config = settings ? JSON.parse(settings) : { mostrarPedidos: true };
+    
+    const pedidosLink = document.getElementById('pedidosLink');
+    if (pedidosLink) {
+        if (config.mostrarPedidos) {
+            pedidosLink.style.display = 'flex';
+            pedidosLink.classList.remove('hidden');
+        } else {
+            pedidosLink.style.display = 'none';
+            pedidosLink.classList.add('hidden');
+        }
+    }
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    carregarDadosUsuario();
+    mostrarAbaPedidos();
+    
+    // Escutar mudanças nas configurações
+    window.addEventListener('settingsUpdated', mostrarAbaPedidos);
+    
+    // Escutar mudanças de storage (para atualizar quando mudar em outra aba)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'freelancer_settings') {
+            mostrarAbaPedidos();
+        }
+    });
+});
 </script>
 </body></html>

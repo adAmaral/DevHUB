@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Histórico de Interações - Cliente</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#135bec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-white dark:bg-[#111722] p-4 border-r border-gray-200 dark:border-gray-800">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Avatar de Beatriz Costa" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFr0mkRqul_7bLxaTYkd2N6aXZFyyh_9xilhfOQrfAOJzuLyqytTVz6h6zgf8tseE-IEgmQDh0PpvT_vKu2bBXM1mWwZk7cQebOIzg-t_My2c5TtBzedFBgVRrIgEbDkP3alixyOMh4f0uZ3e0iRDwCN0wfijgp3IDiRCMnYQziouwwxcj45Y5_DZTy91cZH_JbXGmPV1xC-cXohKTMCX30z40eoH_imXHHqqgE0xv6Ibn5uqMlJ8FB9bjWVZsdqgKgk6rwp1NuwEC");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Beatriz Costa</h1>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">InnovateTech</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="Marketplace.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">store</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="produtos-cliente.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">inventory_2</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Produtos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-[#232f48]" href="historico-cliente.html">
+<span class="material-symbols-outlined text-primary dark:text-white" style="font-variation-settings: 'FILL' 1;">history</span>
+<p class="text-primary dark:text-white text-sm font-bold leading-normal">Histórico</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="detalhes-conta-cliente.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">manage_accounts</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Detalhes da Conta</p>
+</a>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="ajuda-cliente.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">help_outline</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Ajuda</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#" onclick="sair(); return false;">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">logout</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-8">
+<div class="mx-auto max-w-7xl">
+<div class="flex items-center justify-between mb-6">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Histórico de Interações</h1>
+</div>
+
+<div class="mt-6">
+<div class="bg-white dark:bg-[#111722] rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Todas as Interações</h2>
+<div class="space-y-4">
+<!-- Interação 1 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-primary/10 dark:bg-primary/20 rounded-full p-3">
+<span class="material-symbols-outlined text-primary dark:text-white">message</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Mensagem enviada</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">15/03/2023 14:30</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você enviou uma mensagem para o vendedor sobre "Plano de Gerenciamento Pro"</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Vendedor: TechSolutions</p>
+</div>
+</div>
+<!-- Interação 2 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-green-500/10 dark:bg-green-500/20 rounded-full p-3">
+<span class="material-symbols-outlined text-green-500 dark:text-green-400">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Produto adquirido</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">02/01/2023 10:15</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você adquiriu o serviço "Consultoria de SEO"</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Valor: R$ 1.500,00</p>
+</div>
+</div>
+<!-- Interação 3 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-yellow-500/10 dark:bg-yellow-500/20 rounded-full p-3">
+<span class="material-symbols-outlined text-yellow-500 dark:text-yellow-400">star</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Avaliação realizada</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">10/11/2022 16:45</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você avaliou o serviço "API de Integração" com 5 estrelas</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Avaliação: ⭐⭐⭐⭐⭐</p>
+</div>
+</div>
+<!-- Interação 4 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-blue-500/10 dark:bg-blue-500/20 rounded-full p-3">
+<span class="material-symbols-outlined text-blue-500 dark:text-blue-400">support</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Suporte solicitado</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">20/02/2023 09:20</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você abriu um ticket de suporte para "Suporte Premium"</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Status: Resolvido</p>
+</div>
+</div>
+<!-- Interação 5 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-purple-500/10 dark:bg-purple-500/20 rounded-full p-3">
+<span class="material-symbols-outlined text-purple-500 dark:text-purple-400">receipt</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Fatura gerada</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">20/02/2023 09:25</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Fatura gerada para o serviço "Suporte Premium"</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Valor: R$ 299,90</p>
+</div>
+</div>
+<!-- Interação 6 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full p-3">
+<span class="material-symbols-outlined text-indigo-500 dark:text-indigo-400">download</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Download realizado</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">18/02/2023 11:30</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você baixou a documentação do serviço "Plano de Gerenciamento Pro"</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Arquivo: Manual_Usuario.pdf</p>
+</div>
+</div>
+<!-- Interação 7 -->
+<div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<div class="bg-red-500/10 dark:bg-red-500/20 rounded-full p-3">
+<span class="material-symbols-outlined text-red-500 dark:text-red-400">cancel</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white">Cancelamento solicitado</h3>
+<span class="text-xs text-gray-500 dark:text-[#92a4c9]">05/12/2022 09:15</span>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você solicitou o cancelamento do serviço "API de Integração"</p>
+<p class="text-xs text-gray-500 dark:text-[#92a4c9]">Status: Processado</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = 'Cadastro.html';
+    }
+}
+</script>
+<script src="auth.js"></script>
+<script>
+if (!authService.protectRoute('cliente')) {
+}
+
+// Carregar dados do usuário
+function carregarDadosUsuario() {
+    const user = authService.getCurrentUser();
+    if (!user) return;
+
+    // Preencher informações no sidebar
+    const nomeElement = document.querySelector('aside h1');
+    const empresaElement = document.querySelector('aside p');
+    
+    if (nomeElement) {
+        nomeElement.textContent = user.nome || 'Usuário';
+    }
+    if (empresaElement && user.nomeEmpresa) {
+        empresaElement.textContent = user.nomeEmpresa;
+    } else if (empresaElement) {
+        empresaElement.textContent = 'Cliente';
+    }
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+</script>
+</body></html>
+

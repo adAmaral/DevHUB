@@ -180,7 +180,7 @@ class AuthService {
     // Redireciona para a página correta baseada no tipo de conta
     redirectByAccountType(accountType) {
         const routes = {
-            'empresa': 'Perfil-Empresa.html',
+            'empresa': 'Dashboard.html',
             'freelancer': 'freelancer.html',
             'cliente': 'Marketplace.html' // Marketplace é a página principal para clientes
         };

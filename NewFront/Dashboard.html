@@ -50,9 +50,9 @@
 </div>
 </div>
 <nav class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="Perfil-Empresa.html">
-<span class="material-symbols-outlined text-primary dark:text-white">dashboard</span>
-<p class="text-primary dark:text-white text-sm font-medium leading-normal">Dashboard</p>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="Dashboard.html">
+<span class="material-symbols-outlined text-primary dark:text-white" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<p class="text-primary dark:text-white text-sm font-bold leading-normal">Dashboard</p>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="Marketplace.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">store</span>
@@ -61,6 +61,10 @@
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="vendas.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">trending_up</span>
 <p class="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white text-sm font-medium leading-normal">Vendas</p>
+</a>
+<a id="pedidosLink" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="pedidos-empresa.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">receipt_long</span>
+<p class="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white text-sm font-medium leading-normal">Meus Pedidos</p>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="chat.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">chat</span>
@@ -87,10 +91,10 @@
 <main class="flex-1 flex flex-col">
 <!-- TopNavBar -->
 <header class="relative flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-10 py-3 bg-white dark:bg-gray-900/50">
-<div class="flex items-center gap-2 absolute left-1/2 transform -translate-x-1/2">
+<a href="Marketplace.html" class="flex items-center gap-2 absolute left-1/2 transform -translate-x-1/2 cursor-pointer hover:opacity-80 transition-opacity">
 <img src="logo.png" alt="DevHub" class="w-10 h-10">
 <h1 class="text-xl font-bold text-gray-900 dark:text-white">DevHub</h1>
-</div>
+</a>
 <label class="flex flex-col min-w-40 !h-10 max-w-64">
 <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
 <div class="text-gray-500 dark:text-gray-400 flex border-none bg-background-light dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
@@ -109,7 +113,7 @@
 </button>
 </div>
 <div class="relative">
-<button onclick="toggleDropdownPerfil()" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary" data-alt="Avatar do usuário, um círculo com um gradiente suave" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkmLtkiRunJRH_IL_N8U_iHeR2ppy7VrUTyW_FXQPXfQbf0YgODZk8dce4zXGZO14h-RRRD1nvnjqiudkkGPalVuBuPE_IFzKzM3LbHK4baHSuIuflfUfPZ9ReKOgKi-md8ObjlQq-ufeT7BkTGx2auuDYGBgwajGlqus32Z743b2zkFG6UYzfbACGg8OWCrSxU2ywDkNhleelqmrQkAegKfcd_N7F_-8nenl9bdjfCMMw9Vs7dtkW33ORgalANM0qKsfsUzz9qWsJ");'></button>
+<button onclick="toggleDropdownPerfil()" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary" data-alt="Avatar do usuário, um círculo com um gradiente suave" aria-label="Abrir menu do perfil" title="Abrir menu do perfil" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkmLtkiRunJRH_IL_N8U_iHeR2ppy7VrUTyW_FXQPXfQbf0YgODZk8dce4zXGZO14h-RRRD1nvnjqiudkkGPalVuBuPE_IFzKzM3LbHK4baHSuIuflfUfPZ9ReKOgKi-md8ObjlQq-ufeT7BkTGx2auuDYGBgwajGlqus32Z743b2zkFG6UYzfbACGg8OWCrSxU2ywDkNhleelqmrQkAegKfcd_N7F_-8nenl9bdjfCMMw9Vs7dtkW33ORgalANM0qKsfsUzz9qWsJ");'></button>
 <div id="dropdownPerfil" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 z-50">
 <div class="py-2">
 <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Meu Perfil</a>
@@ -148,6 +152,31 @@
 <p class="text-gray-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">150</p>
 </div>
 </div>
+<!-- Informações da Empresa -->
+<div class="mb-8 flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-gray-900/50">
+<div class="flex justify-between items-center">
+<h3 class="text-lg font-medium text-gray-900 dark:text-white">Informações da Empresa</h3>
+<a href="configuracoes.html" class="text-sm font-semibold text-primary dark:text-primary-400 hover:underline">Editar</a>
+</div>
+<div id="empresaInfo" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-sm text-gray-500 dark:text-gray-400">Nome da Empresa</p>
+<p id="info-nome-empresa" class="text-base font-medium text-gray-900 dark:text-white">-</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm text-gray-500 dark:text-gray-400">CNPJ</p>
+<p id="info-cnpj" class="text-base font-medium text-gray-900 dark:text-white">-</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm text-gray-500 dark:text-gray-400">E-mail</p>
+<p id="info-email" class="text-base font-medium text-gray-900 dark:text-white">-</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm text-gray-500 dark:text-gray-400">Telefone</p>
+<p id="info-telefone" class="text-base font-medium text-gray-900 dark:text-white">-</p>
+</div>
+</div>
+</div>
 <!-- Main Grid Layout -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <!-- Left Column (Main) -->
@@ -180,7 +209,7 @@
 <div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-gray-900/50">
 <div class="flex justify-between items-center">
 <h3 class="text-lg font-medium text-gray-900 dark:text-white">Produtos Recentes</h3>
-<a class="text-sm font-semibold text-primary dark:text-primary-400" href="#">Ver Todos</a>
+<a class="text-sm font-semibold text-primary dark:text-primary-400" href="produtos.html">Ver Todos</a>
 </div>
 <div class="overflow-x-auto">
 <table class="w-full text-left">
@@ -192,25 +221,8 @@
 <th class="py-3 px-4 font-medium">Status</th>
 </tr>
 </thead>
-<tbody class="text-gray-700 dark:text-gray-300">
-<tr class="border-b border-gray-200 dark:border-gray-800">
-<td class="py-4 px-4">Produto Exemplo A</td>
-<td class="py-4 px-4">Eletrônicos</td>
-<td class="py-4 px-4">R$ 1.200,00</td>
-<td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300">Ativo</span></td>
-</tr>
-<tr class="border-b border-gray-200 dark:border-gray-800">
-<td class="py-4 px-4">Produto Exemplo B</td>
-<td class="py-4 px-4">Móveis</td>
-<td class="py-4 px-4">R$ 450,00</td>
-<td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300">Ativo</span></td>
-</tr>
-<tr>
-<td class="py-4 px-4">Produto Exemplo C</td>
-<td class="py-4 px-4">Roupas</td>
-<td class="py-4 px-4">R$ 99,90</td>
-<td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300">Inativo</span></td>
-</tr>
+<tbody id="produtos-recentes" class="text-gray-700 dark:text-gray-300">
+<!-- Produtos serão carregados dinamicamente via JavaScript -->
 </tbody>
 </table>
 </div>
@@ -326,11 +338,181 @@ window.location.href = 'Cadastro.html';
 }
 }
 </script>
+<script src="products.js"></script>
 <script src="auth.js"></script>
 <script>
 // Proteção de rota - apenas empresas podem acessar
 if (!authService.protectRoute('empresa')) {
 // Redirecionamento automático já foi feito pelo protectRoute
 }
+
+// Carregar dados do usuário
+function carregarDadosUsuario() {
+    const user = authService.getCurrentUser();
+    if (!user) return;
+
+    // Preencher informações no sidebar
+    const nomeEmpresaElement = document.querySelector('aside h1');
+    const planoElement = document.querySelector('aside p');
+    
+    if (nomeEmpresaElement) {
+        nomeEmpresaElement.textContent = user.nomeEmpresa || user.nome || 'Nome da Empresa';
+    }
+    if (planoElement) {
+        planoElement.textContent = 'Plano Premium';
+    }
+
+    // Preencher informações da empresa no dashboard
+    const tituloDashboard = document.querySelector('main p.text-4xl');
+    if (tituloDashboard && user.nomeEmpresa) {
+        tituloDashboard.textContent = `Dashboard - ${user.nomeEmpresa}`;
+    }
+
+    // Carregar estatísticas da empresa
+    carregarEstatisticasEmpresa(user);
+}
+
+// Carregar estatísticas da empresa
+function carregarEstatisticasEmpresa(user) {
+    // Carregar produtos da empresa (se products.js estiver disponível)
+    if (typeof productService !== 'undefined') {
+        const produtos = productService.getProducts();
+        const produtosEmpresa = produtos.filter(p => p.vendedorId === user.id);
+        
+        // Atualizar card de produtos ativos
+        const produtosAtivos = produtosEmpresa.filter(p => p.status !== 'Inativo' && p.status !== 'inativo').length;
+        const totalProdutos = produtosEmpresa.length;
+        const produtosAtivosCard = document.querySelectorAll('.grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 .flex.flex-col.gap-2 p.text-3xl');
+        if (produtosAtivosCard && produtosAtivosCard.length >= 4) {
+            produtosAtivosCard[3].textContent = totalProdutos || 0;
+            
+            // Atualizar descrição se houver
+            const descricaoProdutos = produtosAtivosCard[3].parentElement.querySelector('p.text-gray-500, p.text-sm');
+            if (descricaoProdutos && totalProdutos > 0) {
+                descricaoProdutos.textContent = `${produtosAtivos} ativos`;
+            }
+        }
+    }
+
+    // Calcular data de cadastro
+    if (user.createdAt) {
+        const dataCadastro = new Date(user.createdAt);
+        const hoje = new Date();
+        const diasCadastro = Math.floor((hoje - dataCadastro) / (1000 * 60 * 60 * 24));
+        
+        // Exibir informações adicionais se necessário
+        console.log(`Empresa cadastrada há ${diasCadastro} dias`);
+    }
+
+    // Exibir informações da empresa em um card adicional (se necessário)
+    exibirInformacoesEmpresa(user);
+    
+    // Carregar produtos recentes na tabela
+    carregarProdutosRecentes(user);
+}
+
+// Exibir informações da empresa
+function exibirInformacoesEmpresa(user) {
+    // Preencher card de informações da empresa
+    const nomeEmpresaEl = document.getElementById('info-nome-empresa');
+    const cnpjEl = document.getElementById('info-cnpj');
+    const emailEl = document.getElementById('info-email');
+    const telefoneEl = document.getElementById('info-telefone');
+    
+    if (nomeEmpresaEl) {
+        nomeEmpresaEl.textContent = user.nomeEmpresa || user.nome || 'Não informado';
+    }
+    if (cnpjEl) {
+        cnpjEl.textContent = user.cnpj || 'Não informado';
+    }
+    if (emailEl) {
+        emailEl.textContent = user.email || 'Não informado';
+    }
+    if (telefoneEl) {
+        telefoneEl.textContent = user.telefone || 'Não informado';
+    }
+}
+
+// Carregar produtos recentes na tabela
+function carregarProdutosRecentes(user) {
+    if (typeof productService === 'undefined') {
+        return; // products.js não está disponível
+    }
+    
+    const produtos = productService.getProducts();
+    const produtosEmpresa = produtos.filter(p => p.vendedorId === user.id);
+    
+    // Ordenar por data de criação (mais recentes primeiro) e pegar os 3 primeiros
+    const produtosRecentes = produtosEmpresa
+        .sort((a, b) => {
+            const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+            const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+            return dateB - dateA;
+        })
+        .slice(0, 3);
+    
+    const tbody = document.getElementById('produtos-recentes');
+    if (!tbody) return;
+    
+    // Limpar tabela existente (exceto o cabeçalho)
+    tbody.innerHTML = '';
+    
+    if (produtosRecentes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="py-4 px-4 text-center text-gray-500 dark:text-gray-400">Nenhum produto cadastrado ainda</td></tr>';
+        return;
+    }
+    
+    // Preencher com produtos reais
+    produtosRecentes.forEach(produto => {
+        const status = produto.status || 'Ativo';
+        const statusClass = status === 'Inativo' || status === 'inativo' 
+            ? 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300'
+            : 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300';
+        
+        const row = document.createElement('tr');
+        row.className = 'border-b border-gray-200 dark:border-gray-800';
+        row.innerHTML = `
+            <td class="py-4 px-4">${produto.nome}</td>
+            <td class="py-4 px-4">${produto.categoria}</td>
+            <td class="py-4 px-4">R$ ${produto.preco.toFixed(2).replace('.', ',')}</td>
+            <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass}">${status}</span></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Sistema de configurações para mostrar/ocultar aba de pedidos
+function mostrarAbaPedidos() {
+    const settingsKey = 'empresa_settings';
+    const settings = localStorage.getItem(settingsKey);
+    const config = settings ? JSON.parse(settings) : { mostrarPedidos: true };
+    
+    const pedidosLink = document.getElementById('pedidosLink');
+    if (pedidosLink) {
+        if (config.mostrarPedidos) {
+            pedidosLink.style.display = 'flex';
+            pedidosLink.classList.remove('hidden');
+        } else {
+            pedidosLink.style.display = 'none';
+            pedidosLink.classList.add('hidden');
+        }
+    }
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    carregarDadosUsuario();
+    mostrarAbaPedidos();
+    
+    // Escutar mudanças nas configurações
+    window.addEventListener('settingsUpdated', mostrarAbaPedidos);
+    
+    // Escutar mudanças de storage (para atualizar quando mudar em outra aba)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'empresa_settings') {
+            mostrarAbaPedidos();
+        }
+    });
+});
 </script>
 </body></html>

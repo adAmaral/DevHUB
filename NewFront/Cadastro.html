@@ -56,10 +56,10 @@
 <div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden p-4 sm:p-6 lg:p-8">
 <div class="w-full max-w-lg">
 <div class="mb-8 text-center">
-<div class="flex items-center justify-center gap-2 mb-4">
+<a href="Marketplace.html" class="flex items-center justify-center gap-2 mb-4 cursor-pointer hover:opacity-80 transition-opacity">
 <img src="logo.png" alt="DevHub" class="w-10 h-10">
 <h1 class="text-3xl font-bold text-slate-800 dark:text-white">DevHub</h1>
-</div>
+</a>
 <h2 class="text-[#111318] dark:text-slate-200 text-4xl font-black leading-tight tracking-[-0.033em]">Crie sua conta</h2>
 <p class="text-[#616f89] dark:text-slate-400 text-base font-normal leading-normal mt-2">Gerencie seus projetos e equipes em um só lugar.</p>
 </div>
@@ -135,7 +135,13 @@
                             Ao se registrar, você concorda com nossos <a class="font-semibold text-primary hover:underline" href="#">Termos de Serviço</a> e <a class="font-semibold text-primary hover:underline" href="#">Política de Privacidade</a>.
                         </label>
 </div>
-<button id="submitBtn" class="flex h-14 w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-6 text-base font-semibold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 mt-4" type="submit">Registrar</button>
+<div class="flex gap-3 mt-4">
+<button id="fillRandomBtn" class="flex h-14 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gray-100 dark:bg-slate-700 px-6 text-base font-semibold text-gray-700 dark:text-gray-300 shadow-sm transition-all hover:bg-gray-200 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-gray-400" type="button" title="Preencher com dados aleatórios para testes">
+<span class="material-symbols-outlined text-xl">shuffle</span>
+Dados Aleatórios
+</button>
+<button id="submitBtn" class="flex h-14 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-6 text-base font-semibold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50" type="submit">Registrar</button>
+</div>
 </form>
 </div>
 <p class="mt-8 text-center text-base text-[#616f89] dark:text-slate-400">
@@ -274,5 +280,114 @@ if (authService.isAuthenticated()) {
     const session = authService.getSession();
     authService.redirectByAccountType(session.accountType);
 }
+
+// Funções para gerar dados aleatórios
+function gerarNomeAleatorio() {
+    const nomes = ['João', 'Maria', 'Pedro', 'Ana', 'Carlos', 'Julia', 'Fernando', 'Beatriz', 'Ricardo', 'Camila', 'Lucas', 'Mariana', 'Rafael', 'Gabriela', 'Thiago', 'Larissa'];
+    const sobrenomes = ['Silva', 'Santos', 'Oliveira', 'Souza', 'Rodrigues', 'Ferreira', 'Alves', 'Pereira', 'Costa', 'Martins', 'Carvalho', 'Lima', 'Araújo', 'Ribeiro', 'Gomes', 'Barbosa'];
+    const nome = nomes[Math.floor(Math.random() * nomes.length)];
+    const sobrenome1 = sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+    const sobrenome2 = sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+    return `${nome} ${sobrenome1} ${sobrenome2}`;
+}
+
+function gerarEmailAleatorio() {
+    const nomes = ['joao', 'maria', 'pedro', 'ana', 'carlos', 'julia', 'fernando', 'beatriz', 'ricardo', 'camila', 'lucas', 'mariana', 'rafael', 'gabriela', 'thiago', 'larissa'];
+    const dominios = ['gmail.com', 'hotmail.com', 'yahoo.com', 'outlook.com', 'email.com', 'teste.com'];
+    const numero = Math.floor(Math.random() * 10000);
+    const nome = nomes[Math.floor(Math.random() * nomes.length)];
+    const dominio = dominios[Math.floor(Math.random() * dominios.length)];
+    return `${nome}${numero}@${dominio}`;
+}
+
+function gerarSenhaAleatoria() {
+    const senha = 'senha123'; // Senha padrão para testes
+    return senha;
+}
+
+function gerarCNPJAleatorio() {
+    // Gera um CNPJ válido (formato: XX.XXX.XXX/XXXX-XX)
+    const n1 = Math.floor(Math.random() * 90) + 10;
+    const n2 = Math.floor(Math.random() * 900) + 100;
+    const n3 = Math.floor(Math.random() * 900) + 100;
+    const n4 = Math.floor(Math.random() * 9000) + 1000;
+    const n5 = Math.floor(Math.random() * 90) + 10;
+    return `${n1}.${n2}.${n3}/${n4}-${n5}`;
+}
+
+function gerarTelefoneAleatorio() {
+    const ddd = Math.floor(Math.random() * 90) + 10;
+    // 50% de chance de ser celular (9 dígitos) ou fixo (8 dígitos)
+    const isCelular = Math.random() > 0.5;
+    if (isCelular) {
+        // Celular: 9XXXX-XXXX
+        const numero = Math.floor(Math.random() * 90000000) + 90000000;
+        return `(${ddd}) ${numero.toString().substring(0, 5)}-${numero.toString().substring(5)}`;
+    } else {
+        // Fixo: 3XXX-XXXX
+        const numero = Math.floor(Math.random() * 9000000) + 3000000;
+        return `(${ddd}) ${numero.toString().substring(0, 4)}-${numero.toString().substring(4)}`;
+    }
+}
+
+function gerarEnderecoAleatorio() {
+    const ruas = ['Rua das Flores', 'Avenida Principal', 'Rua do Comércio', 'Avenida Paulista', 'Rua Central', 'Avenida Brasil', 'Rua Nova', 'Avenida das Américas'];
+    const numeros = Math.floor(Math.random() * 9000) + 100;
+    const bairros = ['Centro', 'Jardim das Flores', 'Vila Nova', 'Bela Vista', 'São Paulo', 'Copacabana', 'Ipanema', 'Botafogo'];
+    const cidades = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Curitiba', 'Porto Alegre', 'Salvador', 'Brasília', 'Fortaleza'];
+    const estados = ['SP', 'RJ', 'MG', 'PR', 'RS', 'BA', 'DF', 'CE'];
+    const rua = ruas[Math.floor(Math.random() * ruas.length)];
+    const bairro = bairros[Math.floor(Math.random() * bairros.length)];
+    const cidade = cidades[Math.floor(Math.random() * cidades.length)];
+    const estado = estados[Math.floor(Math.random() * estados.length)];
+    return `${rua}, ${numeros} - ${bairro}, ${cidade} - ${estado}`;
+}
+
+function gerarNomeEmpresaAleatorio() {
+    const prefixos = ['Tech', 'Digital', 'Global', 'Smart', 'Prime', 'Elite', 'Pro', 'Max'];
+    const sufixos = ['Solutions', 'Systems', 'Corp', 'Ltd', 'Group', 'Services', 'Enterprises', 'Industries'];
+    const nomes = ['Inovação', 'Futuro', 'Inovação', 'Excelência', 'Qualidade', 'Sucesso', 'Vanguarda', 'Pioneira'];
+    const prefixo = prefixos[Math.floor(Math.random() * prefixos.length)];
+    const nome = nomes[Math.floor(Math.random() * nomes.length)];
+    const sufixo = sufixos[Math.floor(Math.random() * sufixos.length)];
+    return `${prefixo} ${nome} ${sufixo}`;
+}
+
+function preencherDadosAleatorios() {
+    // Selecionar tipo de conta aleatório
+    const tiposConta = ['cliente', 'empresa', 'freelancer'];
+    const tipoSelecionado = tiposConta[Math.floor(Math.random() * tiposConta.length)];
+    
+    // Selecionar o radio button
+    document.getElementById(tipoSelecionado).checked = true;
+    
+    // Disparar evento change para mostrar/esconder campos da empresa
+    const event = new Event('change', { bubbles: true });
+    document.getElementById(tipoSelecionado).dispatchEvent(event);
+    
+    // Preencher campos comuns
+    document.getElementById('nome').value = gerarNomeAleatorio();
+    document.getElementById('email').value = gerarEmailAleatorio();
+    const senha = gerarSenhaAleatoria();
+    document.getElementById('senha').value = senha;
+    document.getElementById('confirmarSenha').value = senha;
+    document.getElementById('telefone').value = gerarTelefoneAleatorio();
+    
+    // Preencher campos da empresa se for empresa
+    if (tipoSelecionado === 'empresa') {
+        document.getElementById('nomeEmpresa').value = gerarNomeEmpresaAleatorio();
+        document.getElementById('cnpj').value = gerarCNPJAleatorio();
+        document.getElementById('endereco').value = gerarEnderecoAleatorio();
+    }
+    
+    // Marcar checkbox de termos
+    document.getElementById('terms').checked = true;
+    
+    // Mostrar mensagem
+    showMessage('Dados aleatórios preenchidos! Você pode editar antes de registrar.', 'success');
+}
+
+// Adicionar evento ao botão de dados aleatórios
+document.getElementById('fillRandomBtn').addEventListener('click', preencherDadosAleatorios);
 </script>
 </body></html>

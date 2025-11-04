@@ -50,7 +50,7 @@
 </div>
 </div>
 <nav class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="index.html">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 group" href="Dashboard.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">dashboard</span>
 <p class="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white text-sm font-medium leading-normal">Dashboard</p>
 </a>
@@ -83,10 +83,10 @@
 <main class="flex-1 flex flex-col">
 <!-- TopNavBar -->
 <header class="relative flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-10 py-3 bg-white dark:bg-gray-900/50">
-<div class="flex items-center gap-2 absolute left-1/2 transform -translate-x-1/2">
+<a href="Marketplace.html" class="flex items-center gap-2 absolute left-1/2 transform -translate-x-1/2 cursor-pointer hover:opacity-80 transition-opacity">
 <img src="logo.png" alt="DevHub" class="w-10 h-10">
 <h1 class="text-xl font-bold text-gray-900 dark:text-white">DevHub</h1>
-</div>
+</a>
 <label class="flex flex-col min-w-40 !h-10 max-w-64">
 <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
 <div class="text-gray-500 dark:text-gray-400 flex border-none bg-background-light dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
@@ -282,16 +282,20 @@ Novo Produto
 </button>
 </div>
 <form onsubmit="salvarProduto(event)" class="flex flex-col gap-4">
-<input type="text" id="produtoNome" placeholder="Nome do Produto" required class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+<input type="text" id="produtoNome" placeholder="Nome do Produto/Serviço" required class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+<textarea id="produtoDescricao" placeholder="Descrição do produto/serviço" rows="3" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
 <select id="produtoCategoria" required class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
 <option value="">Selecione a Categoria</option>
-<option value="Eletrônicos">Eletrônicos</option>
-<option value="Móveis">Móveis</option>
-<option value="Roupas">Roupas</option>
-<option value="Acessórios">Acessórios</option>
+<option value="Design Gráfico">Design Gráfico</option>
+<option value="Desenvolvimento Web">Desenvolvimento Web</option>
+<option value="Redação & Tradução">Redação & Tradução</option>
+<option value="Marketing Digital">Marketing Digital</option>
+<option value="Edição de Vídeo">Edição de Vídeo</option>
 </select>
+<input type="text" id="produtoTags" placeholder="Tags (separadas por vírgula, ex: web, responsivo, landing page)" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
 <input type="number" id="produtoPreco" placeholder="Preço (R$)" step="0.01" required class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
-<input type="number" id="produtoEstoque" placeholder="Quantidade em Estoque" required class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+<input type="url" id="produtoImagem" placeholder="URL da Imagem (opcional)" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+<input type="number" id="produtoEstoque" placeholder="Quantidade em Estoque" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
 <div class="flex gap-3 pt-2">
 <button type="button" onclick="fecharModalProduto()" class="flex-1 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium">Cancelar</button>
 <button type="submit" class="flex-1 px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 font-medium">Salvar</button>
@@ -299,6 +303,7 @@ Novo Produto
 </form>
 </div>
 </div>
+<script src="products.js"></script>
 <script>
 let produtoEditando = null;
 function abrirModalProduto() {
@@ -306,8 +311,11 @@ document.getElementById('modalProduto').classList.remove('hidden');
 document.getElementById('modalProduto').classList.add('flex');
 document.getElementById('modalProduto').querySelector('h3').textContent = 'Novo Produto';
 document.getElementById('produtoNome').value = '';
+document.getElementById('produtoDescricao').value = '';
 document.getElementById('produtoCategoria').value = '';
+document.getElementById('produtoTags').value = '';
 document.getElementById('produtoPreco').value = '';
+document.getElementById('produtoImagem').value = '';
 document.getElementById('produtoEstoque').value = '';
 produtoEditando = null;
 }
@@ -317,39 +325,102 @@ document.getElementById('modalProduto').classList.remove('flex');
 }
 function salvarProduto(e) {
 e.preventDefault();
-const nome = document.getElementById('produtoNome').value;
-const categoria = document.getElementById('produtoCategoria').value;
-const preco = parseFloat(document.getElementById('produtoPreco').value);
-const estoque = parseInt(document.getElementById('produtoEstoque').value);
-if (produtoEditando) {
-const row = produtoEditando.closest('tr');
-row.querySelector('td:nth-child(2)').textContent = nome;
-row.querySelector('td:nth-child(3)').textContent = categoria;
-row.querySelector('td:nth-child(4)').textContent = `R$ ${preco.toFixed(2).replace('.', ',')}`;
-row.querySelector('td:nth-child(5)').textContent = `${estoque} unidades`;
-alert('Produto atualizado com sucesso!');
-} else {
-alert(`Produto "${nome}" cadastrado com sucesso!`);
+
+const session = authService.getSession();
+if (!session) {
+    alert('Erro: Sessão não encontrada. Faça login novamente.');
+    return;
 }
-fecharModalProduto();
+
+const user = authService.getCurrentUser();
+if (!user) {
+    alert('Erro: Usuário não encontrado. Faça login novamente.');
+    return;
+}
+
+const nome = document.getElementById('produtoNome').value.trim();
+const descricao = document.getElementById('produtoDescricao').value.trim();
+const categoria = document.getElementById('produtoCategoria').value;
+const tagsInput = document.getElementById('produtoTags').value.trim();
+const preco = parseFloat(document.getElementById('produtoPreco').value);
+const imagem = document.getElementById('produtoImagem').value.trim();
+
+// Processar tags
+const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+
+const productData = {
+    nome: nome,
+    descricao: descricao,
+    categoria: categoria,
+    tags: tags,
+    preco: preco,
+    imagem: imagem || undefined,
+    vendedorId: user.id,
+    vendedorNome: user.nomeEmpresa || user.nome || 'Empresa',
+    vendedorTipo: user.accountType
+};
+
+if (produtoEditando) {
+    const result = productService.updateProduct(produtoEditando, productData);
+    if (result.success) {
+        alert('Produto atualizado com sucesso!');
+        fecharModalProduto();
+        location.reload(); // Recarregar página para atualizar tabela
+    } else {
+        alert(result.message);
+    }
+} else {
+    const result = productService.createProduct(productData);
+    if (result.success) {
+        alert(result.message);
+        fecharModalProduto();
+        location.reload(); // Recarregar página para atualizar tabela
+    } else {
+        alert(result.message);
+    }
+}
 }
 function editarProduto(btn) {
 const row = btn.closest('tr');
-produtoEditando = btn;
+const productId = row.getAttribute('data-product-id');
+if (!productId) {
+    alert('Erro: ID do produto não encontrado.');
+    return;
+}
+
+const produto = productService.getProducts().find(p => p.id === productId);
+if (!produto) {
+    alert('Produto não encontrado.');
+    return;
+}
+
+produtoEditando = productId;
 document.getElementById('modalProduto').classList.remove('hidden');
 document.getElementById('modalProduto').classList.add('flex');
 document.getElementById('modalProduto').querySelector('h3').textContent = 'Editar Produto';
-document.getElementById('produtoNome').value = row.querySelector('td:nth-child(2)').textContent;
-document.getElementById('produtoCategoria').value = row.querySelector('td:nth-child(3)').textContent;
-const precoTexto = row.querySelector('td:nth-child(4)').textContent.replace('R$ ', '').replace(',', '.');
-document.getElementById('produtoPreco').value = parseFloat(precoTexto);
-const estoqueTexto = row.querySelector('td:nth-child(5)').textContent.replace(' unidades', '');
-document.getElementById('produtoEstoque').value = parseInt(estoqueTexto);
+document.getElementById('produtoNome').value = produto.nome;
+document.getElementById('produtoDescricao').value = produto.descricao || '';
+document.getElementById('produtoCategoria').value = produto.categoria;
+document.getElementById('produtoTags').value = produto.tags.join(', ');
+document.getElementById('produtoPreco').value = produto.preco;
+document.getElementById('produtoImagem').value = produto.imagem || '';
 }
 function removerProduto(btn) {
+const row = btn.closest('tr');
+const productId = row.getAttribute('data-product-id');
+if (!productId) {
+    alert('Erro: ID do produto não encontrado.');
+    return;
+}
+
 if (confirm('Tem certeza que deseja remover este produto?')) {
-btn.closest('tr').remove();
-alert('Produto removido com sucesso!');
+    const result = productService.deleteProduct(productId);
+    if (result.success) {
+        alert(result.message);
+        location.reload();
+    } else {
+        alert(result.message);
+    }
 }
 }
 function toggleDropdownPerfil() {

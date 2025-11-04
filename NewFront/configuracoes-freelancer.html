@@ -167,6 +167,25 @@
 </div>
 </div>
 </div>
+<!-- Interface Settings -->
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">tune</span>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Interface</h3>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-gray-900 dark:text-white">Mostrar aba "Meus Pedidos"</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Exibir a aba de pedidos no menu lateral</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" id="togglePedidos" checked class="sr-only peer"/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
 <!-- Security Settings -->
 <div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
 <div class="flex items-center gap-3 mb-2">
@@ -217,11 +236,40 @@ Modo Escuro
 </main>
 </div>
 <script>
+// Sistema de configurações
+const settingsKey = 'freelancer_settings';
+function getSettings() {
+    const settings = localStorage.getItem(settingsKey);
+    return settings ? JSON.parse(settings) : { mostrarPedidos: true };
+}
+
+function saveSettings(settings) {
+    localStorage.setItem(settingsKey, JSON.stringify(settings));
+}
+
+function carregarConfiguracoes() {
+    const settings = getSettings();
+    const togglePedidos = document.getElementById('togglePedidos');
+    if (togglePedidos) {
+        togglePedidos.checked = settings.mostrarPedidos;
+    }
+}
+
 function salvarConfiguracoes() {
 const nome = document.getElementById('configNome').value;
 const email = document.getElementById('configEmail').value;
 const telefone = document.getElementById('configTelefone').value;
 const especialidade = document.getElementById('configEspecialidade').value;
+
+// Salvar configuração de pedidos
+const togglePedidos = document.getElementById('togglePedidos');
+const settings = getSettings();
+settings.mostrarPedidos = togglePedidos ? togglePedidos.checked : true;
+saveSettings(settings);
+
+// Disparar evento para atualizar outras páginas
+window.dispatchEvent(new Event('settingsUpdated'));
+
 alert('Configurações salvas com sucesso!');
 }
 function alterarSenha() {
@@ -264,6 +312,32 @@ function sair() {
 if (!authService.protectRoute('freelancer')) {
 // Redirecionamento automático já foi feito pelo protectRoute
 }
+
+// Carregar configurações ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    carregarConfiguracoes();
+    
+    // Adicionar listener ao toggle
+    const togglePedidos = document.getElementById('togglePedidos');
+    if (togglePedidos) {
+        togglePedidos.addEventListener('change', function() {
+            const settings = getSettings();
+            settings.mostrarPedidos = this.checked;
+            saveSettings(settings);
+            
+            // Atualizar aba imediatamente se estiver em outra página
+            // Disparar evento customizado para atualizar outras abas
+            window.dispatchEvent(new Event('settingsUpdated'));
+        });
+    }
+    
+    // Escutar mudanças de storage (para atualizar quando mudar em outra aba)
+    window.addEventListener('storage', function(e) {
+        if (e.key === settingsKey) {
+            carregarConfiguracoes();
+        }
+    });
+});
 </script>
 </body></html>
 

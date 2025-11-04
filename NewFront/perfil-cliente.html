@@ -48,26 +48,22 @@
 <span class="material-symbols-outlined text-primary dark:text-white" style="font-variation-settings: 'FILL' 1;">store</span>
 <p class="text-primary dark:text-white text-sm font-bold leading-normal">Marketplace</p>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="perfil-cliente.html">
-<span class="material-symbols-outlined text-gray-700 dark:text-white">dashboard</span>
-<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Meu Perfil</p>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="produtos-cliente.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-white">inventory_2</span>
 <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Produtos</p>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="historico-cliente.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-white">history</span>
 <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Histórico</p>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="detalhes-conta-cliente.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-white">manage_accounts</span>
 <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Detalhes da Conta</p>
 </a>
 </div>
 </div>
 <div class="mt-auto flex flex-col gap-1">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="ajuda-cliente.html">
 <span class="material-symbols-outlined text-gray-700 dark:text-white">help_outline</span>
 <p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Ajuda</p>
 </a>
@@ -83,75 +79,252 @@
 <div class="flex items-center justify-between mb-6">
 <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Perfil do Cliente</h1>
 <!-- SingleButton -->
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white gap-2 pl-3 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
-<span class="material-symbols-outlined text-white text-base">add_circle</span>
-<span class="truncate">Adicionar Novo Produto</span>
-</button>
+      <button onclick="window.location.href='Marketplace.html'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white gap-2 pl-3 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+        <span class="material-symbols-outlined text-white text-base">add_circle</span>
+        <span class="truncate">Adicionar Novo Produto</span>
+      </button>
 </div>
-<!-- Tabs -->
-<div class="pb-3">
-<div class="flex border-b border-gray-200 dark:border-[#324467] gap-8">
-<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary dark:text-white pb-[13px] pt-4" href="#">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">Produtos Adquiridos</p>
-</a>
-<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#92a4c9] pb-[13px] pt-4 hover:border-gray-300 dark:hover:border-gray-600" href="#">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">Histórico de Interações</p>
-</a>
-<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#92a4c9] pb-[13px] pt-4 hover:border-gray-300 dark:hover:border-gray-600" href="#">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">Detalhes da Conta</p>
-</a>
-</div>
-</div>
-<div class="mt-6">
-<!-- ImageGrid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Imagem abstrata para Plano de Gerenciamento Pro" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKQz3Kt9cI15mNzhE9UZumUyIiqGM0mobi3fEIaF8HB0-3pnKvDDb_OHrYtsIV6Xwnv7F5jFjM-O5Hh6hTSfBvoqUn0018Z-AWjK0BKhGE9RcsRemUMq9RbqZ3nUT3PjZFoPyp045lszN1WFavyrmKB8zWicYChYBYzseJ8xS4XD4Yu2xLv60DcVPcCRvZvNlV3K1RnLmnSZ-66shr6m0YpxKEPQh5vz5ox1ygTBilGdi_32CWJZ0Z_r-DlcCOfI9Kek7vyLbz7u36");'></div>
+      <!-- Tabs -->
+      <div class="pb-3">
+        <div class="flex border-b border-gray-200 dark:border-[#324467] gap-8">
+          <button onclick="mostrarAba('produtos')" id="tab-produtos" class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary dark:text-white pb-[13px] pt-4 cursor-pointer">
+            <p class="text-sm font-bold leading-normal tracking-[0.015em]">Produtos Adquiridos</p>
+          </button>
+          <button onclick="mostrarAba('historico')" id="tab-historico" class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#92a4c9] pb-[13px] pt-4 hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer">
+            <p class="text-sm font-bold leading-normal tracking-[0.015em]">Histórico de Interações</p>
+          </button>
+          <button onclick="mostrarAba('detalhes')" id="tab-detalhes" class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#92a4c9] pb-[13px] pt-4 hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer">
+            <p class="text-sm font-bold leading-normal tracking-[0.015em]">Detalhes da Conta</p>
+          </button>
+        </div>
+      </div>
+      <div class="mt-6">
+        <!-- Tab Content: Produtos Adquiridos -->
+        <div id="conteudo-produtos" class="tab-content">
+          <!-- ImageGrid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para Plano de Gerenciamento Pro" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKQz3Kt9cI15mNzhE9UZumUyIiqGM0mobi3fEIaF8HB0-3pnKvDDb_OHrYtsIV6Xwnv7F5jFjM-O5Hh6hTSfBvoqUn0018Z-AWjK0BKhGE9RcsRemUMq9RbqZ3nUT3PjZFoPyp045lszN1WFavyrmKB8zWicYChYBYzseJ8xS4XD4Yu2xLv60DcVPcCRvZvNlV3K1RnLmnSZ-66shr6m0YpxKEPQh5vz5ox1ygTBilGdi_32CWJZ0Z_r-DlcCOfI9Kek7vyLbz7u36");' onclick="alert('Visualizar detalhes do produto: Plano de Gerenciamento Pro')"></div>
 <div>
 <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Plano de Gerenciamento Pro</p>
 <p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 15/03/2023</p>
-<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2">Status: <span class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Ativo</span></p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Ativo</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Avaliando produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Avaliar</button>
 </div>
 </div>
-<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Imagem abstrata para Consultoria de SEO" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-XSKQhykwpKSp62LA6MoSpgKIEVY4_9YBwMdDO9uzBhzHnwpFLIdy2F1IuB0Vswbo33a0QR9PtBu7SXlJKYD4wN23ZY_6r9gb8bkhkVZCMUwzWI2BUPSB7S0ayA_BFSNbbU-6z6yxe3E0i7HTIeD3qMVej5hBf-4HvheIGURja1GxlfqusF01DQBk5DQnbd2UAK3HOKdxQEP2yUr6xlAh971339GtvIPw1UAag-jECFl4bkXkBgwltR28vGYsZjhEbTsAjorawrGY");'></div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para Consultoria de SEO" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-XSKQhykwpKSp62LA6MoSpgKIEVY4_9YBwMdDO9uzBhzHnwpFLIdy2F1IuB0Vswbo33a0QR9PtBu7SXlJKYD4wN23ZY_6r9gb8bkhkVZCMUwzWI2BUPSB7S0ayA_BFSNbbU-6z6yxe3E0i7HTIeD3qMVej5hBf-4HvheIGURja1GxlfqusF01DQBk5DQnbd2UAK3HOKdxQEP2yUr6xlAh971339GtvIPw1UAag-jECFl4bkXkBgwltR28vGYsZjhEbTsAjorawrGY");' onclick="alert('Visualizar detalhes do produto: Consultoria de SEO')"></div>
 <div>
 <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Consultoria de SEO</p>
 <p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 02/01/2023</p>
-<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2">Status: <span class="text-gray-500 bg-gray-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Concluído</span></p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-gray-500 bg-gray-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Concluído</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Avaliando produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Avaliar</button>
 </div>
 </div>
-<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Imagem abstrata para API de Integração" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMwIYqMct4r6ibNPkv_k3CPwEJxjyJtNQ0yBLsh-ezLqYuJj0jA0nwPgFypR9TSY2TwFq9u-363aU7BjgYRzA2O7bW_8OMjCkTVXmVfvrMBMSq5rlIYJ3UDGSIu06_lP0qhOrhjAAvIXVHQJeuUVJ7IIriVVDQ5ade-ST2Vi96WErwTDXSsPA5T4kNIz3eUuTb-Z7G5f51sFX62xiWvkxsC6zCiUq0WOfyLRL-dWntKKLhpDQI7_VRQJjg706ORgLTWsKWZQB9fgbj");'></div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para API de Integração" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMwIYqMct4r6ibNPkv_k3CPwEJxjyJtNQ0yBLsh-ezLqYuJj0jA0nwPgFypR9TSY2TwFq9u-363aU7BjgYRzA2O7bW_8OMjCkTVXmVfvrMBMSq5rlIYJ3UDGSIu06_lP0qhOrhjAAvIXVHQJeuUVJ7IIriVVDQ5ade-ST2Vi96WErwTDXSsPA5T4kNIz3eUuTb-Z7G5f51sFX62xiWvkxsC6zCiUq0WOfyLRL-dWntKKLhpDQI7_VRQJjg706ORgLTWsKWZQB9fgbj");' onclick="alert('Visualizar detalhes do produto: API de Integração')"></div>
 <div>
 <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">API de Integração</p>
 <p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 10/11/2022</p>
-<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2">Status: <span class="text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Expirado</span></p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Expirado</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Renovar produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Renovar</button>
 </div>
 </div>
-<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="Imagem abstrata para Suporte Premium" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHN1E-tlU0PLSHHkp9TT-Af0R7Xv2KzcIzM7cJ0fKCPwvcRIbiIGiz90IxEP13rS41007pdMgq_mSmsa2ceVCTTaZGsotK4qZAX95LtFp1tMV-3yAVKMhfL073cB2IuQW891dfc7tPFrv0Y8k9yukP5feo1HmViLGRdrpW8hwvGIlhBubYtIdt6F9GeG6K43OzffvO1rW6RiOMWT0e88c0uyyCkBJpqBvEHc8VWKJTT5b2q0E5c6eLtE9q2JBsUpe9YSznxhPTcn6f");'></div>
+</div>
+<div class="flex flex-col gap-3 pb-3 bg-white dark:bg-[#111722] p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg cursor-pointer" data-alt="Imagem abstrata para Suporte Premium" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHN1E-tlU0PLSHHkp9TT-Af0R7Xv2KzcIzM7cJ0fKCPwvcRIbiIGiz90IxEP13rS41007pdMgq_mSmsa2ceVCTTaZGsotK4qZAX95LtFp1tMV-3yAVKMhfL073cB2IuQW891dfc7tPFrv0Y8k9yukP5feo1HmViLGRdrpW8hwvGIlhBubYtIdt6F9GeG6K43OzffvO1rW6RiOMWT0e88c0uyyCkBJpqBvEHc8VWKJTT5b2q0E5c6eLtE9q2JBsUpe9YSznxhPTcn6f");' onclick="alert('Visualizar detalhes do produto: Suporte Premium')"></div>
 <div>
 <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Suporte Premium</p>
 <p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-1">Adquirido em: 20/02/2023</p>
-<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2">Status: <span class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Ativo</span></p>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal flex items-center gap-2 mb-2">Status: <span class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full text-xs font-medium">Ativo</span></p>
+<div class="flex gap-2 mt-2">
+<button onclick="alert('Abrindo detalhes do produto...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-white hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Ver Detalhes</button>
+<button onclick="alert('Solicitando suporte...')" class="flex-1 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Suporte</button>
 </div>
 </div>
-</div>
-<!-- Pagination -->
-<div class="flex items-center justify-center p-4 mt-6">
-<a class="flex size-10 items-center justify-center text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-full" href="#">
-<span class="material-symbols-outlined text-lg">chevron_left</span>
-</a>
-<a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-primary" href="#">1</a>
-<a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5" href="#">2</a>
-<a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5" href="#">3</a>
-<a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5" href="#">4</a>
-<a class="flex size-10 items-center justify-center text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-full" href="#">
-<span class="material-symbols-outlined text-lg">chevron_right</span>
-</a>
-</div>
-</div>
+          </div>
+          <!-- Pagination -->
+          <div class="flex items-center justify-center p-4 mt-6">
+            <button onclick="paginarProdutos(-1)" class="flex size-10 items-center justify-center text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-full cursor-pointer">
+              <span class="material-symbols-outlined text-lg">chevron_left</span>
+            </button>
+            <button onclick="paginarProdutos(1)" id="pagina-1" class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-primary cursor-pointer">1</button>
+            <button onclick="paginarProdutos(2)" id="pagina-2" class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">2</button>
+            <button onclick="paginarProdutos(3)" id="pagina-3" class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">3</button>
+            <button onclick="paginarProdutos(4)" id="pagina-4" class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-gray-700 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/5 cursor-pointer">4</button>
+            <button onclick="paginarProdutos('proximo')" class="flex size-10 items-center justify-center text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-full cursor-pointer">
+              <span class="material-symbols-outlined text-lg">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab Content: Histórico de Interações -->
+        <div id="conteudo-historico" class="tab-content hidden">
+          <div class="bg-white dark:bg-[#111722] rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Histórico de Interações</h2>
+            <div class="space-y-4">
+              <!-- Interação 1 -->
+              <div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <div class="bg-primary/10 dark:bg-primary/20 rounded-full p-3">
+                  <span class="material-symbols-outlined text-primary dark:text-white">message</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Mensagem enviada</h3>
+                    <span class="text-xs text-gray-500 dark:text-[#92a4c9]">15/03/2023 14:30</span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você enviou uma mensagem para o vendedor sobre "Plano de Gerenciamento Pro"</p>
+                  <p class="text-xs text-gray-500 dark:text-[#92a4c9]">Vendedor: TechSolutions</p>
+                </div>
+              </div>
+              <!-- Interação 2 -->
+              <div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <div class="bg-green-500/10 dark:bg-green-500/20 rounded-full p-3">
+                  <span class="material-symbols-outlined text-green-500 dark:text-green-400">check_circle</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Produto adquirido</h3>
+                    <span class="text-xs text-gray-500 dark:text-[#92a4c9]">02/01/2023 10:15</span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você adquiriu o serviço "Consultoria de SEO"</p>
+                  <p class="text-xs text-gray-500 dark:text-[#92a4c9]">Valor: R$ 1.500,00</p>
+                </div>
+              </div>
+              <!-- Interação 3 -->
+              <div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <div class="bg-yellow-500/10 dark:bg-yellow-500/20 rounded-full p-3">
+                  <span class="material-symbols-outlined text-yellow-500 dark:text-yellow-400">star</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Avaliação realizada</h3>
+                    <span class="text-xs text-gray-500 dark:text-[#92a4c9]">10/11/2022 16:45</span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você avaliou o serviço "API de Integração" com 5 estrelas</p>
+                  <p class="text-xs text-gray-500 dark:text-[#92a4c9]">Avaliação: ⭐⭐⭐⭐⭐</p>
+                </div>
+              </div>
+              <!-- Interação 4 -->
+              <div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <div class="bg-blue-500/10 dark:bg-blue-500/20 rounded-full p-3">
+                  <span class="material-symbols-outlined text-blue-500 dark:text-blue-400">support</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Suporte solicitado</h3>
+                    <span class="text-xs text-gray-500 dark:text-[#92a4c9]">20/02/2023 09:20</span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Você abriu um ticket de suporte para "Suporte Premium"</p>
+                  <p class="text-xs text-gray-500 dark:text-[#92a4c9]">Status: Resolvido</p>
+                </div>
+              </div>
+              <!-- Interação 5 -->
+              <div class="flex items-start gap-4 p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <div class="bg-purple-500/10 dark:bg-purple-500/20 rounded-full p-3">
+                  <span class="material-symbols-outlined text-purple-500 dark:text-purple-400">receipt</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Fatura gerada</h3>
+                    <span class="text-xs text-gray-500 dark:text-[#92a4c9]">20/02/2023 09:25</span>
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Fatura gerada para o serviço "Suporte Premium"</p>
+                  <p class="text-xs text-gray-500 dark:text-[#92a4c9]">Valor: R$ 299,90</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Content: Detalhes da Conta -->
+        <div id="conteudo-detalhes" class="tab-content hidden">
+          <div class="bg-white dark:bg-[#111722] rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Detalhes da Conta</h2>
+            
+            <!-- Informações Pessoais -->
+            <div class="mb-8">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informações Pessoais</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="nome-completo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome Completo</label>
+                  <input id="nome-completo" type="text" value="Beatriz Costa" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                  <label for="email-conta" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                  <input id="email-conta" type="email" value="beatriz.costa@innovatetech.com" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                  <label for="telefone-conta" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Telefone</label>
+                  <input id="telefone-conta" type="tel" value="(11) 98765-4321" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                  <label for="data-cadastro" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Data de Cadastro</label>
+                  <input id="data-cadastro" type="text" value="15/01/2022" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+              </div>
+            </div>
+
+            <!-- Informações da Empresa -->
+            <div class="mb-8">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informações da Empresa</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="nome-empresa" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nome da Empresa</label>
+                  <input id="nome-empresa" type="text" value="InnovateTech" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+                <div>
+                  <label for="cnpj-empresa" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">CNPJ</label>
+                  <input id="cnpj-empresa" type="text" value="12.345.678/0001-90" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+                <div class="md:col-span-2">
+                  <label for="endereco-empresa" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Endereço</label>
+                  <input id="endereco-empresa" type="text" value="Av. Paulista, 1000 - São Paulo, SP - CEP 01310-100" readonly class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+                </div>
+              </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="mb-8">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Estatísticas da Conta</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-gray-900/50">
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Total de Produtos Adquiridos</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">24</p>
+                </div>
+                <div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-gray-900/50">
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Valor Total Gasto</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">R$ 45.230,00</p>
+                </div>
+                <div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-gray-900/50">
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Avaliações Realizadas</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="flex gap-4">
+              <button onclick="window.location.href='configuracoes.html'" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 font-medium">
+                <span class="material-symbols-outlined text-base">edit</span>
+                <span>Editar Perfil</span>
+              </button>
+              <button onclick="alert('Funcionalidade de alteração de senha será implementada em breve.')" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
+                <span class="material-symbols-outlined text-base">lock</span>
+                <span>Alterar Senha</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 </main>
 </div>
@@ -162,6 +335,82 @@ function sair() {
         window.location.href = 'Cadastro.html';
     }
 }
+
+// Sistema de abas
+let abaAtiva = 'produtos';
+let paginaAtual = 1;
+
+function mostrarAba(aba) {
+    // Esconder todos os conteúdos
+    document.getElementById('conteudo-produtos').classList.add('hidden');
+    document.getElementById('conteudo-historico').classList.add('hidden');
+    document.getElementById('conteudo-detalhes').classList.add('hidden');
+    
+    // Remover estilos ativos de todas as abas
+    document.getElementById('tab-produtos').classList.remove('border-b-primary', 'text-primary', 'dark:text-white');
+    document.getElementById('tab-produtos').classList.add('border-b-transparent', 'text-gray-500', 'dark:text-[#92a4c9]');
+    document.getElementById('tab-historico').classList.remove('border-b-primary', 'text-primary', 'dark:text-white');
+    document.getElementById('tab-historico').classList.add('border-b-transparent', 'text-gray-500', 'dark:text-[#92a4c9]');
+    document.getElementById('tab-detalhes').classList.remove('border-b-primary', 'text-primary', 'dark:text-white');
+    document.getElementById('tab-detalhes').classList.add('border-b-transparent', 'text-gray-500', 'dark:text-[#92a4c9]');
+    
+    // Mostrar conteúdo da aba selecionada
+    if (aba === 'produtos') {
+        document.getElementById('conteudo-produtos').classList.remove('hidden');
+        document.getElementById('tab-produtos').classList.remove('border-b-transparent', 'text-gray-500', 'dark:text-[#92a4c9]');
+        document.getElementById('tab-produtos').classList.add('border-b-primary', 'text-primary', 'dark:text-white');
+    } else if (aba === 'historico') {
+        document.getElementById('conteudo-historico').classList.remove('hidden');
+        document.getElementById('tab-historico').classList.remove('border-b-transparent', 'text-gray-500', 'dark:text-[#92a4c9]');
+        document.getElementById('tab-historico').classList.add('border-b-primary', 'text-primary', 'dark:text-white');
+    } else if (aba === 'detalhes') {
+        document.getElementById('conteudo-detalhes').classList.remove('hidden');
+        document.getElementById('tab-detalhes').classList.remove('border-b-transparent', 'text-gray-500', 'dark:text-[#92a4c9]');
+        document.getElementById('tab-detalhes').classList.add('border-b-primary', 'text-primary', 'dark:text-white');
+    }
+    
+    abaAtiva = aba;
+}
+
+// Sistema de paginação
+function paginarProdutos(pagina) {
+    if (pagina === 'proximo') {
+        // Botão de avançar
+        if (paginaAtual < 4) {
+            paginaAtual++;
+        } else {
+            return; // Já está na última página
+        }
+    } else if (pagina === -1 || pagina < 0) {
+        // Botão de voltar
+        if (paginaAtual > 1) {
+            paginaAtual--;
+        } else {
+            return; // Já está na primeira página
+        }
+    } else if (typeof pagina === 'number' && pagina > 0 && pagina <= 4) {
+        // Número de página específico
+        paginaAtual = pagina;
+    }
+    
+    // Atualizar estilos dos botões de paginação
+    for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`pagina-${i}`);
+        if (btn) {
+            if (i === paginaAtual) {
+                btn.classList.remove('text-gray-700', 'dark:text-white', 'hover:bg-gray-100', 'dark:hover:bg-white/5', 'font-normal');
+                btn.classList.add('text-white', 'bg-primary', 'font-bold');
+            } else {
+                btn.classList.remove('text-white', 'bg-primary', 'font-bold');
+                btn.classList.add('text-gray-700', 'dark:text-white', 'hover:bg-gray-100', 'dark:hover:bg-white/5', 'font-normal');
+            }
+        }
+    }
+    
+    // Aqui você pode adicionar lógica para carregar os produtos da página específica
+    // Por enquanto, apenas atualizamos a interface
+    console.log(`Página atual: ${paginaAtual}`);
+}
 </script>
 <script src="auth.js"></script>
 <script>
@@ -169,5 +418,50 @@ function sair() {
 if (!authService.protectRoute('cliente')) {
 // Redirecionamento automático já foi feito pelo protectRoute
 }
+
+// Carregar dados do usuário
+function carregarDadosUsuario() {
+    const user = authService.getCurrentUser();
+    if (!user) return;
+
+    // Preencher informações no sidebar
+    const nomeElement = document.querySelector('aside h1');
+    const empresaElement = document.querySelector('aside p');
+    
+    if (nomeElement) {
+        nomeElement.textContent = user.nome || 'Usuário';
+    }
+    if (empresaElement && user.nomeEmpresa) {
+        empresaElement.textContent = user.nomeEmpresa;
+    } else if (empresaElement) {
+        empresaElement.textContent = 'Cliente';
+    }
+
+    // Preencher dados na aba "Detalhes da Conta"
+    const nomeInput = document.getElementById('nome-completo');
+    const emailInput = document.getElementById('email-conta');
+    const telefoneInput = document.getElementById('telefone-conta');
+    const dataInput = document.getElementById('data-cadastro');
+    const nomeEmpresaInput = document.getElementById('nome-empresa');
+    const cnpjInput = document.getElementById('cnpj-empresa');
+    const enderecoInput = document.getElementById('endereco-empresa');
+
+    if (nomeInput) nomeInput.value = user.nome || '';
+    if (emailInput) emailInput.value = user.email || '';
+    if (telefoneInput) telefoneInput.value = user.telefone || '';
+    
+    if (dataInput && user.createdAt) {
+        const data = new Date(user.createdAt);
+        dataInput.value = data.toLocaleDateString('pt-BR');
+    }
+
+    // Preencher dados da empresa (se existir)
+    if (nomeEmpresaInput) nomeEmpresaInput.value = user.nomeEmpresa || '';
+    if (cnpjInput) cnpjInput.value = user.cnpj || '';
+    if (enderecoInput) enderecoInput.value = user.endereco || '';
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
 </script>
 </body></html>
