@@ -5,13 +5,6 @@ import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-/**
- * Utilitário para gerar hash PBKDF2 de senhas
- * Use este script para gerar o hash correto de uma senha que será usado no banco de dados
- * 
- * Compilar: javac GeneratePasswordHash.java
- * Executar: java GeneratePasswordHash "senha_aqui"
- */
 public class GeneratePasswordHash {
     private static final String ALGORITHM = "PBKDF2WithHmacSHA256";
     private static final int ITERATIONS = 65536;

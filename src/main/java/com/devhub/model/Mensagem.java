@@ -52,7 +52,6 @@ public class Mensagem {
         }
     }
     
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

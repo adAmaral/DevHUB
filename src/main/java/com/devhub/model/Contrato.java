@@ -74,7 +74,6 @@ public class Contrato {
         }
     }
     
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

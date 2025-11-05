@@ -49,7 +49,6 @@ public class Avaliacao {
         }
     }
     
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

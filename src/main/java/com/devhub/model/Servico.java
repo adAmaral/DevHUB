@@ -88,7 +88,6 @@ public class Servico {
         dataAtualizacao = LocalDateTime.now();
     }
     
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

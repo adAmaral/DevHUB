@@ -37,7 +37,6 @@ public class Favorito {
         }
     }
     
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

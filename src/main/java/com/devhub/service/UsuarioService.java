@@ -28,7 +28,6 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
     
     public UserResponse login(LoginRequest request) {
-        // Normalizar email para busca
         String emailNormalized = request.getEmail() != null 
             ? request.getEmail().toLowerCase().trim() 
             : null;
@@ -59,7 +58,6 @@ public class UsuarioService {
     public UserResponse register(RegisterRequest request) {
         logger.debug("Iniciando registro: email={}, tipo={}", request.getEmail(), request.getAccountType());
         
-        // Validações
         if (request.getSenha() == null || request.getSenha().isEmpty()) {
             throw new RuntimeException("Senha é obrigatória");
         }
@@ -76,7 +74,6 @@ public class UsuarioService {
             throw new RuntimeException("A senha deve ter pelo menos 6 caracteres");
         }
         
-        // Normalizar email ANTES da verificação (mesmo que será salvo)
         String emailNormalized = request.getEmail() != null 
             ? request.getEmail().toLowerCase().trim() 
             : null;
@@ -85,18 +82,15 @@ public class UsuarioService {
             throw new RuntimeException("Email é obrigatório");
         }
         
-        // Verificar se email já existe (usando email normalizado)
         try {
             if (usuarioRepository.existsByEmail(emailNormalized)) {
                 throw new RuntimeException("Este email já está cadastrado");
             }
         } catch (QueryTimeoutException e) {
-            // Se houver timeout na verificação, logar e relançar
             logger.error("Timeout ao verificar email duplicado: {}", e.getMessage(), e);
             throw new RuntimeException("Tempo limite excedido ao verificar email. Tente novamente.");
         }
         
-        // Validações específicas para Empresa
         if ("empresa".equals(request.getAccountType())) {
             if (request.getNomeEmpresa() == null || request.getNomeEmpresa().trim().isEmpty()) {
                 throw new RuntimeException("Nome da empresa é obrigatório");
@@ -106,12 +100,10 @@ public class UsuarioService {
             }
         }
         
-        // Criar usuário
         Usuario usuario = new Usuario();
         usuario.setNome(request.getNome());
-        usuario.setEmail(emailNormalized); // Usar email normalizado
+        usuario.setEmail(emailNormalized);
         usuario.setSenha(PasswordUtil.hashPassword(request.getSenha()));
-        // Normalizar o tipo para garantir que corresponde ao enum
         String accountTypeNormalized = request.getAccountType() != null 
             ? request.getAccountType().toLowerCase().trim() 
             : null;
@@ -126,15 +118,13 @@ public class UsuarioService {
         usuario.setTelefone(request.getTelefone());
         usuario.setAtivo(true);
         
-        // Campos específicos para empresa
         if ("empresa".equals(request.getAccountType())) {
             usuario.setNomeFantasia(request.getNomeEmpresa());
             usuario.setCpfCnpj(request.getCnpj());
             usuario.setEndereco(request.getEndereco());
         }
         
-        // Especialidades deve ser null (JSONB) ou um JSON válido
-        usuario.setEspecialidades(null); // Inicialmente null, pode ser preenchido depois
+        usuario.setEspecialidades(null);
         
         try {
             logger.debug("Tentando salvar usuário com email: {}", emailNormalized);
@@ -193,7 +183,6 @@ public class UsuarioService {
         
         Usuario usuario = usuarioOpt.get();
         
-        // Converter Map para JSON string
         try {
             ObjectMapper mapper = new ObjectMapper();
             String preferenciasJson = mapper.writeValueAsString(preferencias);
@@ -230,12 +219,10 @@ public class UsuarioService {
         
         Usuario usuario = usuarioOpt.get();
         
-        // Verificar senha atual
         if (!PasswordUtil.verifyPassword(senhaAtual, usuario.getSenha())) {
             throw new RuntimeException("Senha atual incorreta");
         }
         
-        // Criptografar nova senha
         String novaSenhaHash = PasswordUtil.hashPassword(novaSenha);
         usuario.setSenha(novaSenhaHash);
         usuarioRepository.save(usuario);

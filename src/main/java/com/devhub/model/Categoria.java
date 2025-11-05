@@ -42,7 +42,6 @@ public class Categoria {
         }
     }
     
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

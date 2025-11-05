@@ -27,7 +27,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
         try {
-            // Validações básicas
             if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
                 Map<String, String> error = new HashMap<>();
                 error.put("erro", "Email é obrigatório");
@@ -42,21 +41,19 @@ public class AuthController {
             
             UserResponse user = usuarioService.login(request);
             
-            // Configurar sessão
             session.setAttribute("userId", user.getId());
             session.setAttribute("userTipo", user.getTipoString());
             session.setAttribute("userNome", user.getNome());
-            session.setMaxInactiveInterval(3600); // 1 hora
+            session.setMaxInactiveInterval(3600);
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             
-            // Criar objeto user com tipo como string
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", user.getId());
             userMap.put("nome", user.getNome());
             userMap.put("email", user.getEmail());
-            userMap.put("tipo", user.getTipoString()); // Garantir que tipo seja string
+            userMap.put("tipo", user.getTipoString());
             userMap.put("telefone", user.getTelefone());
             userMap.put("foto_perfil", user.getFotoPerfil());
             
@@ -86,7 +83,6 @@ public class AuthController {
                 request.getSenha() != null ? "***" : null, 
                 request.getConfirmarSenha() != null ? "***" : null);
             
-            // Validações básicas
             if (request.getNome() == null || request.getNome().trim().isEmpty()) {
                 logger.warn("Registro falhou: Nome é obrigatório");
                 Map<String, String> error = new HashMap<>();
@@ -119,22 +115,20 @@ public class AuthController {
             UserResponse user = usuarioService.register(request);
             logger.info("Usuário registrado com sucesso: ID={}, email={}", user.getId(), user.getEmail());
             
-            // Configurar sessão após registro
             session.setAttribute("userId", user.getId());
             session.setAttribute("userTipo", user.getTipoString());
             session.setAttribute("userNome", user.getNome());
-            session.setMaxInactiveInterval(3600); // 1 hora
+            session.setMaxInactiveInterval(3600);
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Conta criada com sucesso!");
             
-            // Criar objeto user com tipo como string
             Map<String, Object> userMap = new HashMap<>();
             userMap.put("id", user.getId());
             userMap.put("nome", user.getNome());
             userMap.put("email", user.getEmail());
-            userMap.put("tipo", user.getTipoString()); // Garantir que tipo seja string
+            userMap.put("tipo", user.getTipoString());
             userMap.put("telefone", user.getTelefone());
             userMap.put("foto_perfil", user.getFotoPerfil());
             
@@ -178,7 +172,7 @@ public class AuthController {
             
             Map<String, Object> response = new HashMap<>();
             response.put("id", user.getId());
-            response.put("id_usuario", user.getId()); // Compatibilidade com frontend antigo
+            response.put("id_usuario", user.getId());
             response.put("nome", user.getNome());
             response.put("email", user.getEmail());
             response.put("tipo", user.getTipoString());

@@ -8,10 +8,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Usando VARCHAR ao invés de ENUM para facilitar compatibilidade com Hibernate
--- CREATE TYPE tipo_usuario AS ENUM ('cliente', 'empresa', 'freelancer');
-
--- Criar tipos apenas se não existirem
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'tipo_servico') THEN
@@ -162,7 +158,6 @@ INSERT INTO categorias (nome, descricao, icone) VALUES
 
 INSERT INTO usuarios (nome, email, senha, tipo, descricao) VALUES
 ('Administrador DevHub', 'admin@summit.com', 'pbkdf2_sha256:65536:tb7UTjqCI70Bmxk7tK6tWg==:sRQwPeSgdX6gHZBmx968MwJGNTu1F8R/24HKYC7BeJo=', 'empresa', 'Conta administrativa da plataforma DevHub');
--- Senha: 123 (hash PBKDF2 gerado)
 
 CREATE OR REPLACE VIEW vw_estatisticas_usuarios AS
 SELECT 
