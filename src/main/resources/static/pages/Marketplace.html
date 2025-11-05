@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevHub - Encontre os melhores serviços</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "sidebar-light": "#ffffff",
+                        "sidebar-dark": "#182131",
+                        "text-light": "#0d121b",
+                        "text-dark": "#f8f9fc",
+                        "subtext-light": "#4c669a",
+                        "subtext-dark": "#a0aec0",
+                        "border-light": "#e7ebf3",
+                        "border-dark": "#2d3748",
+                        "card-light": "#ffffff",
+                        "card-dark": "#182131",
+                        "input-light": "#e7ebf3",
+                        "input-dark": "#2d3748",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-expanded {
+            width: 256px;
+        }
+        .sidebar-collapsed {
+            width: 72px;
+        }
+        .sidebar-title, .sidebar-text {
+            transition: opacity 0.2s;
+        }
+        .sidebar-collapsed .sidebar-title,
+        .sidebar-collapsed .sidebar-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .sidebar-item {
+            position: relative;
+        }
+        .sidebar-collapsed .sidebar-item {
+            justify-content: center;
+        }
+        .sidebar-collapsed .sidebar-item:hover::before {
+            content: attr(title);
+            position: absolute;
+            left: calc(100% + 8px);
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px 12px;
+            background: var(--card-light, #ffffff);
+            color: var(--text-light, #0d121b);
+            border: 1px solid var(--border-light, #e7ebf3);
+            border-radius: 6px;
+            white-space: nowrap;
+            z-index: 50;
+            font-size: 0.875rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
+        .dark .sidebar-collapsed .sidebar-item:hover::before {
+            background: var(--card-dark, #182131);
+            color: var(--text-dark, #f8f9fc);
+            border-color: var(--border-dark, #2d3748);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 sm:px-10 py-3 bg-card-light dark:bg-card-dark sticky top-0 z-20">
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity" href="Marketplace.html">
+<span class="material-symbols-outlined text-3xl">store</span>
+<span class="text-xl font-bold text-text-light dark:text-text-dark">DevHub</span>
+</a>
+</div>
+<div class="hidden md:flex flex-1 justify-center">
+<div class="w-full max-w-lg relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark">search</span>
+</div>
+<input class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark h-10 pl-10 pr-4 text-sm placeholder:text-subtext-light dark:placeholder:text-subtext-dark focus:ring-primary focus:border-primary" placeholder="Buscar por serviços, freelancers..." type="search"/>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-4">
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="Marketplace.html">Explorar</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="vendas.html">Meus Pedidos</a>
+<div class="relative" id="profileDropdown">
+<button onclick="toggleDropdownPerfil()" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-border-light dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+<div id="dropdownPerfil" class="hidden absolute right-0 mt-2 w-48 bg-card-light dark:bg-card-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark z-50">
+<div class="py-2">
+<a href="configuracoes.html" class="block px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-input-light dark:hover:bg-input-dark">Configurações</a>
+<div class="border-t border-border-light dark:border-border-dark my-1"></div>
+<a href="#" onclick="sair(); return false;" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-input-light dark:hover:bg-input-dark">Sair</a>
+</div>
+</div>
+</div>
+</div>
+<button class="md:hidden flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">menu</span>
+</button>
+</header>
+<div class="flex flex-1">
+<!-- Menu Lateral Minimizável (Esquerda) -->
+<aside id="sidebar" class="sidebar-expanded bg-sidebar-light dark:bg-sidebar-dark border-r border-border-light dark:border-border-dark hidden lg:flex flex-col sticky top-[65px] h-[calc(100vh-65px)] transition-all duration-300">
+<div class="flex items-center justify-between p-4 border-b border-border-light dark:border-border-dark">
+<h2 class="sidebar-title text-lg font-bold text-text-light dark:text-text-dark">Menu</h2>
+<button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors">
+<span class="material-symbols-outlined" id="sidebarToggleIcon">chevron_left</span>
+</button>
+</div>
+<nav class="flex-1 overflow-y-auto p-4">
+<div class="flex flex-col gap-2">
+<a href="Perfil-Empresa.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors" title="Dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="sidebar-text text-sm font-medium">Dashboard</span>
+</a>
+<a href="Marketplace.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary transition-colors" title="Marketplace">
+<span class="material-symbols-outlined">store</span>
+<span class="sidebar-text text-sm font-medium">Marketplace</span>
+</a>
+<a href="vendas.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors" title="Vendas">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="sidebar-text text-sm font-medium">Vendas</span>
+</a>
+<a href="produtos.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors" title="Produtos">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="sidebar-text text-sm font-medium">Produtos</span>
+</a>
+<a href="chat.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors" title="Chat">
+<span class="material-symbols-outlined">chat</span>
+<span class="sidebar-text text-sm font-medium">Chat</span>
+</a>
+<a href="equipe.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors" title="Equipe">
+<span class="material-symbols-outlined">groups</span>
+<span class="sidebar-text text-sm font-medium">Equipe</span>
+</a>
+<a href="configuracoes.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-text-light dark:text-text-dark transition-colors" title="Configurações">
+<span class="material-symbols-outlined">settings</span>
+<span class="sidebar-text text-sm font-medium">Configurações</span>
+</a>
+</div>
+</nav>
+</aside>
+<main class="flex-1 p-6 md:p-10">
+<div class="max-w-7xl mx-auto flex gap-6">
+<div class="flex-1">
+<div class="mb-6">
+<h1 class="text-3xl font-bold text-text-light dark:text-text-dark">Desenvolvimento Web</h1>
+<p class="text-subtext-light dark:text-subtext-dark mt-1">Encontre os melhores freelancers para o seu projeto web.</p>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<p class="text-subtext-light dark:text-subtext-dark text-sm font-normal leading-normal">Exibindo 24 de 150 resultados</p>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Ordenar por:</span>
+<div class="relative">
+<select class="form-select appearance-none block w-full pl-3 pr-8 py-2 text-sm font-medium border-border-light dark:border-border-dark rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" title="Ordenar resultados">
+<option>Mais Relevantes</option>
+<option>Maior Preço</option>
+<option>Menor Preço</option>
+<option>Melhores Avaliações</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-subtext-light dark:text-subtext-dark">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6" id="productsGrid">
+<div class="product-item group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg" data-categoria="Design Gráfico" data-preco="350" data-avaliacao="4.9">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="Abstract image for a modern logo design service" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBEfzuC30lNdmy4EUiyHyTBJlTnr3KHq0ZJM5Ns_uFxILg2H6QssKpLv41P3nOEmJMYPYXMw9zP8tlprdYcPoRrEV8UCPq1tKAyr57CuvApi9OAGZ_GbnxIOt-piyfudMjAPmsgttpSQ-okyJV498D-9WsQPZz3zSr-snsv6JzUp5EnDTatJmOmMWAqUvIFC1EVSEBRe7Gtou9dBDk3z1mUvpKt5d7H8GGlRSVo73gDgmRZDpIBKlbeI9lMJl_YVVc23L14W8pNL8W_');"></div>
+<div class="flex flex-col gap-4 p-5">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Criação de Logotipo Moderno</h3>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">por Estúdio Criativo</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="font-bold text-text-light dark:text-text-dark">4.9</span>
+<span class="text-sm text-subtext-light dark:text-subtext-dark">(120)</span>
+</div>
+<p class="text-base font-bold text-text-light dark:text-text-dark">R$ 350,00</p>
+</div>
+</div>
+</div>
+<div class="product-item group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg" data-categoria="Desenvolvimento Web" data-preco="800" data-avaliacao="5.0">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="Image of code on a screen for a web development service" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgPcCtqcL4PEnv7VquuR7p-yTo-gfwFu14rGE02-IkmdieVwhB6lEs0OTexPVEcqTad0oCEAAbvftgvPDgCGKuUQM4ESAe8kfpMIypYirwBo-ppS92zySbQL4Asq4fplftBxeVT2_TBgFNzxbJsZYe_vWL5faXA6mFNfLfxqAdMy6uFeRR6P7ajM5_i_Sj3tfbeAwefojt-uP1VlN2r7wLFEMl7gTeg-HGkT8yG2VeaGEsRwaP6gKjFCPnI4axaSJXhtevDTKO592M');"></div>
+<div class="flex flex-col gap-4 p-5">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Desenvolvimento de Landing Page</h3>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">por Dev Solutions</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="font-bold text-text-light dark:text-text-dark">5.0</span>
+<span class="text-sm text-subtext-light dark:text-subtext-dark">(85)</span>
+</div>
+<p class="text-base font-bold text-text-light dark:text-text-dark">R$ 800,00</p>
+</div>
+</div>
+</div>
+<div class="product-item group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg" data-categoria="Marketing Digital" data-preco="1200" data-avaliacao="4.8">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="Image of social media icons for a social media management service" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCi-ibG5yU2rqjoeqq9l9iFIpOT3V-y459BSSr79IoOdsmKfOdpHAiRLQ7b0BrR0qrlIZwRk1Y9yDMNCKGPwyN0DmR_01G_ixh7-jcaMrqCqmLNMx7l8HU5YGsg3eskzQZCemzyRdqqjptYnPx_-5TGdsRMp8_l-Y4H0sSB3s-2wcuHkAY6cWUWZBMYps_hFSkUtAIg4QA6kxp_nXR6EzwQYO5Q5UvxoKkLHOpP9vyBmbQYMpKQnScfOjj_DB2ruK0gFbMKsc9XMQg');"></div>
+<div class="flex flex-col gap-4 p-5">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Gestão de Redes Sociais</h3>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">por MídiaPro</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="font-bold text-text-light dark:text-text-dark">4.8</span>
+<span class="text-sm text-subtext-light dark:text-subtext-dark">(210)</span>
+</div>
+<p class="text-base font-bold text-text-light dark:text-text-dark">R$ 1.200,00</p>
+</div>
+</div>
+</div>
+<div class="product-item group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg" data-categoria="Redação & Tradução" data-preco="150" data-avaliacao="4.9">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="A person writing on a notebook for a content writing service" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_I6qTfW2qztkMZXaHFWkOfURNTkGodHylfdlablfgdtVKnVI0niJdzx1qOWvZZeSyxx58TcJc5v2LBapmQLWXCI50_o2jDxvxvfyw0rktQHaUj-hUcvRVoT_xgIJxt6fLFQq8UIax0Fi3WkFZQ9yC6fHybL5DDFnCe3SiFqj3xfN7MEPjtnIrTOzuPjEbOhvhasOFzc-PX6b2n_-myqP2hW3GBd45sjuzZUzX4X-hhuHu13ftyp51q0ZOxYd-Y89LTKG_GuaWYZY5');"></div>
+<div class="flex flex-col gap-4 p-5">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Redação de Artigos para Blog</h3>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">por Palavra Certa</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="font-bold text-text-light dark:text-text-dark">4.9</span>
+<span class="text-sm text-subtext-light dark:text-subtext-dark">(98)</span>
+</div>
+<p class="text-base font-bold text-text-light dark:text-text-dark">R$ 150,00</p>
+</div>
+</div>
+</div>
+<div class="product-item group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg" data-categoria="Edição de Vídeo" data-preco="500" data-avaliacao="5.0">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="A video editing software interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAd6jWBoOl18Kw8Scb_nM4hsUTVODAheZu4A3ssVqY8DN9ehi_xcyVxsIO_UPlxWww8P4T8cOeLpN2CpQKXECv0ZXzWd9GtZ3VS09NK8-_G6Lk7eDimHuYNipFklmfA51l7VChI-gCeM4A9sY5w07fWRKd0xEenb6W68CdsyiRnLARngf202Hic8JluSh0r5JiSlXF6RboAwh7Sfj0776UBEid4dq_PZx_9UMefk7zaR6OD1jWUJlY6EcqBjnk3ULi7vQ5AJ0NGyfP-');"></div>
+<div class="flex flex-col gap-4 p-5">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Edição de Vídeo Profissional</h3>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">por VídeoMaker</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="font-bold text-text-light dark:text-text-dark">5.0</span>
+<span class="text-sm text-subtext-light dark:text-subtext-dark">(55)</span>
+</div>
+<p class="text-base font-bold text-text-light dark:text-text-dark">R$ 500,00</p>
+</div>
+</div>
+</div>
+<div class="product-item group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg" data-categoria="Desenvolvimento Web" data-preco="2500" data-avaliacao="4.9">
+<div class="aspect-video w-full bg-cover bg-center" data-alt="A UI/UX design workflow on a screen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDIaRPSDdWk6Ticn7NGRxcQ5r-xwxYx2lL1AGW9_axriV_heo0Grl65l3eNxkKjn1Ufa5U3tyBC-Fxdokyr4cjnEbTf2Jzyy1iDX2nd207jFQFB_O6DtKOT0Wfk45o42D-9XqkpPbloNuTRIjxx45Z_quOwTmu0E4j-0XgbvzWRbxgN5AAKd-9qN69bQRMZIgS2yAgmct_e30K-O2zBzw8n2EgUEZPejjDp_k9zVpbBS2uu6F7C3dETzyPMddSpzAcPHFfmYQX5aorZ');"></div>
+<div class="flex flex-col gap-4 p-5">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">UI/UX Design para Aplicativos</h3>
+<p class="text-sm text-subtext-light dark:text-subtext-dark">por UX Masters</p>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="font-bold text-text-light dark:text-text-dark">4.9</span>
+<span class="text-sm text-subtext-light dark:text-subtext-dark">(72)</span>
+</div>
+<p class="text-base font-bold text-text-light dark:text-text-dark">R$ 2.500,00</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-center gap-2 pt-10" id="paginationContainer">
+<button id="prevPageBtn" class="flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark hover:bg-border-light dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<div id="pageButtonsContainer"></div>
+<button id="nextPageBtn" class="flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark hover:bg-border-light dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Filtros (Direita) -->
+<aside class="w-80 flex-shrink-0 bg-sidebar-light dark:bg-sidebar-dark p-6 border-l border-border-light dark:border-border-dark hidden xl:block sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto">
+<div class="flex flex-col gap-8">
+<div>
+<h3 class="text-base font-bold text-text-light dark:text-text-dark mb-4">Categorias</h3>
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="categoria-filter h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Design Gráfico"/>
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Design Gráfico</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="categoria-filter h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Desenvolvimento Web"/>
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Desenvolvimento Web</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="categoria-filter h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Redação & Tradução"/>
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Redação &amp; Tradução</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="categoria-filter h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Marketing Digital"/>
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Marketing Digital</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="categoria-filter h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Edição de Vídeo"/>
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Edição de Vídeo</span>
+</label>
+<a class="text-sm font-medium text-primary hover:underline mt-1" href="Marketplace.html">Ver todas</a>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-light dark:text-text-dark mb-4">Faixa de Preço</h3>
+<div class="flex items-center gap-3">
+<input id="precoMin" class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark text-sm placeholder:text-subtext-light dark:placeholder:text-subtext-dark focus:ring-primary focus:border-primary" placeholder="Min" type="number" min="0"/>
+<span class="text-subtext-light dark:text-subtext-dark">-</span>
+<input id="precoMax" class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark text-sm placeholder:text-subtext-light dark:placeholder:text-subtext-dark focus:ring-primary focus:border-primary" placeholder="Max" type="number" min="0"/>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-light dark:text-text-dark mb-4">Avaliações</h3>
+<div class="flex flex-col gap-2">
+<button class="avaliacao-filter flex items-center gap-2 p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-subtext-light dark:text-subtext-dark w-full text-left" data-rating="5">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="text-sm font-medium ml-1">5 estrelas</span>
+</button>
+<button class="avaliacao-filter flex items-center gap-2 p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-subtext-light dark:text-subtext-dark w-full text-left" data-rating="4">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>
+<span class="text-sm font-medium ml-1">4 estrelas ou mais</span>
+</button>
+<button class="avaliacao-filter flex items-center gap-2 p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-subtext-light dark:text-subtext-dark w-full text-left" data-rating="3">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>
+<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>
+<span class="text-sm font-medium ml-1">3 estrelas ou mais</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-3 pt-4 border-t border-border-light dark:border-border-dark">
+<button class="w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">Aplicar Filtros</button>
+<button class="w-full flex items-center justify-center rounded-lg h-10 px-4 bg-transparent text-primary dark:text-primary text-sm font-bold hover:bg-primary/10 transition-colors">Limpar Filtros</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+</div>
+<script src="../assets/js/notifications.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/preferences.js"></script>
+<script>
+// Proteção de rota - permite todos os tipos de conta autenticados
+if (!authService.protectMarketplace()) {
+    // Redirecionamento automático já foi feito pelo protectMarketplace
+}
+
+// Função para toggle do dropdown
+function toggleDropdownPerfil() {
+    const dropdown = document.getElementById('dropdownPerfil');
+    dropdown.classList.toggle('hidden');
+}
+
+// Fechar dropdown ao clicar fora
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('dropdownPerfil');
+    const button = document.getElementById('profileDropdown');
+    if (!button.contains(event.target)) {
+        dropdown.classList.add('hidden');
+    }
+});
+
+// Função para toggle do sidebar
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('sidebarToggleIcon');
+    sidebar.classList.toggle('sidebar-expanded');
+    sidebar.classList.toggle('sidebar-collapsed');
+    
+    if (sidebar.classList.contains('sidebar-collapsed')) {
+        icon.textContent = 'chevron_right';
+        localStorage.setItem('sidebarCollapsed', 'true');
+    } else {
+        icon.textContent = 'chevron_left';
+        localStorage.setItem('sidebarCollapsed', 'false');
+    }
+}
+
+// Função de logout
+async function sair() {
+    const confirmed = await notifications.confirm('Tem certeza que deseja sair?', 'Confirmar Logout');
+    if (confirmed) {
+        authService.logout();
+        window.location.href = 'Login.html';
+    }
+}
+
+// Configurar link do Dashboard baseado no tipo de conta
+document.addEventListener('DOMContentLoaded', function() {
+    const session = authService.getSession();
+    if (session) {
+        const dashboardLink = document.querySelector('a[title="Dashboard"]');
+        if (dashboardLink) {
+            const routes = {
+                'empresa': 'Perfil-Empresa.html',
+                'freelancer': 'freelancer.html',
+                'cliente': 'perfil-cliente.html'
+            };
+            const dashboardRoute = routes[session.accountType] || 'Perfil-Empresa.html';
+            dashboardLink.href = dashboardRoute;
+        }
+    }
+    
+    // Restaurar estado do sidebar
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('sidebarToggleIcon');
+    const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (collapsed) {
+        sidebar.classList.remove('sidebar-expanded');
+        sidebar.classList.add('sidebar-collapsed');
+        icon.textContent = 'chevron_right';
+    } else {
+        sidebar.classList.add('sidebar-expanded');
+        sidebar.classList.remove('sidebar-collapsed');
+        icon.textContent = 'chevron_left';
+    }
+    
+    // Inicializar filtros e paginação
+    initFilters();
+    initPagination();
+});
+
+// Estado dos filtros
+let currentFilters = {
+    categorias: [],
+    precoMin: '',
+    precoMax: '',
+    avaliacao: null
+};
+
+let currentPage = 1;
+const itemsPerPage = 6;
+
+// Inicializar filtros
+function initFilters() {
+    // Event listeners para checkboxes de categorias
+    const categoriaCheckboxes = document.querySelectorAll('.categoria-filter');
+    categoriaCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            applyFilters();
+        });
+    });
+    
+    // Event listeners para campos de preço
+    const precoMinInput = document.getElementById('precoMin');
+    const precoMaxInput = document.getElementById('precoMax');
+    
+    if (precoMinInput) {
+        precoMinInput.addEventListener('input', debounce(function() {
+            currentFilters.precoMin = this.value;
+            applyFilters();
+        }, 300));
+    }
+    
+    if (precoMaxInput) {
+        precoMaxInput.addEventListener('input', debounce(function() {
+            currentFilters.precoMax = this.value;
+            applyFilters();
+        }, 300));
+    }
+    
+    // Event listeners para botões de avaliação
+    const avaliacaoButtons = document.querySelectorAll('.avaliacao-filter');
+    avaliacaoButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove seleção anterior
+            avaliacaoButtons.forEach(btn => {
+                btn.classList.remove('bg-primary/10', 'text-primary');
+                btn.classList.add('text-subtext-light', 'dark:text-subtext-dark');
+            });
+            
+            // Adiciona seleção atual
+            this.classList.add('bg-primary/10', 'text-primary');
+            this.classList.remove('text-subtext-light', 'dark:text-subtext-dark');
+            
+            const rating = parseInt(this.getAttribute('data-rating'));
+            currentFilters.avaliacao = rating;
+            applyFilters();
+        });
+    });
+    
+    // Botão "Aplicar Filtros"
+    const aplicarBtnAll = document.querySelectorAll('aside button');
+    aplicarBtnAll.forEach(btn => {
+        if (btn.textContent.trim() === 'Aplicar Filtros') {
+            btn.addEventListener('click', function() {
+                applyFilters();
+            });
+        }
+    });
+    
+    // Botão "Limpar Filtros"
+    aplicarBtnAll.forEach(btn => {
+        if (btn.textContent.trim() === 'Limpar Filtros') {
+            btn.addEventListener('click', function() {
+                clearFilters();
+            });
+        }
+    });
+}
+
+// Função debounce para otimizar input
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Aplicar filtros
+function applyFilters() {
+    // Coletar categorias selecionadas
+    const categoriaCheckboxes = document.querySelectorAll('.categoria-filter:checked');
+    currentFilters.categorias = Array.from(categoriaCheckboxes).map(cb => cb.value);
+    
+    // Coletar preços
+    const precoMinInput = document.getElementById('precoMin');
+    const precoMaxInput = document.getElementById('precoMax');
+    currentFilters.precoMin = precoMinInput ? precoMinInput.value : '';
+    currentFilters.precoMax = precoMaxInput ? precoMaxInput.value : '';
+    
+    // Aplicar filtros e atualizar paginação
+    currentPage = 1;
+    updatePagination();
+}
+
+// Limpar filtros
+function clearFilters() {
+    // Limpar checkboxes
+    document.querySelectorAll('.categoria-filter').forEach(cb => {
+        cb.checked = false;
+    });
+    
+    // Limpar campos de preço
+    const precoMinInput = document.getElementById('precoMin');
+    const precoMaxInput = document.getElementById('precoMax');
+    if (precoMinInput) precoMinInput.value = '';
+    if (precoMaxInput) precoMaxInput.value = '';
+    
+    // Limpar seleção de avaliação
+    const avaliacaoButtons = document.querySelectorAll('.avaliacao-filter');
+    avaliacaoButtons.forEach(btn => {
+        btn.classList.remove('bg-primary/10', 'text-primary');
+        btn.classList.add('text-subtext-light', 'dark:text-subtext-dark');
+    });
+    
+    // Resetar filtros
+    currentFilters = {
+        categorias: [],
+        precoMin: '',
+        precoMax: '',
+        avaliacao: null
+    };
+    
+    // Mostrar todos os produtos
+    const produtos = document.querySelectorAll('.product-item');
+    produtos.forEach(produto => {
+        produto.style.display = '';
+    });
+    
+    currentPage = 1;
+    updatePagination();
+}
+
+// Inicializar paginação
+function initPagination() {
+    const paginationContainer = document.getElementById('paginationContainer');
+    if (!paginationContainer) return;
+    
+    // Event listener para botão anterior
+    const prevBtn = document.getElementById('prevPageBtn');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+            }
+        });
+    }
+    
+    // Event listener para botão próximo
+    const nextBtn = document.getElementById('nextPageBtn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const allProdutos = Array.from(document.querySelectorAll('.product-item'));
+            const produtosParaPaginacao = getProdutosFiltrados(allProdutos);
+            const totalPages = Math.ceil(produtosParaPaginacao.length / itemsPerPage) || 1;
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+            }
+        });
+    }
+    
+    // Inicializar paginação na primeira carga
+    updatePagination();
+}
+
+// Função auxiliar para obter produtos filtrados
+function getProdutosFiltrados(allProdutos) {
+    const semFiltros = currentFilters.categorias.length === 0 && 
+                       !currentFilters.precoMin && 
+                       !currentFilters.precoMax && 
+                       currentFilters.avaliacao === null;
+    
+    if (semFiltros) {
+        return allProdutos;
+    }
+    
+    return allProdutos.filter(prod => {
+        let passouFiltro = true;
+        
+        if (currentFilters.categorias.length > 0) {
+            const categoriaProduto = prod.getAttribute('data-categoria');
+            if (!currentFilters.categorias.includes(categoriaProduto)) {
+                passouFiltro = false;
+            }
+        }
+        
+        if (passouFiltro && (currentFilters.precoMin || currentFilters.precoMax)) {
+            const preco = parseFloat(prod.getAttribute('data-preco')) || 0;
+            if (currentFilters.precoMin && preco < parseFloat(currentFilters.precoMin)) {
+                passouFiltro = false;
+            }
+            if (currentFilters.precoMax && preco > parseFloat(currentFilters.precoMax)) {
+                passouFiltro = false;
+            }
+        }
+        
+        if (passouFiltro && currentFilters.avaliacao !== null) {
+            const avaliacao = parseFloat(prod.getAttribute('data-avaliacao')) || 0;
+            if (avaliacao < currentFilters.avaliacao) {
+                passouFiltro = false;
+            }
+        }
+        
+        return passouFiltro;
+    });
+}
+
+// Atualizar paginação
+function updatePagination() {
+    // Obter todos os produtos
+    const allProdutos = Array.from(document.querySelectorAll('.product-item'));
+    
+    // Obter produtos filtrados
+    const produtosParaPaginacao = getProdutosFiltrados(allProdutos);
+    const totalPages = Math.ceil(produtosParaPaginacao.length / itemsPerPage) || 1;
+    
+    // Corrigir página atual se necessário
+    if (currentPage > totalPages) {
+        currentPage = totalPages;
+    }
+    if (currentPage < 1) {
+        currentPage = 1;
+    }
+    
+    // Esconder todos os produtos primeiro
+    allProdutos.forEach(prod => {
+        prod.style.display = 'none';
+    });
+    
+    // Mostrar apenas os produtos da página atual
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    
+    produtosParaPaginacao.slice(startIndex, endIndex).forEach(produto => {
+        produto.style.display = '';
+    });
+    
+    // Atualizar botões de paginação
+    const pageButtonsContainer = document.getElementById('pageButtonsContainer');
+    const prevButton = document.getElementById('prevPageBtn');
+    const nextButton = document.getElementById('nextPageBtn');
+    
+    if (pageButtonsContainer && totalPages > 0) {
+        // Limpar botões existentes
+        pageButtonsContainer.innerHTML = '';
+        
+        // Criar botões de página
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        // Adicionar "..." no início se necessário
+        if (startPage > 1) {
+            const ellipsisStart = document.createElement('span');
+            ellipsisStart.className = 'text-subtext-light dark:text-subtext-dark';
+            ellipsisStart.textContent = '...';
+            pageButtonsContainer.appendChild(ellipsisStart);
+        }
+        
+        // Criar botões de página
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold transition-colors ${
+                i === currentPage ? 'bg-primary text-white' : 'bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark hover:bg-border-light dark:hover:bg-border-dark'
+            }`;
+            pageBtn.textContent = i;
+            pageBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentPage = i;
+                updatePagination();
+            });
+            pageButtonsContainer.appendChild(pageBtn);
+        }
+        
+        // Adicionar "..." no final se necessário
+        if (endPage < totalPages) {
+            const ellipsisEnd = document.createElement('span');
+            ellipsisEnd.className = 'text-subtext-light dark:text-subtext-dark';
+            ellipsisEnd.textContent = '...';
+            pageButtonsContainer.appendChild(ellipsisEnd);
+        }
+    }
+    
+    // Atualizar botões de navegação
+    if (prevButton) {
+        if (currentPage === 1) {
+            prevButton.classList.add('opacity-50', 'cursor-not-allowed');
+            prevButton.disabled = true;
+        } else {
+            prevButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            prevButton.disabled = false;
+        }
+    }
+    
+    if (nextButton) {
+        if (currentPage >= totalPages) {
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+            nextButton.disabled = true;
+        } else {
+            nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            nextButton.disabled = false;
+        }
+    }
+    
+    // Atualizar contador
+    const resultadoElement = document.querySelector('.flex.flex-wrap.items-center.justify-between.gap-4.mb-6 p.text-subtext-light');
+    if (resultadoElement) {
+        if (produtosParaPaginacao.length > 0) {
+            const startIndex = (currentPage - 1) * itemsPerPage + 1;
+            const endIndex = Math.min(currentPage * itemsPerPage, produtosParaPaginacao.length);
+            resultadoElement.textContent = `Exibindo ${startIndex}-${endIndex} de ${produtosParaPaginacao.length} resultados`;
+        } else {
+            resultadoElement.textContent = `Exibindo 0 de 0 resultados`;
+        }
+    }
+}
+</script>
+</body></html>
