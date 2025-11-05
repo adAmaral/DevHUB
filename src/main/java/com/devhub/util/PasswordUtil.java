@@ -30,11 +30,6 @@ public class PasswordUtil {
         }
         String[] parts = stored.split(":");
         if (parts.length != 4) {
-<<<<<<< HEAD:src/util/PasswordUtil.java
-            logger.log(Level.WARNING, String.format("[PASSWORD] Hash não tem 4 partes (tem %d): %s", 
-                    parts.length, stored.substring(0, Math.min(50, stored.length()))));
-=======
->>>>>>> 88a2f427b3947e6378e79f63219fa111ad514d37:src/main/java/com/devhub/util/PasswordUtil.java
             return false;
         }
         String algo = parts[0];
@@ -42,17 +37,9 @@ public class PasswordUtil {
         try {
             iterations = Integer.parseInt(parts[1]);
         } catch (NumberFormatException e) {
-<<<<<<< HEAD:src/util/PasswordUtil.java
-            logger.log(Level.WARNING, String.format("[PASSWORD] Erro ao parsear iterations: %s", parts[1]));
             return false;
         }
         if (!"pbkdf2_sha256".equals(algo)) {
-            logger.log(Level.WARNING, String.format("[PASSWORD] Algoritmo incorreto: %s (esperado: pbkdf2_sha256)", algo));
-=======
-            return false;
-        }
-        if (!"pbkdf2_sha256".equals(algo)) {
->>>>>>> 88a2f427b3947e6378e79f63219fa111ad514d37:src/main/java/com/devhub/util/PasswordUtil.java
             return false;
         }
         try {
@@ -60,17 +47,8 @@ public class PasswordUtil {
             byte[] expected = Base64.getDecoder().decode(parts[3]);
 
             byte[] test = pbkdf2(plainPassword.toCharArray(), salt, iterations, KEY_LENGTH);
-<<<<<<< HEAD:src/util/PasswordUtil.java
-            boolean result = slowEquals(expected, test);
-            logger.log(Level.INFO, String.format("[PASSWORD] Verificação realizada: %s (senha: %s)", 
-                    result, plainPassword != null ? "***" : "null"));
-            return result;
-        } catch (IllegalArgumentException e) {
-            logger.log(Level.WARNING, String.format("[PASSWORD] Erro ao decodificar Base64: %s", e.getMessage()));
-=======
             return slowEquals(expected, test);
         } catch (IllegalArgumentException e) {
->>>>>>> 88a2f427b3947e6378e79f63219fa111ad514d37:src/main/java/com/devhub/util/PasswordUtil.java
             return false;
         }
     }
