@@ -16,6 +16,7 @@ import com.devhub.model.TipoUsuario;
 import com.devhub.model.Usuario;
 import com.devhub.repository.UsuarioRepository;
 import com.devhub.util.PasswordUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @Transactional
@@ -178,6 +179,68 @@ public class UsuarioService {
             throw new RuntimeException("Usuário não encontrado");
         }
         return new UserResponse(usuarioOpt.get());
+    }
+    
+    public void salvarPreferencias(Integer userId, java.util.Map<String, Object> preferencias) {
+        if (userId == null) {
+            throw new RuntimeException("ID do usuário é obrigatório");
+        }
+        
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(userId);
+        if (usuarioOpt.isEmpty()) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+        
+        Usuario usuario = usuarioOpt.get();
+        
+        // Converter Map para JSON string
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String preferenciasJson = mapper.writeValueAsString(preferencias);
+            usuario.setPreferencias(preferenciasJson);
+            usuarioRepository.save(usuario);
+            logger.info("Preferências salvas para usuário ID: {}", userId);
+        } catch (Exception e) {
+            logger.error("Erro ao salvar preferências: {}", e.getMessage(), e);
+            throw new RuntimeException("Erro ao salvar preferências: " + e.getMessage());
+        }
+    }
+    
+    public void alterarSenha(Integer userId, String senhaAtual, String novaSenha) {
+        if (userId == null) {
+            throw new RuntimeException("ID do usuário é obrigatório");
+        }
+        
+        if (senhaAtual == null || senhaAtual.isEmpty()) {
+            throw new RuntimeException("Senha atual é obrigatória");
+        }
+        
+        if (novaSenha == null || novaSenha.isEmpty()) {
+            throw new RuntimeException("Nova senha é obrigatória");
+        }
+        
+        if (novaSenha.length() < 6) {
+            throw new RuntimeException("A nova senha deve ter pelo menos 6 caracteres");
+        }
+        
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(userId);
+        if (usuarioOpt.isEmpty()) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+        
+        Usuario usuario = usuarioOpt.get();
+        
+        // Verificar senha atual
+        if (!PasswordUtil.verifyPassword(senhaAtual, usuario.getSenha())) {
+            throw new RuntimeException("Senha atual incorreta");
+        }
+        
+        // Criptografar nova senha
+        String novaSenhaHash = PasswordUtil.hashPassword(novaSenha);
+        usuario.setSenha(novaSenhaHash);
+        usuarioRepository.save(usuario);
+        
+        logger.info("Senha alterada para usuário ID: {}", userId);
     }
 }
 

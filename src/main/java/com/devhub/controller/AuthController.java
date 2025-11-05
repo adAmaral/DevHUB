@@ -201,5 +201,90 @@ public class AuthController {
         response.put("message", "Logout realizado com sucesso");
         return ResponseEntity.ok(response);
     }
+    
+    @GetMapping("/preferencias")
+    public ResponseEntity<?> getPreferencias(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        
+        if (userId == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("erro", "Não autenticado");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
+        
+        try {
+            UserResponse user = usuarioService.getUsuarioById(userId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("preferencias", user.getPreferencias());
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("erro", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+    }
+    
+    @PostMapping("/preferencias")
+    public ResponseEntity<?> salvarPreferencias(@RequestBody Map<String, Object> preferencias, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        
+        if (userId == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("erro", "Não autenticado");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
+        
+        try {
+            usuarioService.salvarPreferencias(userId, preferencias);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Preferências salvas com sucesso");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("erro", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+    
+    @PostMapping("/alterar-senha")
+    public ResponseEntity<?> alterarSenha(@RequestBody Map<String, String> request, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        
+        if (userId == null) {
+            Map<String, String> error = new HashMap<>();
+            error.put("erro", "Não autenticado");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
+        
+        try {
+            String senhaAtual = request.get("senhaAtual");
+            String novaSenha = request.get("novaSenha");
+            String confirmarSenha = request.get("confirmarSenha");
+            
+            if (senhaAtual == null || novaSenha == null || confirmarSenha == null) {
+                Map<String, String> error = new HashMap<>();
+                error.put("erro", "Todos os campos são obrigatórios");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            
+            if (!novaSenha.equals(confirmarSenha)) {
+                Map<String, String> error = new HashMap<>();
+                error.put("erro", "As senhas não coincidem");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            }
+            
+            usuarioService.alterarSenha(userId, senhaAtual, novaSenha);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Senha alterada com sucesso");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("erro", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
 }
 

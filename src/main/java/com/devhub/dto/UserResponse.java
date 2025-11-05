@@ -21,6 +21,7 @@ public class UserResponse {
         this.tipo = usuario.getTipo();
         this.telefone = usuario.getTelefone();
         this.fotoPerfil = usuario.getFotoPerfil();
+        this.preferencias = usuario.getPreferencias();
     }
 
     public Integer getId() {
@@ -73,6 +74,16 @@ public class UserResponse {
 
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+    
+    private String preferencias;
+    
+    public String getPreferencias() {
+        return preferencias;
+    }
+    
+    public void setPreferencias(String preferencias) {
+        this.preferencias = preferencias;
     }
 }
 

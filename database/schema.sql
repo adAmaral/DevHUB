@@ -46,7 +46,8 @@ CREATE TABLE usuarios (
     area_atuacao VARCHAR(255),
     especialidades JSONB,
     portfolio_url VARCHAR(500),
-    site_url VARCHAR(500)
+    site_url VARCHAR(500),
+    preferencias JSONB DEFAULT '{}'::jsonb
 );
 
 CREATE TABLE categorias (

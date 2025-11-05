@@ -86,6 +86,10 @@ public class Usuario {
     @Column(name = "site_url", length = 500)
     private String siteUrl;
     
+    @Type(JsonBinaryType.class)
+    @Column(name = "preferencias", columnDefinition = "jsonb", nullable = true)
+    private String preferencias;
+    
     @PrePersist
     protected void onCreate() {
         dataCadastro = LocalDateTime.now();
@@ -280,6 +284,14 @@ public class Usuario {
     
     public void setSiteUrl(String siteUrl) {
         this.siteUrl = siteUrl;
+    }
+    
+    public String getPreferencias() {
+        return preferencias;
+    }
+    
+    public void setPreferencias(String preferencias) {
+        this.preferencias = preferencias;
     }
 }
 
