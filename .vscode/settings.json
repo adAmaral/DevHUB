@@ -1,3 +1,14 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.project.sourcePaths": [
+        "src/main/java"
+    ],
+    "java.project.outputPath": "target/classes",
+    "java.project.referencedLibraries": [
+        "target/classes/**/*.jar"
+    ],
+    "maven.executable.path": "mvn",
+    "java.configuration.maven.userSettings": null,
+    "java.import.maven.enabled": true,
+    "java.compile.nullAnalysis.mode": "automatic"
 }

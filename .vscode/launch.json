@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "DevHubApplication",
+            "request": "launch",
+            "mainClass": "com.devhub.DevHubApplication",
+            "projectName": "devhub"
+        },
+        {
+            "type": "java",
+            "name": "DevHubApplication",
+            "request": "launch",
+            "mainClass": "DevHubApplication",
+            "projectName": "devhub"
+        },
+        {
             "name": "PowerShell: Launch Current File",
             "type": "PowerShell",
             "request": "launch",
