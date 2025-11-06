@@ -320,17 +320,18 @@ function renderizarProdutos() {
 
 // Função helper para carregar imagem com fallback
 function carregarImagemComFallback(elemento, url, fallback) {
-    const defaultFallback = 'https://via.placeholder.com/400x300?text=Produto';
+    // Imagem padrão única para todos os produtos
+    const imagemPadrao = '../Produtos.png';
     const imagemUrl = url && url.trim() !== '' ? url.trim() : null;
-    const fallbackUrl = fallback || defaultFallback;
+    const imagemParaUsar = imagemUrl || imagemPadrao;
     
-    // Aplicar fallback imediatamente para garantir que algo aparece
-    elemento.style.backgroundImage = `url('${fallbackUrl}')`;
+    // Aplicar imagem imediatamente
+    elemento.style.backgroundImage = `url('${imagemParaUsar}')`;
     elemento.style.backgroundSize = 'cover';
     elemento.style.backgroundPosition = 'center';
     elemento.style.backgroundRepeat = 'no-repeat';
     
-    // Se não houver URL, manter o fallback
+    // Se não houver URL, já aplicamos a padrão, então retornar
     if (!imagemUrl) {
         return;
     }
@@ -345,8 +346,9 @@ function carregarImagemComFallback(elemento, url, fallback) {
     };
     
     img.onerror = function() {
-        // Se falhar, manter o fallback (já está aplicado)
+        // Se falhar, manter a imagem padrão (já está aplicada)
         console.log('Erro ao carregar imagem:', imagemUrl);
+        elemento.style.backgroundImage = `url('${imagemPadrao}')`;
     };
     
     // Tentar carregar a imagem
@@ -354,7 +356,7 @@ function carregarImagemComFallback(elemento, url, fallback) {
         img.src = imagemUrl;
     } catch (e) {
         console.log('Erro ao definir src da imagem:', e);
-        // Manter fallback
+        elemento.style.backgroundImage = `url('${imagemPadrao}')`;
     }
 }
 
@@ -376,7 +378,11 @@ function criarCardProduto(produto) {
     imagemDiv.onclick = () => verDetalhes(produto.id);
     // Garantir que o elemento tenha dimensões mínimas
     imagemDiv.style.minHeight = '200px';
-    carregarImagemComFallback(imagemDiv, produto.imagem);
+    // Garantir que o produto tenha imagem (usar a do produto ou padrão)
+    const imagemProduto = produto.imagem && produto.imagem.trim() !== '' 
+        ? produto.imagem 
+        : '../Produtos.png';
+    carregarImagemComFallback(imagemDiv, imagemProduto);
     
     card.innerHTML = `
         <div>
@@ -420,7 +426,11 @@ function verDetalhes(id) {
         
         // Populate details
         const imagemEl = document.getElementById('productDetailImage');
-        carregarImagemComFallback(imagemEl, produtoSelecionado.imagem);
+        // Garantir que o produto tenha imagem (usar a do produto ou padrão)
+        const imagemProduto = produtoSelecionado.imagem && produtoSelecionado.imagem.trim() !== '' 
+            ? produtoSelecionado.imagem 
+            : '../Produtos.png';
+        carregarImagemComFallback(imagemEl, imagemProduto);
         document.getElementById('productDetailName').textContent = produtoSelecionado.nome;
         document.getElementById('productDetailDescription').textContent = produtoSelecionado.descricao;
         document.getElementById('productDetailPrice').textContent = produtoSelecionado.preco;

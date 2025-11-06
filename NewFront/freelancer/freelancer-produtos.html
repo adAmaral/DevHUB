@@ -379,46 +379,14 @@ function carregarProdutos() {
 
 // Função helper para carregar imagem com fallback
 function carregarImagemComFallback(elemento, url, categoria) {
-    // Obter imagem padrão baseada na categoria se não houver URL
-    const getDefaultImageByCategory = (cat) => {
-        const defaultImages = {
-            'Design Gráfico': 'https://via.placeholder.com/400x300/6366f1/ffffff?text=Design+Gráfico',
-            'Desenvolvimento Web': 'https://via.placeholder.com/400x300/10b981/ffffff?text=Desenvolvimento+Web',
-            'Redação & Tradução': 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Redação+%26+Tradução',
-            'Marketing Digital': 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Marketing+Digital',
-            'Edição de Vídeo': 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Edição+de+Vídeo'
-        };
-        return defaultImages[cat] || 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto';
-    };
+    // SEMPRE usar a imagem padrão
+    const imagemPadrao = '../Produtos.png';
     
-    const imagemUrl = url && url.trim() !== '' ? url.trim() : null;
-    const fallbackUrl = imagemUrl ? null : (categoria ? getDefaultImageByCategory(categoria) : 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto');
-    
-    // Aplicar imagem imediatamente (URL ou fallback)
-    const imagemParaUsar = imagemUrl || fallbackUrl;
-    elemento.style.backgroundImage = `url('${imagemParaUsar}')`;
+    // Aplicar imagem padrão diretamente
+    elemento.style.backgroundImage = `url('${imagemPadrao}')`;
     elemento.style.backgroundSize = 'cover';
     elemento.style.backgroundPosition = 'center';
     elemento.style.backgroundRepeat = 'no-repeat';
-    
-    // Se não houver URL, já aplicamos o fallback, então retornar
-    if (!imagemUrl) return;
-    
-    // Tentar carregar a imagem real
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = function() {
-        elemento.style.backgroundImage = `url('${imagemUrl}')`;
-    };
-    img.onerror = function() {
-        // Se falhar, manter o fallback (já está aplicado)
-        console.log('Erro ao carregar imagem:', imagemUrl);
-    };
-    try {
-        img.src = imagemUrl;
-    } catch (e) {
-        console.log('Erro ao definir src da imagem:', e);
-    }
 }
 
 function criarCardProduto(produto) {
@@ -428,11 +396,9 @@ function criarCardProduto(produto) {
     // Criar elemento de imagem
     const imagemDiv = document.createElement('div');
     imagemDiv.className = 'aspect-video w-full bg-cover bg-center bg-gray-200 dark:bg-gray-700';
-    // Garantir que o produto tenha imagem (usar a do produto ou padrão baseada na categoria)
-    const imagemProduto = produto.imagem && produto.imagem.trim() !== '' 
-        ? produto.imagem 
-        : productService.getDefaultImageByCategory(produto.categoria);
-    carregarImagemComFallback(imagemDiv, imagemProduto, produto.categoria);
+    // SEMPRE usar a imagem padrão
+    const imagemPadrao = '../Produtos.png';
+    carregarImagemComFallback(imagemDiv, imagemPadrao, produto.categoria);
     
     div.innerHTML = `
         <div class="p-5 flex flex-col gap-3">

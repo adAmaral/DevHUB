@@ -20,18 +20,10 @@ class ProductService {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
-    // Retorna uma imagem padrão baseada na categoria do produto
+    // Retorna a imagem padrão para todos os produtos
     getDefaultImageByCategory(categoria) {
-        const defaultImages = {
-            'Design Gráfico': 'https://via.placeholder.com/400x300/6366f1/ffffff?text=Design+Gráfico',
-            'Desenvolvimento Web': 'https://via.placeholder.com/400x300/10b981/ffffff?text=Desenvolvimento+Web',
-            'Redação & Tradução': 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Redação+%26+Tradução',
-            'Marketing Digital': 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Marketing+Digital',
-            'Edição de Vídeo': 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Edição+de+Vídeo'
-        };
-        
-        // Retorna a imagem específica da categoria ou uma imagem genérica
-        return defaultImages[categoria] || 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto';
+        // Retorna sempre a imagem padrão produtos.png
+        return 'Produtos.png';
     }
 
     // Garante que um produto sempre tenha uma imagem válida
@@ -49,17 +41,19 @@ class ProductService {
         return product;
     }
 
-    // Atualiza todos os produtos existentes que não têm imagem
+    // Atualiza todos os produtos existentes para usar a imagem padrão
     updateProductsWithoutImages() {
         const productsRaw = localStorage.getItem(this.storageKey);
         if (!productsRaw) return false;
         
         const products = JSON.parse(productsRaw);
         let updated = false;
+        const imagemPadrao = this.getDefaultImageByCategory('');
         
         products.forEach(product => {
-            if (!product.imagem || product.imagem.trim() === '') {
-                product.imagem = this.getDefaultImageByCategory(product.categoria);
+            // FORÇA todos os produtos a usarem a imagem padrão
+            if (!product.imagem || product.imagem.trim() === '' || product.imagem !== imagemPadrao) {
+                product.imagem = imagemPadrao;
                 updated = true;
             }
         });

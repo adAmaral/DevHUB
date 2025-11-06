@@ -271,6 +271,8 @@ let allProducts = []; // Array com todos os produtos carregados
 
 // Função para carregar produtos do localStorage
 function carregarProdutosDoStorage() {
+    // Atualizar produtos existentes para usar a imagem padrão
+    productService.updateProductsWithoutImages();
     allProducts = productService.getActiveProducts();
     renderizarProdutos();
 }
@@ -307,49 +309,31 @@ function criarCardProduto(produto) {
     imagemDiv.className = 'aspect-video w-full bg-cover bg-center';
     imagemDiv.setAttribute('data-alt', produto.nome);
     
-    // Obter imagem padrão baseada na categoria se não houver URL
-    const getDefaultImageByCategory = (cat) => {
-        const defaultImages = {
-            'Design Gráfico': 'https://via.placeholder.com/400x300/6366f1/ffffff?text=Design+Gráfico',
-            'Desenvolvimento Web': 'https://via.placeholder.com/400x300/10b981/ffffff?text=Desenvolvimento+Web',
-            'Redação & Tradução': 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Redação+%26+Tradução',
-            'Marketing Digital': 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Marketing+Digital',
-            'Edição de Vídeo': 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Edição+de+Vídeo'
-        };
-        return defaultImages[cat] || 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto';
-    };
+    // Imagem padrão única para todos os produtos no marketplace
+    // SEMPRE usar a imagem padrão, independente do que está salvo no produto
+    const imagemPadrao = 'Produtos.png';
     
-    // Garantir que o produto tenha imagem (usar a do produto ou padrão baseada na categoria)
-    const imagemProduto = produto.imagem && produto.imagem.trim() !== '' 
-        ? produto.imagem.trim() 
-        : getDefaultImageByCategory(produto.categoria);
-    
+    // Forçar uso da imagem padrão para todos os produtos
     // Aplicar imagem imediatamente
-    imagemDiv.style.backgroundImage = `url('${imagemProduto}')`;
+    imagemDiv.style.backgroundImage = `url('${imagemPadrao}')`;
     imagemDiv.style.backgroundSize = 'cover';
     imagemDiv.style.backgroundPosition = 'center';
     imagemDiv.style.backgroundRepeat = 'no-repeat';
     
-    // Se houver URL personalizada, tentar carregar (pode substituir a padrão se carregar com sucesso)
-    if (produto.imagem && produto.imagem.trim() !== '' && produto.imagem.trim() !== imagemProduto) {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        
-        img.onload = function() {
-            imagemDiv.style.backgroundImage = `url('${produto.imagem.trim()}')`;
-        };
-        
-        img.onerror = function() {
-            // Manter imagem padrão (já está aplicada)
-            console.log('Erro ao carregar imagem:', produto.imagem);
-        };
-        
-        try {
-            img.src = produto.imagem.trim();
-        } catch (e) {
-            console.log('Erro ao definir src da imagem:', e);
+    // Verificar se a imagem carrega, se não, tentar caminho alternativo
+    const img = new Image();
+    img.onerror = function() {
+        // Se não encontrar, tentar caminho alternativo
+        imagemDiv.style.backgroundImage = `url('./Produtos.png')`;
+    };
+    img.src = imagemPadrao;
+    
+    // Atualizar o produto no localStorage para ter a imagem padrão (em background)
+    setTimeout(() => {
+        if (produto.imagem !== imagemPadrao) {
+            productService.updateProduct(produto.id, { imagem: imagemPadrao });
         }
-    }
+    }, 0);
     
     div.innerHTML = `
         <div class="flex flex-col gap-4 p-5">
