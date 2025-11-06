@@ -135,7 +135,6 @@
                 </select>
                 <input type="text" id="produtoTags" placeholder="Tags (separadas por vírgula, ex: web, responsivo, landing page)" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
                 <input type="number" id="produtoPreco" placeholder="Preço (R$)" step="0.01" required class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
-                <input type="url" id="produtoImagem" placeholder="URL da Imagem (opcional)" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
                 <div class="flex gap-2 pt-2">
                     <button type="button" onclick="preencherDadosAleatorios()" class="px-4 py-2 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 font-medium text-sm flex items-center gap-2">
                         <span class="material-symbols-outlined text-base">auto_fix_high</span>
@@ -155,25 +154,40 @@
         let produtoEditando = null;
 
         // Função helper para carregar imagem com fallback
-        function carregarImagemComFallback(elemento, url, fallback) {
-            const defaultFallback = 'https://via.placeholder.com/400x300?text=Produto';
-            const imagemUrl = url && url.trim() !== '' ? url.trim() : null;
-            const fallbackUrl = fallback || defaultFallback;
+        function carregarImagemComFallback(elemento, url, categoria) {
+            // Obter imagem padrão baseada na categoria se não houver URL
+            const getDefaultImageByCategory = (cat) => {
+                const defaultImages = {
+                    'Design Gráfico': 'https://via.placeholder.com/400x300/6366f1/ffffff?text=Design+Gráfico',
+                    'Desenvolvimento Web': 'https://via.placeholder.com/400x300/10b981/ffffff?text=Desenvolvimento+Web',
+                    'Redação & Tradução': 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Redação+%26+Tradução',
+                    'Marketing Digital': 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Marketing+Digital',
+                    'Edição de Vídeo': 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Edição+de+Vídeo'
+                };
+                return defaultImages[cat] || 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto';
+            };
             
-            // Aplicar fallback imediatamente
-            elemento.style.backgroundImage = `url('${fallbackUrl}')`;
+            const imagemUrl = url && url.trim() !== '' ? url.trim() : null;
+            const fallbackUrl = imagemUrl ? null : (categoria ? getDefaultImageByCategory(categoria) : 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto');
+            
+            // Aplicar imagem imediatamente (URL ou fallback)
+            const imagemParaUsar = imagemUrl || fallbackUrl;
+            elemento.style.backgroundImage = `url('${imagemParaUsar}')`;
             elemento.style.backgroundSize = 'cover';
             elemento.style.backgroundPosition = 'center';
             elemento.style.backgroundRepeat = 'no-repeat';
             
+            // Se não houver URL, já aplicamos o fallback, então retornar
             if (!imagemUrl) return;
             
+            // Tentar carregar a imagem real
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = function() {
                 elemento.style.backgroundImage = `url('${imagemUrl}')`;
             };
             img.onerror = function() {
+                // Se falhar, manter o fallback (já está aplicado)
                 console.log('Erro ao carregar imagem:', imagemUrl);
             };
             try {
@@ -192,7 +206,6 @@
             document.getElementById('produtoCategoria').value = '';
             document.getElementById('produtoTags').value = '';
             document.getElementById('produtoPreco').value = '';
-            document.getElementById('produtoImagem').value = '';
             produtoEditando = null;
         }
 
@@ -244,28 +257,18 @@
                 'Edição de Vídeo': ['vídeo', 'edição', 'motion graphics', 'animações', 'produção']
             };
             
-            const imagens = [
-                'https://via.placeholder.com/800x600/135bec/ffffff?text=Produto+1',
-                'https://via.placeholder.com/800x600/10b981/ffffff?text=Produto+2',
-                'https://via.placeholder.com/800x600/ef4444/ffffff?text=Produto+3',
-                'https://via.placeholder.com/800x600/f59e0b/ffffff?text=Produto+4',
-                'https://via.placeholder.com/800x600/8b5cf6/ffffff?text=Produto+5'
-            ];
-            
             const nomeAleatorio = nomes[Math.floor(Math.random() * nomes.length)];
             const descricaoAleatoria = descricoes[Math.floor(Math.random() * descricoes.length)];
             const categoriaAleatoria = categorias[Math.floor(Math.random() * categorias.length)];
             const tagsAleatorias = tagsPorCategoria[categoriaAleatoria];
             const tagsSelecionadas = tagsAleatorias.slice(0, Math.floor(Math.random() * 3) + 2).join(', ');
             const precoAleatorio = (Math.random() * 9000 + 100).toFixed(2);
-            const imagemAleatoria = imagens[Math.floor(Math.random() * imagens.length)];
             
             document.getElementById('produtoNome').value = nomeAleatorio;
             document.getElementById('produtoDescricao').value = descricaoAleatoria;
             document.getElementById('produtoCategoria').value = categoriaAleatoria;
             document.getElementById('produtoTags').value = tagsSelecionadas;
             document.getElementById('produtoPreco').value = precoAleatorio;
-            document.getElementById('produtoImagem').value = imagemAleatoria;
         }
 
         function salvarProduto(e) {
@@ -288,7 +291,6 @@
             const categoria = document.getElementById('produtoCategoria').value;
             const tagsInput = document.getElementById('produtoTags').value.trim();
             const preco = parseFloat(document.getElementById('produtoPreco').value);
-            const imagem = document.getElementById('produtoImagem').value.trim();
             
             const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
             
@@ -298,7 +300,6 @@
                 categoria: categoria,
                 tags: tags,
                 preco: preco,
-                imagem: imagem || undefined,
                 vendedorId: user.id,
                 vendedorNome: user.nomeEmpresa || user.nome || 'Empresa',
                 vendedorTipo: user.accountType
@@ -357,7 +358,11 @@
             // Criar elemento de imagem
             const imagemDiv = document.createElement('div');
             imagemDiv.className = 'aspect-video w-full bg-cover bg-center bg-gray-200 dark:bg-gray-700';
-            carregarImagemComFallback(imagemDiv, produto.imagem);
+            // Garantir que o produto tenha imagem (usar a do produto ou padrão baseada na categoria)
+            const imagemProduto = produto.imagem && produto.imagem.trim() !== '' 
+                ? produto.imagem 
+                : productService.getDefaultImageByCategory(produto.categoria);
+            carregarImagemComFallback(imagemDiv, imagemProduto, produto.categoria);
             
             div.innerHTML = `
                 <div class="p-5 flex flex-col gap-3">
@@ -397,7 +402,6 @@
             document.getElementById('produtoCategoria').value = produto.categoria;
             document.getElementById('produtoTags').value = produto.tags.join(', ');
             document.getElementById('produtoPreco').value = produto.preco;
-            document.getElementById('produtoImagem').value = produto.imagem || '';
         }
 
         function removerProduto(id) {
@@ -441,6 +445,8 @@
 
         // Carregar produtos ao iniciar
         document.addEventListener('DOMContentLoaded', function() {
+            // Atualizar produtos existentes que não têm imagem
+            productService.updateProductsWithoutImages();
             carregarDadosUsuario();
             carregarProdutos();
         });

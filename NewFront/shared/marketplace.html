@@ -307,31 +307,45 @@ function criarCardProduto(produto) {
     imagemDiv.className = 'aspect-video w-full bg-cover bg-center';
     imagemDiv.setAttribute('data-alt', produto.nome);
     
-    // Aplicar fallback imediatamente
-    const defaultFallback = 'https://via.placeholder.com/400x300?text=Produto';
-    const imagemUrl = produto.imagem && produto.imagem.trim() !== '' ? produto.imagem.trim() : null;
+    // Obter imagem padrão baseada na categoria se não houver URL
+    const getDefaultImageByCategory = (cat) => {
+        const defaultImages = {
+            'Design Gráfico': 'https://via.placeholder.com/400x300/6366f1/ffffff?text=Design+Gráfico',
+            'Desenvolvimento Web': 'https://via.placeholder.com/400x300/10b981/ffffff?text=Desenvolvimento+Web',
+            'Redação & Tradução': 'https://via.placeholder.com/400x300/f59e0b/ffffff?text=Redação+%26+Tradução',
+            'Marketing Digital': 'https://via.placeholder.com/400x300/ef4444/ffffff?text=Marketing+Digital',
+            'Edição de Vídeo': 'https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Edição+de+Vídeo'
+        };
+        return defaultImages[cat] || 'https://via.placeholder.com/400x300/6b7280/ffffff?text=Produto';
+    };
     
-    imagemDiv.style.backgroundImage = `url('${defaultFallback}')`;
+    // Garantir que o produto tenha imagem (usar a do produto ou padrão baseada na categoria)
+    const imagemProduto = produto.imagem && produto.imagem.trim() !== '' 
+        ? produto.imagem.trim() 
+        : getDefaultImageByCategory(produto.categoria);
+    
+    // Aplicar imagem imediatamente
+    imagemDiv.style.backgroundImage = `url('${imagemProduto}')`;
     imagemDiv.style.backgroundSize = 'cover';
     imagemDiv.style.backgroundPosition = 'center';
     imagemDiv.style.backgroundRepeat = 'no-repeat';
     
-    // Tentar carregar imagem real se houver URL
-    if (imagemUrl) {
+    // Se houver URL personalizada, tentar carregar (pode substituir a padrão se carregar com sucesso)
+    if (produto.imagem && produto.imagem.trim() !== '' && produto.imagem.trim() !== imagemProduto) {
         const img = new Image();
         img.crossOrigin = 'anonymous';
         
         img.onload = function() {
-            imagemDiv.style.backgroundImage = `url('${imagemUrl}')`;
+            imagemDiv.style.backgroundImage = `url('${produto.imagem.trim()}')`;
         };
         
         img.onerror = function() {
-            // Manter fallback (já está aplicado)
-            console.log('Erro ao carregar imagem:', imagemUrl);
+            // Manter imagem padrão (já está aplicada)
+            console.log('Erro ao carregar imagem:', produto.imagem);
         };
         
         try {
-            img.src = imagemUrl;
+            img.src = produto.imagem.trim();
         } catch (e) {
             console.log('Erro ao definir src da imagem:', e);
         }

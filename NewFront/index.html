@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevHub - Bem-vindo!</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Configurações globais */
+        body {
+            margin: 0;
+            background-color: #0a0a0f; /* Fundo bem escuro, quase preto */
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif; /* Fonte moderna */
+            overflow: hidden; /* Impede a barra de rolagem */
+            position: relative;
+            min-height: 100vh;
+            cursor: pointer; /* Indica que a tela é clicável */
+            transition: background-color 0.8s ease;
+        }
+
+        /* Overlay para efeito de zoom e transição */
+        .zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1000;
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: center center;
+            pointer-events: none;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .zoom-overlay.active {
+            opacity: 1;
+            transform: scale(3);
+            pointer-events: all;
+        }
+
+        /* Animação de zoom no conteúdo */
+        .hero-section.zooming {
+            transform: scale(2);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-wrapper.zooming {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Vídeo de fundo */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Atrás de tudo */
+            pointer-events: none;
+        }
+
+        /* Ondas de luz no body - camada de fundo */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            
+            /* Tamanho grande para cobrir toda a tela */
+            width: 80vw;
+            height: 80vw;
+            max-width: 1000px;
+            max-height: 1000px;
+            
+            /* Posição inicial */
+            top: 50%;
+            left: 50%;
+            
+            /* Efeito de luz difusa */
+            border-radius: 50%;
+            filter: blur(150px);
+        }
+
+        /* Primeira onda no body - roxo neon */
+        body::before {
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.6), transparent 70%);
+            animation: waveBody1 20s infinite ease-in-out;
+        }
+
+        /* Segunda onda no body - azul elétrico */
+        body::after {
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.5), transparent 70%);
+            animation: waveBody2 25s infinite ease-in-out;
+        }
+
+        /* A seção principal que ocupa a tela inteira */
+        .hero-section {
+            min-height: 100vh; /* Ocupa 100% da altura da tela */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Necessário para o posicionamento da animação */
+            overflow: hidden; /* Garante que a animação não "vaze" */
+            text-align: center;
+            z-index: 1;
+        }
+
+        /* * ONDAS DE LUZ NO HERO-SECTION
+         * Usamos ::before e ::after para criar duas "ondas" de luz
+         * que se movem independentemente na camada intermediária.
+        */
+        .hero-section::before,
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            z-index: 1; /* Fica atrás do conteúdo */
+            
+            /* Tamanho e forma */
+            width: 60vw; /* 60% da largura da tela */
+            height: 60vw; /* Forma um círculo */
+            max-width: 800px;
+            max-height: 800px;
+            
+            /* Posição inicial (vai ser animada) */
+            top: 50%;
+            left: 50%;
+
+            /* O gradiente que cria a "luz" - roxo neon */
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.5), transparent 60%);
+            
+            /* Borda e efeito de névoa */
+            border-radius: 50%;
+            filter: blur(120px); /* O truque principal para o efeito de névoa */
+            opacity: 0.8;
+            pointer-events: none;
+
+            /* A animação */
+            animation: moveWave 15s infinite linear;
+        }
+
+        /* A segunda onda (::after) terá uma cor e animação diferentes - azul elétrico */
+        .hero-section::after {
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.4), transparent 60%);
+            animation-name: moveWave2;
+            animation-duration: 18s; /* Duração diferente para dessincronizar */
+        }
+
+        /* O conteúdo que fica na frente */
+        .content-wrapper {
+            position: relative;
+            z-index: 2; /* Garante que o conteúdo fique sobre (z-index: 2) a animação (z-index: 1) */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estilos da LogoFundo */
+        .logo-fundo {
+            max-width: 600px;
+            width: 90%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.5)) drop-shadow(0 0 40px rgba(0, 191, 255, 0.3));
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.5)) drop-shadow(0 0 40px rgba(0, 191, 255, 0.3));
+            }
+            100% {
+                filter: drop-shadow(0 0 30px rgba(138, 43, 226, 0.8)) drop-shadow(0 0 60px rgba(0, 191, 255, 0.5));
+            }
+        }
+
+
+        /* * KEYFRAMES (As animações)
+         * Isso define como as "ondas" se movem.
+        */
+        
+        /* Animações das ondas no body (camada de fundo) */
+        @keyframes waveBody1 {
+            0% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0.6;
+            }
+            25% {
+                transform: translate(-50%, -50%) translate(20%, -30%) rotate(90deg) scale(1.3);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-50%, -50%) translate(-15%, 25%) rotate(180deg) scale(1.1);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate(-50%, -50%) translate(30%, 15%) rotate(270deg) scale(1.4);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(360deg) scale(1);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes waveBody2 {
+            0% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(1.2);
+                opacity: 0.5;
+            }
+            33% {
+                transform: translate(-50%, -50%) translate(-25%, 20%) rotate(-120deg) scale(1.5);
+                opacity: 0.7;
+            }
+            66% {
+                transform: translate(-50%, -50%) translate(20%, -25%) rotate(-240deg) scale(1.1);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(-360deg) scale(1.2);
+                opacity: 0.5;
+            }
+        }
+
+        /* Animações das ondas no hero-section (camada intermediária) */
+        @keyframes moveWave {
+            0% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(1.2);
+                opacity: 0.8;
+            }
+            25% {
+                transform: translate(-50%, -50%) translate(15%, -20%) rotate(90deg) scale(1.4);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translate(-50%, -50%) translate(-20%, 15%) rotate(180deg) scale(1.6);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translate(-50%, -50%) translate(10%, 25%) rotate(270deg) scale(1.3);
+                opacity: 0.85;
+            }
+            100% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(360deg) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes moveWave2 {
+            0% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(1.5);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translate(-50%, -50%) translate(-25%, -15%) rotate(-108deg) scale(1.2);
+                opacity: 0.9;
+            }
+            60% {
+                transform: translate(-50%, -50%) translate(20%, 20%) rotate(-216deg) scale(1.8);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, -50%) translate(0, 0) rotate(-360deg) scale(1.5);
+                opacity: 0.7;
+            }
+        }
+    </style>
+    </head>
+<body>
+    
+    <!-- Vídeo de fundo em loop infinito -->
+    <video class="video-background" autoplay loop muted playsinline>
+        <source src="FundoLand.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
+    
+    <main class="hero-section">
+        
+        <div class="content-wrapper">
+            <img src="LogoFundo.png" alt="DevHub Logo" class="logo-fundo">
+        </div>
+
+    </main>
+
+    <!-- Overlay para efeito de zoom -->
+    <div class="zoom-overlay" id="zoomOverlay"></div>
+
+    <script>
+        // Garantir que o vídeo seja reproduzido
+        const video = document.querySelector('.video-background');
+        if (video) {
+            video.play().catch(function(error) {
+                // Se autoplay falhar, tentar novamente após interação do usuário
+                document.addEventListener('click', function() {
+                    video.play();
+                }, { once: true });
+            });
+        }
+
+        // Detectar clique na tela
+        document.addEventListener('click', function(e) {
+            // Prevenir múltiplos cliques durante a animação
+            if (document.body.classList.contains('transitioning')) {
+                return;
+            }
+
+            // Marcar que está em transição
+            document.body.classList.add('transitioning');
+            
+            // Adicionar classe de zoom no hero-section
+            const heroSection = document.querySelector('.hero-section');
+            const contentWrapper = document.querySelector('.content-wrapper');
+            const zoomOverlay = document.getElementById('zoomOverlay');
+            
+            heroSection.classList.add('zooming');
+            contentWrapper.classList.add('zooming');
+            
+            // Ativar overlay de zoom e mudar cor de fundo
+            setTimeout(() => {
+                zoomOverlay.classList.add('active');
+                document.body.style.backgroundColor = '#ffffff';
+            }, 50);
+            
+            // Redirecionar após a animação completa
+            setTimeout(() => {
+                window.location.href = 'shared/login.html';
+            }, 900);
+        });
+
+        // Adicionar efeito de hover sutil para indicar que é clicável
+        document.addEventListener('mousemove', function(e) {
+            const heroSection = document.querySelector('.hero-section');
+            if (!document.body.classList.contains('transitioning')) {
+                heroSection.style.transition = 'transform 0.3s ease';
+            }
+        });
+    </script>
+
+</body>
+</html>
+
