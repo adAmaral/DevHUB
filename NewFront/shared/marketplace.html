@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DevHub - Encontre os melhores serviços</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "sidebar-light": "#ffffff",
+                        "sidebar-dark": "#182131",
+                        "text-light": "#0d121b",
+                        "text-dark": "#f8f9fc",
+                        "subtext-light": "#4c669a",
+                        "subtext-dark": "#a0aec0",
+                        "border-light": "#e7ebf3",
+                        "border-dark": "#2d3748",
+                        "card-light": "#ffffff",
+                        "card-dark": "#182131",
+                        "input-light": "#e7ebf3",
+                        "input-dark": "#2d3748",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 sm:px-10 py-3 bg-card-light dark:bg-card-dark sticky top-0 z-20">
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity" href="marketplace.html">
+<img src="../Logo.png" alt="DevHub" class="w-10 h-10">
+<span class="text-xl font-bold text-text-light dark:text-text-dark">DevHub</span>
+</a>
+</div>
+<div class="hidden md:flex flex-1 justify-center">
+<div class="w-full max-w-lg relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-subtext-light dark:text-subtext-dark">search</span>
+</div>
+<input class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark h-10 pl-10 pr-4 text-sm placeholder:text-subtext-light dark:placeholder:text-subtext-dark focus:ring-primary focus:border-primary" placeholder="Buscar por serviços, freelancers..." type="search"/>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-4">
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">Explorar</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">Meus Pedidos</a>
+<div class="relative" id="profileDropdown">
+<button onclick="toggleDropdownPerfil()" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-border-light dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+<div id="dropdownPerfil" class="hidden absolute right-0 mt-2 w-48 bg-card-light dark:bg-card-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark z-50">
+<div class="py-2">
+<a href="#" id="profileLink" class="block px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-input-light dark:hover:bg-input-dark">Meu Perfil</a>
+<a href="../empresa/empresa-configuracoes.html" class="block px-4 py-2 text-sm text-text-light dark:text-text-dark hover:bg-input-light dark:hover:bg-input-dark">Configurações</a>
+<div class="border-t border-border-light dark:border-border-dark my-1"></div>
+<a href="#" onclick="sair(); return false;" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-input-light dark:hover:bg-input-dark">Sair</a>
+</div>
+</div>
+</div>
+</div>
+<button class="md:hidden flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">menu</span>
+</button>
+</header>
+<div class="flex flex-1">
+<aside class="w-80 flex-shrink-0 bg-sidebar-light dark:bg-sidebar-dark p-6 border-r border-border-light dark:border-border-dark hidden lg:block sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto">
+<div class="flex flex-col gap-8">
+<div>
+<h3 class="text-base font-bold text-text-light dark:text-text-dark mb-4">Categorias</h3>
+<div class="relative">
+<button id="categoryDropdownBtn" onclick="toggleCategoryDropdown()" class="flex items-center justify-between w-full rounded-lg border border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark px-3 py-2 text-sm font-medium hover:bg-border-light dark:hover:bg-border-dark transition-colors">
+<span id="categorySelectedText">Selecione categorias</span>
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+<div id="categoryDropdown" class="hidden absolute z-50 mt-2 w-full bg-card-light dark:bg-card-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark p-2 max-h-[300px] overflow-y-auto">
+<div class="text-xs font-medium text-subtext-light dark:text-subtext-dark mb-2 px-2 py-1">Selecione categorias</div>
+<label class="flex items-center gap-3 cursor-pointer px-2 py-2 hover:bg-input-light dark:hover:bg-border-dark rounded transition-colors">
+<input class="filter-category h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Design Gráfico"/>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Design Gráfico</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer px-2 py-2 hover:bg-input-light dark:hover:bg-border-dark rounded transition-colors">
+<input checked="" class="filter-category h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Desenvolvimento Web"/>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Desenvolvimento Web</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer px-2 py-2 hover:bg-input-light dark:hover:bg-border-dark rounded transition-colors">
+<input class="filter-category h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Redação & Tradução"/>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Redação &amp; Tradução</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer px-2 py-2 hover:bg-input-light dark:hover:bg-border-dark rounded transition-colors">
+<input class="filter-category h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Marketing Digital"/>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Marketing Digital</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer px-2 py-2 hover:bg-input-light dark:hover:bg-border-dark rounded transition-colors">
+<input class="filter-category h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" value="Edição de Vídeo"/>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Edição de Vídeo</span>
+</label>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-light dark:text-text-dark mb-4">Faixa de Preço</h3>
+<div class="flex items-center gap-3">
+<input id="priceMin" class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark text-sm placeholder:text-subtext-light dark:placeholder:text-subtext-dark focus:ring-primary focus:border-primary" placeholder="Min" type="number"/>
+<span class="text-subtext-light dark:text-subtext-dark">-</span>
+<input id="priceMax" class="form-input w-full rounded-lg border-border-light dark:border-border-dark bg-input-light dark:bg-input-dark text-sm placeholder:text-subtext-light dark:placeholder:text-subtext-dark focus:ring-primary focus:border-primary" placeholder="Max" type="number"/>
+</div>
+</div>
+<div>
+<h3 class="text-base font-bold text-text-light dark:text-text-dark mb-4">Avaliações</h3>
+<div class="flex flex-col gap-2">
+<button class="filter-rating flex items-center gap-2 p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-subtext-light dark:text-subtext-dark w-full text-left" data-rating="5">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="text-sm font-medium ml-1">5 estrelas</span>
+</button>
+<button class="filter-rating flex items-center gap-2 p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-subtext-light dark:text-subtext-dark w-full text-left" data-rating="4">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>
+<span class="text-sm font-medium ml-1">4 estrelas ou mais</span>
+</button>
+<button class="filter-rating flex items-center gap-2 p-2 rounded-lg hover:bg-input-light dark:hover:bg-input-dark text-subtext-light dark:text-subtext-dark w-full text-left" data-rating="3">
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>
+<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>
+<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>
+<span class="text-sm font-medium ml-1">3 estrelas ou mais</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-3 pt-4 border-t border-border-light dark:border-border-dark">
+<button id="applyFilters" class="w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">Aplicar Filtros</button>
+<button id="clearFilters" class="w-full flex items-center justify-center rounded-lg h-10 px-4 bg-transparent text-primary dark:text-primary text-sm font-bold hover:bg-primary/10 transition-colors">Limpar Filtros</button>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-6 md:p-10">
+<div class="max-w-7xl mx-auto">
+<div class="mb-6">
+<h1 class="text-3xl font-bold text-text-light dark:text-text-dark">Desenvolvimento Web</h1>
+<p class="text-subtext-light dark:text-subtext-dark mt-1">Encontre os melhores freelancers para o seu projeto web.</p>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<p class="text-subtext-light dark:text-subtext-dark text-sm font-normal leading-normal" id="resultsCount">Exibindo 24 de 150 resultados</p>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-subtext-light dark:text-subtext-dark">Ordenar por:</span>
+<div class="relative">
+<select id="sortSelect" class="form-select appearance-none block w-full pl-3 pr-8 py-2 text-sm font-medium border-border-light dark:border-border-dark rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" title="Ordenar resultados">
+<option value="relevantes">Mais Relevantes</option>
+<option value="maior-preco">Maior Preço</option>
+<option value="menor-preco">Menor Preço</option>
+<option value="melhores-avaliacoes">Melhores Avaliações</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-subtext-light dark:text-subtext-dark">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6" id="servicesGrid">
+<!-- Produtos serão carregados dinamicamente aqui -->
+</div>
+<div class="flex items-center justify-center gap-2 pt-10" id="paginationContainer">
+<button id="prevPage" class="flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark hover:bg-border-light dark:hover:bg-border-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<div id="pageNumbers" class="flex items-center gap-2">
+<!-- Os números de página serão gerados dinamicamente -->
+</div>
+<button id="nextPage" class="flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark hover:bg-border-light dark:hover:bg-border-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</div>
+<script src="../auth.js"></script>
+<script src="../products.js"></script>
+<script>
+// Proteção de rota - permite todos os tipos de conta autenticados
+if (!authService.protectMarketplace()) {
+    // Redirecionamento automático já foi feito pelo protectMarketplace
+}
+
+// Função para toggle do dropdown
+function toggleDropdownPerfil() {
+    const dropdown = document.getElementById('dropdownPerfil');
+    dropdown.classList.toggle('hidden');
+}
+
+// Função para toggle do dropdown de categorias
+function toggleCategoryDropdown() {
+    const dropdown = document.getElementById('categoryDropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+// Função para atualizar o texto do botão de categorias
+function atualizarTextoCategorias() {
+    const checkboxes = document.querySelectorAll('.filter-category:checked');
+    const selectedText = document.getElementById('categorySelectedText');
+    
+    if (checkboxes.length === 0) {
+        selectedText.textContent = 'Selecione categorias';
+    } else if (checkboxes.length === 1) {
+        selectedText.textContent = checkboxes[0].value;
+    } else {
+        selectedText.textContent = `${checkboxes.length} categorias selecionadas`;
+    }
+}
+
+// Fechar dropdown ao clicar fora
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('dropdownPerfil');
+    const button = document.getElementById('profileDropdown');
+    if (!button.contains(event.target)) {
+        dropdown.classList.add('hidden');
+    }
+    
+    // Fechar dropdown de categorias ao clicar fora
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const categoryButton = document.getElementById('categoryDropdownBtn');
+    const categoryContainer = categoryButton ? categoryButton.closest('.relative') : null;
+    if (categoryDropdown && categoryContainer && !categoryContainer.contains(event.target)) {
+        categoryDropdown.classList.add('hidden');
+    }
+});
+
+// Função de logout
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = 'cadastro.html';
+    }
+}
+
+// Sistema de Filtros e Paginação
+let selectedRating = null;
+let currentPage = 1;
+const itemsPerPage = 6; // Mostrar 6 produtos por página
+let allProducts = []; // Array com todos os produtos carregados
+
+// Função para carregar produtos do localStorage
+function carregarProdutosDoStorage() {
+    allProducts = productService.getActiveProducts();
+    renderizarProdutos();
+}
+
+// Função para criar card de produto
+function criarCardProduto(produto) {
+    const div = document.createElement('div');
+    div.className = 'service-card group flex flex-col overflow-hidden rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark transition-shadow hover:shadow-lg cursor-pointer';
+    div.setAttribute('data-category', produto.categoria);
+    div.setAttribute('data-price', produto.preco);
+    div.setAttribute('data-rating', produto.rating || 0);
+    div.setAttribute('data-product-id', produto.id);
+    
+    // Adicionar evento de clique para redirecionar
+    div.addEventListener('click', function() {
+        window.location.href = `produto-detalhes.html?id=${produto.id}`;
+    });
+    
+    // Criar estrelas baseado na avaliação
+    const rating = produto.rating || 0;
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+        if (i < Math.floor(rating)) {
+            stars.push('<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>');
+        } else if (i === Math.floor(rating) && rating % 1 >= 0.5) {
+            stars.push('<span class="material-symbols-outlined text-lg text-[#FFD700]">star</span>');
+        } else {
+            stars.push('<span class="material-symbols-outlined text-lg text-border-light dark:text-border-dark">star</span>');
+        }
+    }
+    
+    // Criar elemento de imagem com tratamento de erro
+    const imagemDiv = document.createElement('div');
+    imagemDiv.className = 'aspect-video w-full bg-cover bg-center';
+    imagemDiv.setAttribute('data-alt', produto.nome);
+    
+    // Aplicar fallback imediatamente
+    const defaultFallback = 'https://via.placeholder.com/400x300?text=Produto';
+    const imagemUrl = produto.imagem && produto.imagem.trim() !== '' ? produto.imagem.trim() : null;
+    
+    imagemDiv.style.backgroundImage = `url('${defaultFallback}')`;
+    imagemDiv.style.backgroundSize = 'cover';
+    imagemDiv.style.backgroundPosition = 'center';
+    imagemDiv.style.backgroundRepeat = 'no-repeat';
+    
+    // Tentar carregar imagem real se houver URL
+    if (imagemUrl) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        
+        img.onload = function() {
+            imagemDiv.style.backgroundImage = `url('${imagemUrl}')`;
+        };
+        
+        img.onerror = function() {
+            // Manter fallback (já está aplicado)
+            console.log('Erro ao carregar imagem:', imagemUrl);
+        };
+        
+        try {
+            img.src = imagemUrl;
+        } catch (e) {
+            console.log('Erro ao definir src da imagem:', e);
+        }
+    }
+    
+    div.innerHTML = `
+        <div class="flex flex-col gap-4 p-5">
+            <h3 class="text-lg font-bold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">${produto.nome}</h3>
+            <p class="text-sm text-subtext-light dark:text-subtext-dark">por ${produto.vendedorNome}</p>
+            <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center gap-1">
+                    ${stars.join('')}
+                    <span class="font-bold text-text-light dark:text-text-dark">${rating.toFixed(1)}</span>
+                    <span class="text-sm text-subtext-light dark:text-subtext-dark">(${produto.avaliacoes || 0})</span>
+                </div>
+                <p class="text-base font-bold text-text-light dark:text-text-dark">R$ ${produto.preco.toFixed(2).replace('.', ',')}</p>
+            </div>
+        </div>
+    `;
+    // Inserir a imagem no início do div
+    div.insertBefore(imagemDiv, div.firstChild);
+    return div;
+}
+
+// Função para renderizar produtos no grid
+function renderizarProdutos() {
+    const servicesGrid = document.getElementById('servicesGrid');
+    if (!servicesGrid) return;
+    
+    servicesGrid.innerHTML = '';
+    
+    if (allProducts.length === 0) {
+        servicesGrid.innerHTML = '<div class="col-span-full text-center py-8 text-subtext-light dark:text-subtext-dark">Nenhum produto encontrado.</div>';
+        atualizarContadorResultados(0);
+        atualizarPagina(0);
+        return;
+    }
+    
+    allProducts.forEach(produto => {
+        const card = criarCardProduto(produto);
+        servicesGrid.appendChild(card);
+    });
+    
+    // Aplicar filtros e paginação
+    aplicarFiltros();
+}
+
+// Função para ordenar os cards (mantida para compatibilidade)
+function ordenarCards(cards) {
+    const sortSelect = document.getElementById('sortSelect');
+    const sortValue = sortSelect ? sortSelect.value : 'relevantes';
+    
+    const cardsArray = Array.from(cards);
+    
+    switch(sortValue) {
+        case 'maior-preco':
+            cardsArray.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                return priceB - priceA; // Maior para menor
+            });
+            break;
+            
+        case 'menor-preco':
+            cardsArray.sort((a, b) => {
+                const priceA = parseFloat(a.getAttribute('data-price'));
+                const priceB = parseFloat(b.getAttribute('data-price'));
+                return priceA - priceB; // Menor para maior
+            });
+            break;
+            
+        case 'melhores-avaliacoes':
+            cardsArray.sort((a, b) => {
+                const ratingA = parseFloat(a.getAttribute('data-rating'));
+                const ratingB = parseFloat(b.getAttribute('data-rating'));
+                return ratingB - ratingA; // Maior avaliação primeiro
+            });
+            break;
+            
+        case 'relevantes':
+        default:
+            // Manter ordem original (relevância padrão)
+            break;
+    }
+    
+    return cardsArray;
+}
+
+// Função para obter cards visíveis após filtros
+function obterCardsVisiveis() {
+    const categoryCheckboxes = document.querySelectorAll('.filter-category:checked');
+    const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
+    const priceMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
+    
+    // Obter categorias selecionadas
+    const selectedCategories = Array.from(categoryCheckboxes).map(cb => cb.value);
+    
+    // Filtrar produtos baseado nos critérios
+    let visibleProducts = allProducts.filter(produto => {
+        // Verificar categoria
+        const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(produto.categoria);
+        
+        // Verificar preço
+        const priceMatch = produto.preco >= priceMin && produto.preco <= priceMax;
+        
+        // Verificar avaliação
+        const ratingMatch = selectedRating === null || (produto.rating || 0) >= selectedRating;
+        
+        return categoryMatch && priceMatch && ratingMatch;
+    });
+    
+    // Ordenar produtos
+    visibleProducts = ordenarProdutos(visibleProducts);
+    
+    // Renderizar cards filtrados
+    const servicesGrid = document.getElementById('servicesGrid');
+    if (servicesGrid) {
+        servicesGrid.innerHTML = '';
+        visibleProducts.forEach(produto => {
+            const card = criarCardProduto(produto);
+            card.style.display = 'none'; // Esconder inicialmente para paginação
+            servicesGrid.appendChild(card);
+        });
+    }
+    
+    // Retornar cards do DOM para compatibilidade com código existente
+    return Array.from(document.querySelectorAll('.service-card'));
+}
+
+// Função para ordenar produtos (similar à ordenarCards mas para produtos)
+function ordenarProdutos(produtos) {
+    const sortSelect = document.getElementById('sortSelect');
+    const sortValue = sortSelect ? sortSelect.value : 'relevantes';
+    
+    const produtosArray = [...produtos];
+    
+    switch(sortValue) {
+        case 'maior-preco':
+            produtosArray.sort((a, b) => b.preco - a.preco);
+            break;
+            
+        case 'menor-preco':
+            produtosArray.sort((a, b) => a.preco - b.preco);
+            break;
+            
+        case 'melhores-avaliacoes':
+            produtosArray.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+            break;
+            
+        case 'relevantes':
+        default:
+            // Manter ordem original (relevância padrão)
+            break;
+    }
+    
+    return produtosArray;
+}
+
+// Função para aplicar filtros
+function aplicarFiltros() {
+    let visibleCards = obterCardsVisiveis();
+    
+    // Resetar para primeira página quando filtrar
+    currentPage = 1;
+    
+    // Aplicar paginação aos cards visíveis
+    aplicarPagina(visibleCards);
+    
+    // Atualizar contador de resultados
+    atualizarContadorResultados(visibleCards.length);
+    
+    // Atualizar paginação
+    atualizarPagina(visibleCards.length);
+}
+
+// Função para atualizar contador de resultados
+function atualizarContadorResultados(visibleCount) {
+    const resultsCount = document.getElementById('resultsCount');
+    if (resultsCount) {
+        if (visibleCount === 0) {
+            resultsCount.textContent = 'Nenhum resultado encontrado';
+        } else {
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, visibleCount);
+            resultsCount.textContent = `Exibindo ${startItem}-${endItem} de ${visibleCount} resultados`;
+        }
+    }
+}
+
+// Função para aplicar paginação aos cards
+function aplicarPagina(visibleCards) {
+    // Primeiro, esconder todos os cards
+    const allCards = document.querySelectorAll('.service-card');
+    allCards.forEach(card => {
+        card.style.display = 'none';
+    });
+    
+    // Calcular índices para a página atual
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    
+    // Mostrar apenas os cards da página atual (que já estão ordenados no DOM)
+    visibleCards.slice(startIndex, endIndex).forEach(card => {
+        if (card && card.parentNode) {
+            card.style.display = 'flex';
+        }
+    });
+}
+
+// Função para atualizar a interface de paginação
+function atualizarPagina(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const pageNumbersContainer = document.getElementById('pageNumbers');
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    
+    if (!pageNumbersContainer) return;
+    
+    // Limpar números de página existentes
+    pageNumbersContainer.innerHTML = '';
+    
+    // Desabilitar botões se necessário
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = currentPage === totalPages || totalPages === 0;
+    
+    if (totalPages === 0) {
+        return;
+    }
+    
+    // Calcular quais páginas mostrar
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+    
+    // Ajustar se estiver no início
+    if (currentPage <= 3) {
+        startPage = 1;
+        endPage = Math.min(5, totalPages);
+    }
+    
+    // Ajustar se estiver no final
+    if (currentPage >= totalPages - 2) {
+        startPage = Math.max(1, totalPages - 4);
+        endPage = totalPages;
+    }
+    
+    // Adicionar primeira página se não estiver visível
+    if (startPage > 1) {
+        const firstBtn = document.createElement('button');
+        firstBtn.className = 'flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark text-sm font-bold hover:bg-border-light dark:hover:bg-border-dark transition-colors';
+        firstBtn.textContent = '1';
+        firstBtn.onclick = () => irParaPagina(1);
+        pageNumbersContainer.appendChild(firstBtn);
+        
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'text-subtext-light dark:text-subtext-dark';
+            ellipsis.textContent = '...';
+            pageNumbersContainer.appendChild(ellipsis);
+        }
+    }
+    
+    // Adicionar páginas visíveis
+    for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        if (i === currentPage) {
+            pageBtn.className = 'flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold';
+        } else {
+            pageBtn.className = 'flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark text-sm font-bold hover:bg-border-light dark:hover:bg-border-dark transition-colors';
+        }
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => irParaPagina(i);
+        pageNumbersContainer.appendChild(pageBtn);
+    }
+    
+    // Adicionar última página se não estiver visível
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'text-subtext-light dark:text-subtext-dark';
+            ellipsis.textContent = '...';
+            pageNumbersContainer.appendChild(ellipsis);
+        }
+        
+        const lastBtn = document.createElement('button');
+        lastBtn.className = 'flex h-10 w-10 items-center justify-center rounded-lg bg-input-light dark:bg-input-dark text-text-light dark:text-text-dark text-sm font-bold hover:bg-border-light dark:hover:bg-border-dark transition-colors';
+        lastBtn.textContent = totalPages;
+        lastBtn.onclick = () => irParaPagina(totalPages);
+        pageNumbersContainer.appendChild(lastBtn);
+    }
+}
+
+// Função para ir para uma página específica
+function irParaPagina(page) {
+    currentPage = page;
+    
+    // Obter cards visíveis após filtros (já ordenados dentro de obterCardsVisiveis)
+    let visibleCards = obterCardsVisiveis();
+    
+    aplicarPagina(visibleCards);
+    atualizarPagina(visibleCards.length);
+    
+    // Atualizar contador de resultados
+    atualizarContadorResultados(visibleCards.length);
+    
+    // Scroll para o topo dos resultados
+    document.getElementById('servicesGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Função para limpar filtros
+function limparFiltros() {
+    // Limpar checkboxes de categoria
+    document.querySelectorAll('.filter-category').forEach(cb => {
+        cb.checked = false;
+    });
+    
+    // Marcar "Desenvolvimento Web" como padrão
+    const devWebCheckbox = Array.from(document.querySelectorAll('.filter-category')).find(cb => cb.value === 'Desenvolvimento Web');
+    if (devWebCheckbox) {
+        devWebCheckbox.checked = true;
+    }
+    
+    // Atualizar texto do botão
+    atualizarTextoCategorias();
+    
+    // Limpar inputs de preço
+    document.getElementById('priceMin').value = '';
+    document.getElementById('priceMax').value = '';
+    
+    // Limpar seleção de avaliação
+    selectedRating = null;
+    document.querySelectorAll('.filter-rating').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white');
+        btn.classList.add('text-subtext-light', 'dark:text-subtext-dark');
+    });
+    
+    // Aplicar filtros (mostrar todos)
+    aplicarFiltros();
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Redirecionar para o perfil correto baseado no tipo de conta
+    const session = authService.getSession();
+    if (session) {
+        const profileLink = document.getElementById('profileLink');
+        const routes = {
+            'empresa': '../empresa/empresa-dashboard.html',
+            'freelancer': '../freelancer/freelancer-dashboard.html',
+            'cliente': '../cliente/cliente-produtos.html'
+        };
+        const profileRoute = routes[session.accountType] || '../cliente/cliente-produtos.html';
+        profileLink.href = profileRoute;
+    }
+    
+    // Botão aplicar filtros
+    const applyFiltersBtn = document.getElementById('applyFilters');
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', aplicarFiltros);
+    }
+    
+    // Botão limpar filtros
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', limparFiltros);
+    }
+    
+    // Botões de avaliação
+    document.querySelectorAll('.filter-rating').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const rating = parseFloat(this.getAttribute('data-rating'));
+            
+            // Se clicar no mesmo botão, desmarcar
+            if (selectedRating === rating) {
+                selectedRating = null;
+                this.classList.remove('bg-primary', 'text-white');
+                this.classList.add('text-subtext-light', 'dark:text-subtext-dark');
+            } else {
+                // Desmarcar outros botões
+                document.querySelectorAll('.filter-rating').forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('text-subtext-light', 'dark:text-subtext-dark');
+                });
+                
+                // Marcar este botão
+                selectedRating = rating;
+                this.classList.add('bg-primary', 'text-white');
+                this.classList.remove('text-subtext-light', 'dark:text-subtext-dark');
+            }
+        });
+    });
+    
+    // Aplicar filtros automaticamente quando categorias mudarem
+    document.querySelectorAll('.filter-category').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            atualizarTextoCategorias();
+            aplicarFiltros();
+        });
+    });
+    
+    // Aplicar filtros quando preços mudarem
+    document.getElementById('priceMin').addEventListener('input', aplicarFiltros);
+    document.getElementById('priceMax').addEventListener('input', aplicarFiltros);
+    
+    // Botões de navegação de página
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                irParaPagina(currentPage - 1);
+            }
+        });
+    }
+    
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            let visibleCards = obterCardsVisiveis();
+            const totalPages = Math.ceil(visibleCards.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                irParaPagina(currentPage + 1);
+            }
+        });
+    }
+    
+    // Event listener para ordenação
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            aplicarFiltros();
+        });
+    }
+    
+    // Atualizar texto inicial das categorias
+    atualizarTextoCategorias();
+    
+    // Carregar produtos do localStorage
+    carregarProdutosDoStorage();
+    
+    // Aplicar filtros iniciais (com "Desenvolvimento Web" marcado)
+    aplicarFiltros();
+});
+</script>
+</body></html>

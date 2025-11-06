@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vendas - Freelancer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+      font-size: 24px;
+    }
+    .material-symbols-outlined.fill {
+        font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD74apyXAPg_-FyrdoYJsQNFvZ4Az_SXz4DES3NmzAFSIOo2Oz6A52M0-AuD0kO7wGN1v74v9AjhsMNWf7k91sJx-aAxJHY9ciqiaYlw6aZIZDGpQ-kOVvRb5uWOb90-95B-kb_Y8M5T0oqzeF02uCR02RZ_44txgviM4RPaOlBRo1ptNaWACCS8ETS5brHNfQoPjnP23rkp29OpKlWO1skRG33MLtYRaCyFASK8R5c6SIiFgMefB9X5X_7jQN0PrhajbenydUxsG-3");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Alexandre D.</h1>
+<p class="text-primary text-sm font-medium leading-normal">Plano Pro</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-dashboard.html">
+<span class="material-symbols-outlined">home</span>
+<p class="text-sm font-medium leading-normal">Início</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="../shared/marketplace.html">
+<span class="material-symbols-outlined">store</span>
+<p class="text-sm font-medium leading-normal">Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-produtos.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Produtos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="freelancer-vendas.html">
+<span class="material-symbols-outlined fill">shopping_cart</span>
+<p class="text-sm font-medium leading-normal">Vendas</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-clientes.html">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Clientes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-configuracoes.html">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Configurações</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="#" onclick="sair(); return false;">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<div class="p-8">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 items-center mb-6">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-gray-900 dark:text-white text-3xl font-bold leading-tight">Minhas Vendas</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Acompanhe todas as suas vendas e pedidos.</p>
+</div>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Vendas do Mês</p>
+<p class="text-gray-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">R$ 7.850,00</p>
+<p class="text-green-600 text-sm font-medium leading-normal">+5.2% vs. mês passado</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Vendas Realizadas</p>
+<p class="text-gray-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">42</p>
+<p class="text-green-600 text-sm font-medium leading-normal">+10.1% vs. mês passado</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Em Andamento</p>
+<p class="text-gray-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">8</p>
+<p class="text-blue-600 text-sm font-medium leading-normal">Pedidos ativos</p>
+</div>
+</div>
+<!-- Recent Sales Table -->
+<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight tracking-tight mb-4">Vendas Recentes</h2>
+<div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-gray-50 dark:bg-gray-800/50">
+<tr>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">ID da Venda</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Cliente</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Produto</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Valor</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Status</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Data</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">#3066</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Ana Clara</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Landing Page</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">R$ 1.250,00</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-300">Concluído</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">há 2 horas</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">#3065</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Bruno Gomes</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Redação de Artigos</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">R$ 890,00</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<span class="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900/50 px-2.5 py-0.5 text-xs font-medium text-yellow-800 dark:text-yellow-300">Em Andamento</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">há 1 dia</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">#3064</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Carlos Silva</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Edição de Vídeo</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">R$ 2.500,00</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-300">Concluído</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">há 2 dias</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">#3063</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Daniela Faria</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">Desenvolvimento Web</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">R$ 420,00</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/50 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:text-blue-300">Pendente</span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">há 3 dias</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="../auth.js"></script>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = '../shared/cadastro.html';
+    }
+}
+
+// Proteção de rota - apenas freelancers podem acessar
+if (!authService.protectRoute('freelancer')) {
+// Redirecionamento automático já foi feito pelo protectRoute
+}
+</script>
+</body></html>
+
+

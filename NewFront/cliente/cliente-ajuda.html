@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="" lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Central de Ajuda - Cliente</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#135bec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-white dark:bg-[#111722] p-4 border-r border-gray-200 dark:border-gray-800">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Avatar de Beatriz Costa" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFr0mkRqul_7bLxaTYkd2N6aXZFyyh_9xilhfOQrfAOJzuLyqytTVz6h6zgf8tseE-IEgmQDh0PpvT_vKu2bBXM1mWwZk7cQebOIzg-t_My2c5TtBzedFBgVRrIgEbDkP3alixyOMh4f0uZ3e0iRDwCN0wfijgp3IDiRCMnYQziouwwxcj45Y5_DZTy91cZH_JbXGmPV1xC-cXohKTMCX30z40eoH_imXHHqqgE0xv6Ibn5uqMlJ8FB9bjWVZsdqgKgk6rwp1NuwEC");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Beatriz Costa</h1>
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">InnovateTech</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="../shared/marketplace.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">store</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="cliente-produtos.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">inventory_2</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Produtos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="cliente-historico.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">history</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Histórico</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="cliente-detalhes-conta.html">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">manage_accounts</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Detalhes da Conta</p>
+</a>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-[#232f48]" href="cliente-ajuda.html">
+<span class="material-symbols-outlined text-primary dark:text-white" style="font-variation-settings: 'FILL' 1;">help_outline</span>
+<p class="text-primary dark:text-white text-sm font-bold leading-normal">Ajuda</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5" href="#" onclick="sair(); return false;">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">logout</span>
+<p class="text-gray-700 dark:text-white text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-8">
+<div class="mx-auto max-w-7xl">
+<div class="flex items-center justify-between mb-6">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Central de Ajuda</h1>
+</div>
+
+<div class="mt-6">
+<div class="bg-white dark:bg-[#111722] rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Perguntas Frequentes</h2>
+
+<div class="space-y-4">
+<!-- FAQ 1 -->
+<div class="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Como adquirir um produto ou serviço?</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400">Acesse o Marketplace e navegue pelos produtos disponíveis. Clique em "Ver Detalhes" para saber mais sobre o produto e depois clique em "Adquirir" para finalizar a compra.</p>
+</div>
+
+<!-- FAQ 2 -->
+<div class="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Como avaliar um produto adquirido?</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400">Na página de produtos adquiridos, clique no botão "Avaliar" do produto desejado. Você poderá dar uma nota de 1 a 5 estrelas e deixar um comentário sobre sua experiência.</p>
+</div>
+
+<!-- FAQ 3 -->
+<div class="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Como solicitar suporte?</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400">Para produtos ativos, você pode clicar no botão "Suporte" na página de produtos adquiridos. Também é possível entrar em contato através do email: suporte@devhub.com</p>
+</div>
+
+<!-- FAQ 4 -->
+<div class="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Como renovar um produto expirado?</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400">Na página de produtos adquiridos, localize o produto com status "Expirado" e clique no botão "Renovar". Você será redirecionado para a página de renovação.</p>
+</div>
+
+<!-- FAQ 5 -->
+<div class="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+<h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2">Como alterar meus dados pessoais?</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400">Acesse a página "Detalhes da Conta" e clique no botão "Editar Perfil". Você será redirecionado para a página de configurações onde poderá atualizar suas informações.</p>
+</div>
+</div>
+
+<div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Entre em Contato</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary dark:text-white">email</span>
+<h4 class="text-base font-semibold text-gray-900 dark:text-white">Email</h4>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400">suporte@devhub.com</p>
+</div>
+<div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary dark:text-white">schedule</span>
+<h4 class="text-base font-semibold text-gray-900 dark:text-white">Horário de Atendimento</h4>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400">Segunda a Sexta: 9h às 18h</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="../auth.js"></script>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = '../shared/cadastro.html';
+    }
+}
+</script>
+<script>
+if (!authService.protectRoute('cliente')) {
+}
+
+// Carregar dados do usuário
+function carregarDadosUsuario() {
+    const user = authService.getCurrentUser();
+    if (!user) return;
+
+    // Preencher informações no sidebar
+    const nomeElement = document.querySelector('aside h1');
+    const empresaElement = document.querySelector('aside p');
+    
+    if (nomeElement) {
+        nomeElement.textContent = user.nome || 'Usuário';
+    }
+    if (empresaElement && user.nomeEmpresa) {
+        empresaElement.textContent = user.nomeEmpresa;
+    } else if (empresaElement) {
+        empresaElement.textContent = 'Cliente';
+    }
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+</script>
+</body></html>
+
+

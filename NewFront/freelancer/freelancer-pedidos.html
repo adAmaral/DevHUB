@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meus Pedidos - Freelancer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+      font-size: 24px;
+    }
+    .material-symbols-outlined.fill {
+        font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD74apyXAPg_-FyrdoYJsQNFvZ4Az_SXz4DES3NmzAFSIOo2Oz6A52M0-AuD0kO7wGN1v74v9AjhsMNWf7k91sJx-aAxJHY9ciqiaYlw6aZIZDGpQ-kOVvRb5uWOb90-95B-kb_Y8M5T0oqzeF02uCR02RZ_44txgviM4RPaOlBRo1ptNaWACCS8ETS5brHNfQoPjnP23rkp29OpKlWO1skRG33MLtYRaCyFASK8R5c6SIiFgMefB9X5X_7jQN0PrhajbenydUxsG-3");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Alexandre D.</h1>
+<p class="text-primary text-sm font-medium leading-normal">Plano Pro</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-dashboard.html">
+<span class="material-symbols-outlined">home</span>
+<p class="text-sm font-medium leading-normal">Início</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="../shared/marketplace.html">
+<span class="material-symbols-outlined">store</span>
+<p class="text-sm font-medium leading-normal">Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-produtos.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Produtos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-vendas.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<p class="text-sm font-medium leading-normal">Vendas</p>
+</a>
+<a id="pedidosLink" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="freelancer-pedidos.html">
+<span class="material-symbols-outlined fill">receipt_long</span>
+<p class="text-sm font-medium leading-normal">Meus Pedidos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-clientes.html">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Clientes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-configuracoes.html">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Configurações</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="#" onclick="sair(); return false;">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<div class="p-8">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 mb-6">
+<p class="text-gray-900 dark:text-white text-3xl font-black leading-tight tracking-[-0.033em] min-w-72">Meus Pedidos</p>
+</div>
+<!-- Filtros -->
+<div class="mb-6 flex flex-wrap gap-4">
+<button onclick="filtrarPedidos('todos')" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 font-medium text-sm" id="filtroTodos">Todos</button>
+<button onclick="filtrarPedidos('pendente')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium text-sm" id="filtroPendente">Pendentes</button>
+<button onclick="filtrarPedidos('processando')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium text-sm" id="filtroProcessando">Processando</button>
+<button onclick="filtrarPedidos('concluido')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium text-sm" id="filtroConcluido">Concluídos</button>
+<button onclick="filtrarPedidos('cancelado')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium text-sm" id="filtroCancelado">Cancelados</button>
+</div>
+<!-- Tabela de Pedidos -->
+<div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-gray-50 dark:bg-gray-800/50">
+<tr>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">ID do Pedido</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Serviço</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Cliente</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Valor</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Status</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Data</th>
+<th class="px-6 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Ações</th>
+</tr>
+</thead>
+<tbody id="pedidosTableBody" class="divide-y divide-gray-200 dark:divide-gray-800">
+<!-- Pedidos serão carregados dinamicamente -->
+</tbody>
+</table>
+</div>
+</div>
+<!-- Mensagem quando não há pedidos -->
+<div id="semPedidos" class="hidden text-center py-12">
+<span class="material-symbols-outlined text-6xl text-gray-400 dark:text-gray-600 mb-4">receipt_long</span>
+<p class="text-gray-500 dark:text-gray-400 text-lg font-medium">Nenhum pedido encontrado</p>
+<p class="text-gray-400 dark:text-gray-500 text-sm mt-2">Seus pedidos aparecerão aqui quando houver compras dos seus serviços.</p>
+</div>
+</div>
+</main>
+</div>
+<script src="../auth.js"></script>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = '../shared/cadastro.html';
+    }
+}
+
+// Proteção de rota - apenas freelancers podem acessar
+if (!authService.protectRoute('freelancer')) {
+// Redirecionamento automático já foi feito pelo protectRoute
+}
+
+// Sistema de configurações
+const settingsKey = 'freelancer_settings';
+function getSettings() {
+    const settings = localStorage.getItem(settingsKey);
+    return settings ? JSON.parse(settings) : { mostrarPedidos: true };
+}
+
+function mostrarAbaPedidos() {
+    const settings = getSettings();
+    const pedidosLink = document.getElementById('pedidosLink');
+    if (pedidosLink) {
+        pedidosLink.style.display = settings.mostrarPedidos ? 'flex' : 'none';
+    }
+}
+
+// Carregar pedidos (simulado - você pode conectar com seu sistema real)
+let todosPedidos = [];
+let filtroAtual = 'todos';
+
+function carregarPedidos() {
+    // Simular alguns pedidos - em produção, isso viria de uma API ou localStorage
+    todosPedidos = [
+        {
+            id: '#ORD-501',
+            servico: 'Design de Logo',
+            cliente: 'Maria Silva',
+            valor: 450.00,
+            status: 'pendente',
+            data: '2024-01-16'
+        },
+        {
+            id: '#ORD-502',
+            servico: 'Desenvolvimento Frontend',
+            cliente: 'João Santos',
+            valor: 1200.00,
+            status: 'processando',
+            data: '2024-01-15'
+        },
+        {
+            id: '#ORD-503',
+            servico: 'Edição de Vídeo',
+            cliente: 'Ana Costa',
+            valor: 800.00,
+            status: 'concluido',
+            data: '2024-01-12'
+        },
+        {
+            id: '#ORD-504',
+            servico: 'Consultoria SEO',
+            cliente: 'Pedro Alves',
+            valor: 600.00,
+            status: 'cancelado',
+            data: '2024-01-10'
+        }
+    ];
+    
+    renderizarPedidos();
+}
+
+function renderizarPedidos() {
+    const tbody = document.getElementById('pedidosTableBody');
+    const semPedidos = document.getElementById('semPedidos');
+    
+    if (!tbody) return;
+    
+    let pedidosFiltrados = todosPedidos;
+    
+    if (filtroAtual !== 'todos') {
+        pedidosFiltrados = todosPedidos.filter(p => p.status === filtroAtual);
+    }
+    
+    tbody.innerHTML = '';
+    
+    if (pedidosFiltrados.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">Nenhum pedido encontrado para este filtro.</td></tr>';
+        if (semPedidos) semPedidos.classList.remove('hidden');
+        return;
+    }
+    
+    if (semPedidos) semPedidos.classList.add('hidden');
+    
+    pedidosFiltrados.forEach(pedido => {
+        const statusClass = {
+            'pendente': 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300',
+            'processando': 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300',
+            'concluido': 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300',
+            'cancelado': 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300'
+        }[pedido.status] || '';
+        
+        const statusText = {
+            'pendente': 'Pendente',
+            'processando': 'Processando',
+            'concluido': 'Concluído',
+            'cancelado': 'Cancelado'
+        }[pedido.status] || pedido.status;
+        
+        const dataFormatada = new Date(pedido.data).toLocaleDateString('pt-BR');
+        
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50 dark:hover:bg-gray-800/50';
+        row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">${pedido.id}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">${pedido.servico}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">${pedido.cliente}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">R$ ${pedido.valor.toFixed(2).replace('.', ',')}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusClass}">${statusText}</span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">${dataFormatada}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <button onclick="verDetalhes('${pedido.id}')" class="text-primary hover:text-primary/80 font-medium">Ver Detalhes</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function filtrarPedidos(status) {
+    filtroAtual = status;
+    
+    // Atualizar botões
+    document.querySelectorAll('[id^="filtro"]').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white');
+        btn.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+    });
+    
+    const btnAtivo = document.getElementById(`filtro${status.charAt(0).toUpperCase() + status.slice(1)}`);
+    if (btnAtivo) {
+        btnAtivo.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+        btnAtivo.classList.add('bg-primary', 'text-white');
+    }
+    
+    renderizarPedidos();
+}
+
+function verDetalhes(id) {
+    alert(`Visualizando detalhes do pedido ${id}`);
+    // Aqui você pode redirecionar para uma página de detalhes ou abrir um modal
+}
+
+// Executar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    mostrarAbaPedidos();
+    carregarPedidos();
+    
+    // Escutar mudanças nas configurações
+    window.addEventListener('settingsUpdated', mostrarAbaPedidos);
+    
+    // Escutar mudanças de storage
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'freelancer_settings') {
+            mostrarAbaPedidos();
+        }
+    });
+});
+</script>
+</body></html>
+
+

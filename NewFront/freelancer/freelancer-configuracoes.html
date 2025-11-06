@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configurações - Freelancer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            "display": ["Manrope", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+      font-size: 24px;
+    }
+    .material-symbols-outlined.fill {
+        font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD74apyXAPg_-FyrdoYJsQNFvZ4Az_SXz4DES3NmzAFSIOo2Oz6A52M0-AuD0kO7wGN1v74v9AjhsMNWf7k91sJx-aAxJHY9ciqiaYlw6aZIZDGpQ-kOVvRb5uWOb90-95B-kb_Y8M5T0oqzeF02uCR02RZ_44txgviM4RPaOlBRo1ptNaWACCS8ETS5brHNfQoPjnP23rkp29OpKlWO1skRG33MLtYRaCyFASK8R5c6SIiFgMefB9X5X_7jQN0PrhajbenydUxsG-3");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Alexandre D.</h1>
+<p class="text-primary text-sm font-medium leading-normal">Plano Pro</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-dashboard.html">
+<span class="material-symbols-outlined">home</span>
+<p class="text-sm font-medium leading-normal">Início</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="../shared/marketplace.html">
+<span class="material-symbols-outlined">store</span>
+<p class="text-sm font-medium leading-normal">Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-produtos.html">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Produtos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-vendas.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<p class="text-sm font-medium leading-normal">Vendas</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="freelancer-clientes.html">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Clientes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="freelancer-configuracoes.html">
+<span class="material-symbols-outlined fill">settings</span>
+<p class="text-sm font-medium leading-normal">Configurações</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50" href="#" onclick="sair(); return false;">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Sair</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<div class="p-8">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 mb-6">
+<p class="text-gray-900 dark:text-white text-3xl font-black leading-tight tracking-[-0.033em] min-w-72">Configurações</p>
+</div>
+<!-- Settings Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Account Settings -->
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">person</span>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Informações Pessoais</h3>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Nome Completo</label>
+<input type="text" id="configNome" value="Alexandre D." class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+<input type="email" id="configEmail" value="alexandre@email.com" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Telefone</label>
+<input type="tel" id="configTelefone" value="(11) 98765-4321" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Especialidade</label>
+<input type="text" id="configEspecialidade" value="Desenvolvimento Web" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="pt-2">
+<button onclick="salvarConfiguracoes()" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 font-medium text-sm">Salvar Alterações</button>
+</div>
+</div>
+</div>
+<!-- Notification Settings -->
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">notifications</span>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Notificações</h3>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-gray-900 dark:text-white">Notificações por Email</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Receba atualizações importantes por email</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" checked class="sr-only peer"/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-gray-900 dark:text-white">Notificações de Novos Pedidos</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Alertas sobre novos pedidos de clientes</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" checked class="sr-only peer"/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-gray-900 dark:text-white">Notificações de Mensagens</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Alertas sobre novas mensagens</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" class="sr-only peer"/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Interface Settings -->
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">tune</span>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Interface</h3>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-gray-900 dark:text-white">Mostrar aba "Meus Pedidos"</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Exibir a aba de pedidos no menu lateral</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" id="togglePedidos" checked class="sr-only peer"/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Security Settings -->
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">lock</span>
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Segurança</h3>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Senha Atual</label>
+<input type="password" id="senhaAtual" placeholder="Digite sua senha atual" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Nova Senha</label>
+<input type="password" id="novaSenha" placeholder="Digite sua nova senha" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Confirmar Nova Senha</label>
+<input type="password" id="confirmarSenha" placeholder="Confirme sua nova senha" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div class="pt-2">
+<button onclick="alterarSenha()" class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 font-medium text-sm">Alterar Senha</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar -->
+<div class="lg:col-span-1 flex flex-col gap-6">
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Plano Atual</h3>
+<div class="flex flex-col gap-3">
+<p class="text-2xl font-bold text-primary">Pro</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Plano Pro inclui funcionalidades avançadas para freelancers</p>
+<button class="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium text-sm mt-2">Gerenciar Plano</button>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-gray-200 dark:border-gray-800 p-6 bg-white dark:bg-background-dark">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Aparência</h3>
+<div class="flex flex-col gap-3">
+<button onclick="toggleDarkMode()" class="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 font-medium text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">dark_mode</span>
+Modo Escuro
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+// Sistema de configurações
+const settingsKey = 'freelancer_settings';
+function getSettings() {
+    const settings = localStorage.getItem(settingsKey);
+    return settings ? JSON.parse(settings) : { mostrarPedidos: true };
+}
+
+function saveSettings(settings) {
+    localStorage.setItem(settingsKey, JSON.stringify(settings));
+}
+
+function carregarConfiguracoes() {
+    const settings = getSettings();
+    const togglePedidos = document.getElementById('togglePedidos');
+    if (togglePedidos) {
+        togglePedidos.checked = settings.mostrarPedidos;
+    }
+}
+
+function salvarConfiguracoes() {
+const nome = document.getElementById('configNome').value;
+const email = document.getElementById('configEmail').value;
+const telefone = document.getElementById('configTelefone').value;
+const especialidade = document.getElementById('configEspecialidade').value;
+
+// Salvar configuração de pedidos
+const togglePedidos = document.getElementById('togglePedidos');
+const settings = getSettings();
+settings.mostrarPedidos = togglePedidos ? togglePedidos.checked : true;
+saveSettings(settings);
+
+// Disparar evento para atualizar outras páginas
+window.dispatchEvent(new Event('settingsUpdated'));
+
+alert('Configurações salvas com sucesso!');
+}
+function alterarSenha() {
+const senhaAtual = document.getElementById('senhaAtual').value;
+const novaSenha = document.getElementById('novaSenha').value;
+const confirmarSenha = document.getElementById('confirmarSenha').value;
+if (!senhaAtual || !novaSenha || !confirmarSenha) {
+alert('Por favor, preencha todos os campos!');
+return;
+}
+if (novaSenha !== confirmarSenha) {
+alert('As senhas não coincidem!');
+return;
+}
+alert('Senha alterada com sucesso!');
+document.getElementById('senhaAtual').value = '';
+document.getElementById('novaSenha').value = '';
+document.getElementById('confirmarSenha').value = '';
+}
+function toggleDarkMode() {
+const html = document.documentElement;
+if (html.classList.contains('dark')) {
+html.classList.remove('dark');
+html.classList.add('light');
+} else {
+html.classList.remove('light');
+html.classList.add('dark');
+}
+}
+</script>
+<script src="../auth.js"></script>
+<script>
+function sair() {
+    if (confirm('Tem certeza que deseja sair?')) {
+        authService.logout();
+        window.location.href = '../shared/cadastro.html';
+    }
+}
+
+// Proteção de rota - apenas freelancers podem acessar
+if (!authService.protectRoute('freelancer')) {
+// Redirecionamento automático já foi feito pelo protectRoute
+}
+
+// Carregar configurações ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    carregarConfiguracoes();
+    
+    // Adicionar listener ao toggle
+    const togglePedidos = document.getElementById('togglePedidos');
+    if (togglePedidos) {
+        togglePedidos.addEventListener('change', function() {
+            const settings = getSettings();
+            settings.mostrarPedidos = this.checked;
+            saveSettings(settings);
+            
+            // Atualizar aba imediatamente se estiver em outra página
+            // Disparar evento customizado para atualizar outras abas
+            window.dispatchEvent(new Event('settingsUpdated'));
+        });
+    }
+    
+    // Escutar mudanças de storage (para atualizar quando mudar em outra aba)
+    window.addEventListener('storage', function(e) {
+        if (e.key === settingsKey) {
+            carregarConfiguracoes();
+        }
+    });
+});
+</script>
+</body></html>
+
+
