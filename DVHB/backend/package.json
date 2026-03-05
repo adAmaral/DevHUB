@@ -1,0 +1,23 @@
+{
+    "name": "DevHub-Backend",
+    "version": "0.0.1",
+    "description": "API do MarketPlace devHub",
+    "main": src/server.js,
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "nodemon src/server.js",
+        "test": "Jest",
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "sequelize": "^6.31.0",
+        "mysql2": "^3.3.3"
+    },
+    "devDependencies": {
+        "jest": "^29.5.0",
+        "supertest": "^6.4.2",
+        "nodemon": "^3.0.1"
+    }
+}
