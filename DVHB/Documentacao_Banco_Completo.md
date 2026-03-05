@@ -406,6 +406,6 @@
 
 ---
 
-**Desenvolvido para**: Marketplace Enterprise de Softwares 2026
+**Desenvolvido para**: Dev Hub 2026
 **Versão**: 3.0 (Completo)
 **Status**: Pronto para Produção
