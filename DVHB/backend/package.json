@@ -2,11 +2,11 @@
     "name": "DevHub-Backend",
     "version": "0.0.1",
     "description": "API do MarketPlace devHub",
-    "main": src/server.js,
+    "main": "src/server.js",
     "scripts": {
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
-        "test": "Jest",
+        "test": "Jest"
     },
     "dependencies": {
         "express": "^4.18.2",
