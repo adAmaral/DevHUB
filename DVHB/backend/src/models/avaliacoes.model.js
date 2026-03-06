@@ -8,7 +8,7 @@ const Avaliacoes = sequelize.define('Avaliacoes', {
     rating: { type: DataTypes.INTEGER, allowNull: false },
     titulo: { type: DataTypes.STRING, allowNull: false },
     comentario: { type: DataTypes.TEXT, allowNull: true },
-    fotos: { type: DataTypes.ARRAY(DataTypes.STRING), allowNull: true },
+    fotos: { type: DataTypes.TEXT, allowNull: true },
     data_criacao: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
 },
     {

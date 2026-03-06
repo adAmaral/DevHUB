@@ -18,4 +18,4 @@ const Enderco = sequelize.define('Enderco', {
         tableName: 'endercos',
         timestamps: false,
     });
-module.exports = Endereco;
+module.exports = Enderco;
