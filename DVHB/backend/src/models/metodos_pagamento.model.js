@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
-const PayMethod = sequelize.define('PayMethod', {
+const PayMethod = sequelize.define('metodos_pagamento', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     usuario_id: { type: DataTypes.INTEGER, allowNull: false },
     tipo: { type: DataTypes.ENUM('cartao_credito', 'cartao_debito', 'boleto', 'pix'), allowNull: false },
