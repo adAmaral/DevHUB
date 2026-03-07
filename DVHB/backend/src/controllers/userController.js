@@ -1,4 +1,3 @@
-const { unsubscribe } = require('diagnostics_channel');
 const User = require('../models/user.model');
 
 exports.createUser = async (req, res, next) => {

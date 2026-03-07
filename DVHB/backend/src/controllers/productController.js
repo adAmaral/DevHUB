@@ -16,7 +16,7 @@ exports.getProductById = async (req, res, next) => {
         const product = await Product.findByPk(id);
 
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
         res.json(product);
             }catch (err) {
@@ -39,7 +39,7 @@ exports.updateProduct = async (req, res, next) => {
 
         const product = await Product.findByPk(id);
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
         await product.update(req.body);
         res.json(product);
