@@ -4,6 +4,7 @@ const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
 const enderecosRouter = require('./routes/endereco');
 const carrinhoRouter = require('./routes/carrinho');
+const pedidoRouter = require('./routes/pedido');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/enderecos', enderecosRouter);
 app.use('/api/carrinho', carrinhoRouter);
+app.use('/api/pedidos', pedidoRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
