@@ -5,6 +5,8 @@ const productsRouter = require('./routes/products');
 const enderecosRouter = require('./routes/endereco');
 const carrinhoRouter = require('./routes/carrinho');
 const pedidoRouter = require('./routes/pedido');
+const itensPedidoRouter = require('./routes/itenspedido');
+const payMethodRouter = require('./routes/paymethod');
 
 const app = express();
 
@@ -16,6 +18,8 @@ app.use('/api/products', productsRouter);
 app.use('/api/enderecos', enderecosRouter);
 app.use('/api/carrinho', carrinhoRouter);
 app.use('/api/pedidos', pedidoRouter);
+app.use('/api/itenspedido', itensPedidoRouter);
+app.use('/api/paymethods', payMethodRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
