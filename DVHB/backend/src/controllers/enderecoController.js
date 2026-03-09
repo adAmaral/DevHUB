@@ -1,4 +1,4 @@
-const Enderco = require('../models/Endereco');
+const Enderco = require('../models/endercos.model');
 exports.getAll = async (req, res, next) => {
     try {
         const where = {};
@@ -20,7 +20,50 @@ exports.getById = async (req, res, next) => {
         }
         res.json(item);
     }
-    res.json(item);
-}   catch (err) {
+   catch (err) {
     next(err);
+   }    
+};
+
+exports.create = async (req, res, next) => {
+    try {
+        const item = await Enderco.create(req.body);
+        res.status(201).json(item);
+    }
+    catch (err) {
+        next(err);
+    }
+};
+
+exports.update = async (req, res, next) => {
+    try{
+        const { id } = req.params;
+        const item = await Enderco.findByPk(id);
+
+        if (!item) {
+            return res.status(404).json({ message: 'Endereço não encontrado'});
+        }
+
+        await item.update(req.body);
+        res.json(item);
+    }
+    catch (err){
+        next(err);
+    }
+};
+
+exports.remove = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const item = await Enderco.findByPk(id);
+        
+        if(!item){
+            return res.status(404).json({ message: 'Endereço não encontrado'});
+        }
+        await item.destroy();
+        res.status(204).send();
+    }
+    catch (err){
+        next(err);
+    }
 };
