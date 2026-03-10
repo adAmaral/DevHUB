@@ -6,7 +6,7 @@ const Avaliacoes = sequelize.define('Avaliacoes', {
     produto_id: { type: DataTypes.INTEGER, allowNull: false },
     usuario_id: { type: DataTypes.INTEGER, allowNull: false },
     rating: { type: DataTypes.INTEGER, allowNull: false },
-    titulo: { type: DataTypes.STRING, allowNull: false },
+    titulo: { type: DataTypes.TEXT, allowNull: false },
     comentario: { type: DataTypes.TEXT, allowNull: true },
     fotos: { type: DataTypes.TEXT, allowNull: true },
     data_criacao: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
