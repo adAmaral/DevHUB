@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const ticketsSuporteController = require('../controllers/ticketsSuporteController');
+const TicketSuporteController = require('../controllers/TicketSuporteController');
 
-router.get('/', ticketsSuporteController.getAll);
-router.get('/:id', ticketsSuporteController.getById);
-router.post('/', ticketsSuporteController.create);
-router.put('/:id', ticketsSuporteController.update);
-router.delete('/:id', ticketsSuporteController.remove);
+router.get('/', TicketSuporteController.getAll);
+router.get('/:id', TicketSuporteController.getById);
+router.post('/', TicketSuporteController.create);
+router.put('/:id', TicketSuporteController.update);
+router.delete('/:id', TicketSuporteController.remove);
 
 module.exports = router;
