@@ -8,6 +8,9 @@ const pedidoRouter = require('./routes/pedido');
 const itensPedidoRouter = require('./routes/itenspedido');
 const payMethodRouter = require('./routes/paymethod');
 const cuponsRouter = require('./routes/cupons');
+const avaliacoesRouter = require('./routes/avaliacoes');
+const webhookRouter = require('./routes/webhook');
+const ticketSuporteRouter = require('./routes/ticketSuporte');
 
 const app = express();
 
@@ -22,6 +25,9 @@ app.use('/api/pedidos', pedidoRouter);
 app.use('/api/itenspedido', itensPedidoRouter);
 app.use('/api/paymethods', payMethodRouter);
 app.use('/api/cupons', cuponsRouter);
+app.use('/api/avaliacoes', avaliacoesRouter);
+app.use('/api/webhooks', webhookRouter);
+app.use('/api/tickets', ticketSuporteRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
