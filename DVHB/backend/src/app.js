@@ -13,6 +13,9 @@ const webhooksRouter = require('./routes/webhooks');
 const ticketsSuporteRouter = require('./routes/ticketsSuporte');
 const telemetriaSoftwareRouter = require('./routes/TelemetriaSoftware');
 const softwareRouter = require('./routes/software');
+const respostasSuporteRouter = require('./routes/respostasSuporte');
+const requisitosSoftwareRouter = require('./routes/requisitosSoftware');
+const planosPrecoRouter = require('./routes/planosPreco');
 
 const app = express();
 
@@ -32,6 +35,9 @@ app.use('/api/webhooks', webhooksRouter);
 app.use('/api/tickets', ticketsSuporteRouter);
 app.use('/api/telemetria', telemetriaSoftwareRouter);
 app.use('/api/software', softwareRouter);
+app.use('/api/respostas', respostasSuporteRouter);
+app.use('/api/requisitos', requisitosSoftwareRouter);
+app.use('/api/planospreco', planosPrecoRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
