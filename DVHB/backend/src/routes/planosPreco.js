@@ -4,8 +4,8 @@ const planosPrecoController = require('../controllers/planosPrecoController')
 
 router.get('/', planosPrecoController.getAll);
 router.get('/:id', planosPrecoController.getById);
-router.get('/', planosPrecoController.create);
-router.get('/:id', planosPrecoController.update);
-router.get('/:id', planosPrecoController.remove);
+router.post('/', planosPrecoController.create);
+router.put('/:id', planosPrecoController.update);
+router.delete('/:id', planosPrecoController.remove);
 
 module.exports = router;

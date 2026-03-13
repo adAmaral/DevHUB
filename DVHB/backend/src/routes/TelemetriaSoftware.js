@@ -1,5 +1,5 @@
-const exporess = require('express');
-const router = exporess.Router();
+const express = require('express');
+const router = express.Router();
 const telemetriaController = require('../controllers/telemetriaController');
 
 router.get('/', telemetriaController.getAll);
