@@ -1,4 +1,4 @@
-const Avaliacoes = require('../models/Avaliacoes');
+const Avaliacoes = require('../models/avaliacoes.model');
 
 exports.getAll = async (req, res, next) => {
     try {
