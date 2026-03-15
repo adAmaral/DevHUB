@@ -1,8 +1,12 @@
+CREATE DATABASE IF NOT EXISTS devhub_db;
+USE devhub_db;
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- ESTRUTURA DE BANCO DE DADOS - MARKETPLACE
 -- =============================================
 
 -- 1. TABELA DE USUÁRIOS
-CREATE TABLE usuarios (
+CREATE TABLE IF NOT EXISTS usuarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -15,8 +19,8 @@ CREATE TABLE usuarios (
     ativo BOOLEAN DEFAULT TRUE
 );
 
--- 2. TABELA DE ENDEREÇOS
-CREATE TABLE endercos (
+-- 2. TABELA DE ENDEREÇOS (Corrigido de 'endercos')
+CREATE TABLE IF NOT EXISTS enderecos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo ENUM('residencial', 'comercial', 'outro') DEFAULT 'residencial',
@@ -33,7 +37,7 @@ CREATE TABLE endercos (
 );
 
 -- 3. TABELA DE MÉTODOS DE PAGAMENTO
-CREATE TABLE metodos_pagamento (
+CREATE TABLE IF NOT EXISTS metodos_pagamento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo ENUM('cartao_credito', 'cartao_debito', 'boleto', 'pix') NOT NULL,
@@ -49,7 +53,7 @@ CREATE TABLE metodos_pagamento (
 );
 
 -- 4. TABELA DE PRODUTOS
-CREATE TABLE produtos (
+CREATE TABLE IF NOT EXISTS produtos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     descricao TEXT,
@@ -65,7 +69,7 @@ CREATE TABLE produtos (
 );
 
 -- 5. TABELA DE CARRINHO
-CREATE TABLE carrinho (
+CREATE TABLE IF NOT EXISTS carrinho (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     produto_id INT NOT NULL,
@@ -78,7 +82,7 @@ CREATE TABLE carrinho (
 );
 
 -- 6. TABELA DE CUPONS
-CREATE TABLE cupons (
+CREATE TABLE IF NOT EXISTS cupons (
     id INT PRIMARY KEY AUTO_INCREMENT,
     codigo VARCHAR(50) UNIQUE NOT NULL,
     descricao VARCHAR(255),
@@ -96,7 +100,7 @@ CREATE TABLE cupons (
 );
 
 -- 7. TABELA DE PEDIDOS
-CREATE TABLE pedidos (
+CREATE TABLE IF NOT EXISTS pedidos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     endereco_entrega_id INT NOT NULL,
@@ -113,13 +117,13 @@ CREATE TABLE pedidos (
     data_entrega_real DATE,
     data_cancelamento DATE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (endereco_entrega_id) REFERENCES endercos(id),
+    FOREIGN KEY (endereco_entrega_id) REFERENCES enderecos(id),
     FOREIGN KEY (metodo_pagamento_id) REFERENCES metodos_pagamento(id),
     FOREIGN KEY (cupom_id) REFERENCES cupons(id) ON DELETE SET NULL
 );
 
 -- 8. TABELA DE ITENS DO PEDIDO
-CREATE TABLE itens_pedido (
+CREATE TABLE IF NOT EXISTS itens_pedido (
     id INT PRIMARY KEY AUTO_INCREMENT,
     pedido_id INT NOT NULL,
     produto_id INT NOT NULL,
@@ -131,7 +135,7 @@ CREATE TABLE itens_pedido (
 );
 
 -- 9. TABELA DE FAVORITOS
-CREATE TABLE favoritos (
+CREATE TABLE IF NOT EXISTS favoritos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     produto_id INT NOT NULL,
@@ -142,7 +146,7 @@ CREATE TABLE favoritos (
 );
 
 -- 10. TABELA DE WISHLIST
-CREATE TABLE wishlist (
+CREATE TABLE IF NOT EXISTS wishlist (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     produto_id INT NOT NULL,
@@ -155,7 +159,7 @@ CREATE TABLE wishlist (
 );
 
 -- 11. TABELA DE AVALIAÇÕES
-CREATE TABLE avaliacoes (
+CREATE TABLE IF NOT EXISTS avaliacoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     pedido_id INT NOT NULL,
     produto_id INT NOT NULL,
@@ -172,7 +176,7 @@ CREATE TABLE avaliacoes (
 );
 
 -- 12. TABELA DE NOTIFICAÇÕES
-CREATE TABLE notificacoes (
+CREATE TABLE IF NOT EXISTS notificacoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     titulo VARCHAR(255) NOT NULL,
@@ -184,7 +188,7 @@ CREATE TABLE notificacoes (
 );
 
 -- 13. TABELA DE MENSAGENS/CHAT
-CREATE TABLE mensagens (
+CREATE TABLE IF NOT EXISTS mensagens (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     pedido_id INT,
@@ -198,7 +202,7 @@ CREATE TABLE mensagens (
 );
 
 -- 14. TABELA DE DEVOLUÇÕES
-CREATE TABLE devolucoes (
+CREATE TABLE IF NOT EXISTS devolucoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     pedido_id INT NOT NULL,
     motivo VARCHAR(255) NOT NULL,
@@ -211,7 +215,7 @@ CREATE TABLE devolucoes (
 );
 
 -- 15. TABELA DE DENÚNCIAS
-CREATE TABLE denuncias (
+CREATE TABLE IF NOT EXISTS denuncias (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     produto_id INT,
@@ -223,9 +227,9 @@ CREATE TABLE denuncias (
     FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE SET NULL
 );
 
--- ÍNDICES PARA PERFORMANCE
+-- ÍNDICES PARA PERFORMANCE (Usando DROP INDEX IF EXISTS não é padrão em MySQL sem procedures complexas, então evitamos rodar índices soltos se a tabela já existe, mas o IF NOT EXISTS nas tabelas já ajuda. Se der erro nos índices rodando de novo, é só ignorar).
 CREATE INDEX idx_usuario_email ON usuarios(email);
-CREATE INDEX idx_usuario_id ON endercos(usuario_id);
+CREATE INDEX idx_usuario_id ON enderecos(usuario_id);
 CREATE INDEX idx_carrinho_usuario ON carrinho(usuario_id);
 CREATE INDEX idx_pedido_usuario ON pedidos(usuario_id);
 CREATE INDEX idx_pedido_status ON pedidos(status);
@@ -237,8 +241,9 @@ CREATE INDEX idx_mensagem_usuario ON mensagens(usuario_id);
 -- TRIGGERS
 -- =============================================
 
--- TRIGGER: Atualizar rating do produto após nova avaliação
 DELIMITER //
+
+DROP TRIGGER IF EXISTS atualizar_rating_produto//
 CREATE TRIGGER atualizar_rating_produto
 AFTER INSERT ON avaliacoes
 FOR EACH ROW
@@ -248,20 +253,16 @@ BEGIN
         quantidade_avaliacoes = (SELECT COUNT(*) FROM avaliacoes WHERE produto_id = NEW.produto_id)
     WHERE id = NEW.produto_id;
 END //
-DELIMITER ;
 
--- TRIGGER: Decrementar estoque quando item é adicionado ao pedido
-DELIMITER //
+DROP TRIGGER IF EXISTS decrementar_estoque//
 CREATE TRIGGER decrementar_estoque
 AFTER INSERT ON itens_pedido
 FOR EACH ROW
 BEGIN
     UPDATE produtos SET estoque = estoque - NEW.quantidade WHERE id = NEW.produto_id;
 END //
-DELIMITER ;
 
--- TRIGGER: Incrementar estoque quando devolução é reembolsada
-DELIMITER //
+DROP TRIGGER IF EXISTS incrementar_estoque_devolucao//
 CREATE TRIGGER incrementar_estoque_devolucao
 AFTER UPDATE ON devolucoes
 FOR EACH ROW
@@ -271,10 +272,8 @@ BEGIN
         WHERE id IN (SELECT produto_id FROM itens_pedido WHERE pedido_id = NEW.pedido_id);
     END IF;
 END //
-DELIMITER ;
 
--- TRIGGER: Usar cupom quando pedido é criado
-DELIMITER //
+DROP TRIGGER IF EXISTS usar_cupom//
 CREATE TRIGGER usar_cupom
 AFTER INSERT ON pedidos
 FOR EACH ROW
@@ -283,10 +282,8 @@ BEGIN
         UPDATE cupons SET quantidade_usada = quantidade_usada + 1 WHERE id = NEW.cupom_id;
     END IF;
 END //
-DELIMITER ;
 
--- TRIGGER: Criar notificação quando pedido muda de status
-DELIMITER //
+DROP TRIGGER IF EXISTS notificar_mudanca_status_pedido//
 CREATE TRIGGER notificar_mudanca_status_pedido
 AFTER UPDATE ON pedidos
 FOR EACH ROW
@@ -305,8 +302,7 @@ DELIMITER ;
 -- VIEWS ÚTEIS
 -- =============================================
 
--- VIEW: Detalhes completos do pedido
-CREATE VIEW v_pedidos_detalhes AS
+CREATE OR REPLACE VIEW v_pedidos_detalhes AS
 SELECT 
     p.id,
     p.numero_rastreio,
@@ -321,12 +317,11 @@ SELECT
     COUNT(ip.id) as quantidade_itens
 FROM pedidos p
 JOIN usuarios u ON p.usuario_id = u.id
-JOIN endercos e ON p.endereco_entrega_id = e.id
+JOIN enderecos e ON p.endereco_entrega_id = e.id
 LEFT JOIN itens_pedido ip ON p.id = ip.pedido_id
 GROUP BY p.id;
 
--- VIEW: Produtos mais avaliados
-CREATE VIEW v_produtos_top_avaliados AS
+CREATE OR REPLACE VIEW v_produtos_top_avaliados AS
 SELECT 
     id,
     nome,
@@ -338,8 +333,7 @@ FROM produtos
 WHERE ativo = TRUE
 ORDER BY rating DESC, quantidade_avaliacoes DESC;
 
--- VIEW: Cupons disponíveis por usuário
-CREATE VIEW v_cupons_disponiveis AS
+CREATE OR REPLACE VIEW v_cupons_disponiveis AS
 SELECT 
     id,
     codigo,
@@ -354,8 +348,7 @@ WHERE ativo = TRUE
     AND CURDATE() BETWEEN data_inicio AND data_fim
     AND (quantidade_total IS NULL OR quantidade_usada < quantidade_total);
 
--- VIEW: Histórico de compras por usuário
-CREATE VIEW v_historico_compras AS
+CREATE OR REPLACE VIEW v_historico_compras AS
 SELECT 
     u.id as usuario_id,
     u.nome,
@@ -367,8 +360,7 @@ FROM usuarios u
 LEFT JOIN pedidos p ON u.id = p.usuario_id AND p.status != 'cancelado'
 GROUP BY u.id;
 
--- VIEW: Produtos com estoque baixo
-CREATE VIEW v_produtos_estoque_baixo AS
+CREATE OR REPLACE VIEW v_produtos_estoque_baixo AS
 SELECT 
     id,
     nome,
@@ -379,57 +371,11 @@ FROM produtos
 WHERE estoque <= 10 AND ativo = TRUE;
 
 -- =============================================
--- DADOS DE EXEMPLO
--- =============================================
-
--- Inserir usuários exemplo
-INSERT INTO usuarios (nome, email, cpf, telefone, senha, ativo) VALUES
-('João Silva', 'joao@email.com', '123.456.789-00', '11987654321', 'senha_hash_1', TRUE),
-('Maria Santos', 'maria@email.com', '987.654.321-00', '11987654322', 'senha_hash_2', TRUE),
-('Carlos Oliveira', 'carlos@email.com', '456.789.123-00', '11987654323', 'senha_hash_3', TRUE),
-('Ana Costa', 'ana@email.com', '789.123.456-00', '11987654324', 'senha_hash_4', TRUE),
-('Pedro Martins', 'pedro@email.com', '321.654.987-00', '11987654325', 'senha_hash_5', TRUE);
-
--- Inserir endereços exemplo
-INSERT INTO endercos (usuario_id, tipo, endereco, numero, complemento, bairro, cidade, estado, cep, principal) VALUES
-(1, 'residencial', 'Rua A', '100', 'Apt 101', 'Centro', 'São Paulo', 'SP', '01000-000', TRUE),
-(1, 'comercial', 'Av B', '200', 'Sala 202', 'Zona Norte', 'São Paulo', 'SP', '02000-000', FALSE),
-(2, 'residencial', 'Rua C', '300', 'Casa', 'Vila Nova', 'Rio de Janeiro', 'RJ', '20000-000', TRUE),
-(3, 'residencial', 'Av D', '400', 'Apt 305', 'Jardins', 'Belo Horizonte', 'MG', '30000-000', TRUE),
-(4, 'residencial', 'Rua E', '500', 'Apt 401', 'Centro', 'Brasília', 'DF', '70000-000', TRUE);
-
--- Inserir métodos de pagamento exemplo
-INSERT INTO metodos_pagamento (usuario_id, tipo, titular, numero_mascado, mes_validade, ano_validade, padrao, ativo) VALUES
-(1, 'cartao_credito', 'JOAO SILVA', '****-****-****-1234', 12, 2027, TRUE, TRUE),
-(2, 'cartao_credito', 'MARIA SANTOS', '****-****-****-5678', 6, 2026, TRUE, TRUE),
-(3, 'pix', NULL, NULL, NULL, NULL, TRUE, TRUE),
-(4, 'boleto', NULL, NULL, NULL, NULL, FALSE, TRUE),
-(5, 'cartao_debito', 'PEDRO MARTINS', '****-****-****-9012', 8, 2025, TRUE, TRUE);
-
--- Inserir produtos exemplo
-INSERT INTO produtos (nome, descricao, categoria, preco, preco_original, estoque, rating, ativo) VALUES
-('Smartphone XYZ', 'Smartphone de última geração com tela AMOLED', 'Eletrônicos', 1299.99, 1599.99, 25, 4.5, TRUE),
-('Fone Bluetooth', 'Fone sem fio com cancelamento de ruído', 'Eletrônicos', 199.99, 249.99, 50, 4.8, TRUE),
-('Capa Protetora', 'Capa resistente para smartphone', 'Acessórios', 49.99, 69.99, 100, 4.2, TRUE),
-('Carregador Rápido', 'Carregador USB-C 65W', 'Acessórios', 89.99, 129.99, 35, 4.6, TRUE),
-('Película Protetora', 'Película de vidro temperado', 'Acessórios', 19.99, 29.99, 150, 4.7, TRUE),
-('Mochila Laptop', 'Mochila com compartimento para notebook', 'Bolsas', 159.99, 199.99, 20, 4.4, TRUE),
-('Mouse Gamer', 'Mouse com DPI ajustável RGB', 'Periféricos', 129.99, 179.99, 45, 4.3, TRUE),
-('Teclado Mecânico', 'Teclado mecanico switches red', 'Periféricos', 349.99, 449.99, 15, 4.9, TRUE);
-
--- Inserir cupons exemplo
-INSERT INTO cupons (codigo, descricao, tipo, valor, minimo_compra, quantidade_total, data_inicio, data_fim, ativo) VALUES
-('DESCONTO10', '10% de desconto em eletrônicos', 'percentual', 10.00, 100.00, 50, CURDATE() - INTERVAL 5 DAY, CURDATE() + INTERVAL 30 DAY, TRUE),
-('FRETE50', 'R$50 de desconto no frete', 'fixo', 50.00, 200.00, 25, CURDATE() - INTERVAL 2 DAY, CURDATE() + INTERVAL 20 DAY, TRUE),
-('PRIMEIRACOMPRA', 'R$100 para primeira compra', 'fixo', 100.00, 150.00, 100, CURDATE() - INTERVAL 10 DAY, CURDATE() + INTERVAL 60 DAY, TRUE),
-('VERAO25', '25% de desconto em acessórios', 'percentual', 25.00, 50.00, 40, CURDATE() - INTERVAL 15 DAY, CURDATE() + INTERVAL 45 DAY, TRUE);
-
--- =============================================
 -- PROCEDURES
 -- =============================================
 
--- PROCEDURE: Gerar relatório de vendas por período
 DELIMITER //
+DROP PROCEDURE IF EXISTS relatorio_vendas//
 CREATE PROCEDURE relatorio_vendas(
     IN data_inicio DATE,
     IN data_fim DATE
@@ -447,10 +393,8 @@ BEGIN
     GROUP BY DATE(p.data_pedido)
     ORDER BY data DESC;
 END //
-DELIMITER ;
 
--- PROCEDURE: Criar pedido (simplificado)
-DELIMITER //
+DROP PROCEDURE IF EXISTS criar_pedido//
 CREATE PROCEDURE criar_pedido(
     IN p_usuario_id INT,
     IN p_endereco_id INT,
@@ -486,10 +430,8 @@ BEGIN
     
     SET p_pedido_id = LAST_INSERT_ID();
 END //
-DELIMITER ;
 
--- PROCEDURE: Buscar produtos por filtros
-DELIMITER //
+DROP PROCEDURE IF EXISTS buscar_produtos//
 CREATE PROCEDURE buscar_produtos(
     IN p_categoria VARCHAR(100),
     IN p_preco_min DECIMAL(10,2),
@@ -520,8 +462,7 @@ DELIMITER ;
 -- TABELAS - FORNECEDOR/DESENVOLVEDOR
 -- =============================================
 
--- 16. TABELA DE FORNECEDORES/EMPRESAS
-CREATE TABLE fornecedores (
+CREATE TABLE IF NOT EXISTS fornecedores (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL UNIQUE,
     nome_empresa VARCHAR(255) NOT NULL,
@@ -548,8 +489,7 @@ CREATE TABLE fornecedores (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- 17. TABELA DE SOFTWARES/PRODUTOS DIGITAIS
-CREATE TABLE softwares (
+CREATE TABLE IF NOT EXISTS softwares (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     nome VARCHAR(255) NOT NULL,
@@ -579,8 +519,7 @@ CREATE TABLE softwares (
     INDEX idx_fornecedor (fornecedor_id)
 );
 
--- 18. TABELA DE PLANOS DE PREÇO
-CREATE TABLE planos_preco (
+CREATE TABLE IF NOT EXISTS planos_preco (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
@@ -597,8 +536,7 @@ CREATE TABLE planos_preco (
     FOREIGN KEY (software_id) REFERENCES softwares(id) ON DELETE CASCADE
 );
 
--- 18.1 TABELA DE MÍDIA/IMAGENS DO SOFTWARE
-CREATE TABLE midia_software (
+CREATE TABLE IF NOT EXISTS midia_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     tipo_midia ENUM('logo', 'banner', 'screenshot', 'icon', 'tutorial', 'documento', 'video') NOT NULL,
@@ -623,12 +561,7 @@ CREATE TABLE midia_software (
     INDEX idx_software_tipo (software_id, tipo_midia)
 );
 
--- =============================================
--- TABELA DE CARACTERÍSTICAS/FEATURES DO SOFTWARE
--- =============================================
-
--- 19. TABELA DE CARACTERÍSTICAS DO SOFTWARE
-CREATE TABLE caracteristicas_software (
+CREATE TABLE IF NOT EXISTS caracteristicas_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     nome_feature VARCHAR(255) NOT NULL,
@@ -642,8 +575,7 @@ CREATE TABLE caracteristicas_software (
     FOREIGN KEY (software_id) REFERENCES softwares(id) ON DELETE CASCADE
 );
 
--- 20. TABELA DE REQUISITOS DO SOFTWARE
-CREATE TABLE requisitos_software (
+CREATE TABLE IF NOT EXISTS requisitos_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     so VARCHAR(100),
@@ -660,12 +592,7 @@ CREATE TABLE requisitos_software (
     FOREIGN KEY (software_id) REFERENCES softwares(id) ON DELETE CASCADE
 );
 
--- =============================================
--- TABELA DE VERSÕES DE SOFTWARE
--- =============================================
-
--- 21. TABELA DE VERSÕES DE SOFTWARE (RENUMERADA)
-CREATE TABLE versoes_software (
+CREATE TABLE IF NOT EXISTS versoes_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     numero_versao VARCHAR(50) NOT NULL,
@@ -694,12 +621,7 @@ CREATE TABLE versoes_software (
     INDEX idx_versao_atual (software_id, versao_atual)
 );
 
--- =============================================
--- TABELA DE LICENÇAS
--- =============================================
-
--- 22. TABELA DE LICENÇAS (RENUMERADA)
-CREATE TABLE licencas (
+CREATE TABLE IF NOT EXISTS licencas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -727,12 +649,7 @@ CREATE TABLE licencas (
     INDEX idx_status (status)
 );
 
--- =============================================
--- TABELA DE VENDAS/RECEITA
--- =============================================
-
--- 23. TABELA DE VENDAS/RECEITA (RENUMERADA)
-CREATE TABLE vendas_software (
+CREATE TABLE IF NOT EXISTS vendas_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     pedido_id INT NOT NULL,
@@ -765,12 +682,7 @@ CREATE TABLE vendas_software (
     INDEX idx_status_pagamento (status_pagamento)
 );
 
--- =============================================
--- TABELA DE TICKETS DE SUPORTE
--- =============================================
-
--- 24. TABELA DE TICKETS DE SUPORTE (RENUMERADA)
-CREATE TABLE tickets_suporte (
+CREATE TABLE IF NOT EXISTS tickets_suporte (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     fornecedor_id INT NOT NULL,
@@ -798,8 +710,7 @@ CREATE TABLE tickets_suporte (
     INDEX idx_software (software_id)
 );
 
--- 25. TABELA DE RESPOSTAS DE SUPORTE (RENUMERADA)
-CREATE TABLE respostas_suporte (
+CREATE TABLE IF NOT EXISTS respostas_suporte (
     id INT PRIMARY KEY AUTO_INCREMENT,
     ticket_id INT NOT NULL,
     usuario_id INT,
@@ -819,12 +730,7 @@ CREATE TABLE respostas_suporte (
     INDEX idx_ticket (ticket_id)
 );
 
--- =============================================
--- TABELA DE CUPONS PARA SOFTWARES
--- =============================================
-
--- 26. TABELA DE CUPONS PARA SOFTWARES (RENUMERADA)
-CREATE TABLE cupons_software (
+CREATE TABLE IF NOT EXISTS cupons_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     software_id INT,
@@ -847,12 +753,7 @@ CREATE TABLE cupons_software (
     INDEX idx_ativo (ativo)
 );
 
--- =============================================
--- TABELA DE EQUIPE DO DESENVOLVEDOR
--- =============================================
-
--- 27. TABELA DE EQUIPE DO DESENVOLVEDOR (RENUMERADA)
-CREATE TABLE equipe_desenvolvimento (
+CREATE TABLE IF NOT EXISTS equipe_desenvolvimento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     usuario_id INT NOT NULL,
@@ -868,12 +769,7 @@ CREATE TABLE equipe_desenvolvimento (
     INDEX idx_papel (papel)
 );
 
--- =============================================
--- TABELA DE INTEGRAÇÃO GIT
--- =============================================
-
--- 28. TABELA DE INTEGRAÇÃO GIT (RENUMERADA)
-CREATE TABLE integracao_git (
+CREATE TABLE IF NOT EXISTS integracao_git (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     tipo_repo ENUM('github', 'gitlab', 'bitbucket', 'gitea') NOT NULL,
@@ -896,12 +792,7 @@ CREATE TABLE integracao_git (
     UNIQUE KEY (software_id, tipo_repo)
 );
 
--- =============================================
--- TABELA DE ESTATÍSTICAS DE SOFTWARE
--- =============================================
-
--- 29. TABELA DE ESTATÍSTICAS DE SOFTWARE (RENUMERADA)
-CREATE TABLE estatisticas_software (
+CREATE TABLE IF NOT EXISTS estatisticas_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     data_relatorio DATE,
@@ -927,12 +818,7 @@ CREATE TABLE estatisticas_software (
     INDEX idx_data (data_relatorio)
 );
 
--- =============================================
--- TABELA DE TELEMETRIA
--- =============================================
-
--- 30. TABELA DE TELEMETRIA (RENUMERADA)
-CREATE TABLE telemetria_software (
+CREATE TABLE IF NOT EXISTS telemetria_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     licenca_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -962,12 +848,7 @@ CREATE TABLE telemetria_software (
     INDEX idx_sessao (sessao_id)
 );
 
--- =============================================
--- TABELA DE FEATURE REQUESTS
--- =============================================
-
--- 31. TABELA DE FEATURE REQUESTS (RENUMERADA)
-CREATE TABLE feature_requests (
+CREATE TABLE IF NOT EXISTS feature_requests (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     usuario_id INT,
@@ -985,12 +866,7 @@ CREATE TABLE feature_requests (
     INDEX idx_votos (votos)
 );
 
--- =============================================
--- TABELA DE WEBHOOKS
--- =============================================
-
--- 32. TABELA DE WEBHOOKS (RENUMERADA)
-CREATE TABLE webhooks (
+CREATE TABLE IF NOT EXISTS webhooks (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     url_webhook VARCHAR(500) NOT NULL,
@@ -1009,12 +885,7 @@ CREATE TABLE webhooks (
     FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id) ON DELETE CASCADE
 );
 
--- =============================================
--- TABELA DE AUDITORIA
--- =============================================
-
--- 33. TABELA DE AUDITORIA (RENUMERADA)
-CREATE TABLE auditoria_softwares (
+CREATE TABLE IF NOT EXISTS auditoria_softwares (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     usuario_id INT,
@@ -1034,10 +905,6 @@ CREATE TABLE auditoria_softwares (
     INDEX idx_tipo_acao (tipo_acao)
 );
 
--- =============================================
--- ÍNDICES ADICIONAIS PARA PERFORMANCE
--- =============================================
-
 CREATE INDEX idx_software_fornecedor ON softwares(fornecedor_id);
 CREATE INDEX idx_software_categoria ON softwares(categoria);
 CREATE INDEX idx_licenca_usuario ON licencas(usuario_id);
@@ -1051,8 +918,8 @@ CREATE INDEX idx_telemetria_licenca ON telemetria_software(licenca_id);
 -- TRIGGERS PARA FORNECEDOR/DESENVOLVEDOR
 -- =============================================
 
--- TRIGGER: Atualizar saldo do fornecedor após venda
 DELIMITER //
+DROP TRIGGER IF EXISTS atualizar_saldo_fornecedor//
 CREATE TRIGGER atualizar_saldo_fornecedor
 AFTER INSERT ON vendas_software
 FOR EACH ROW
@@ -1061,10 +928,8 @@ BEGIN
     SET saldo_pendente = saldo_pendente + NEW.valor_liquido
     WHERE id = NEW.fornecedor_id;
 END //
-DELIMITER ;
 
--- TRIGGER: Decrementar votos em feature request quando duplicado
-DELIMITER //
+DROP TRIGGER IF EXISTS registrar_voto_feature//
 CREATE TRIGGER registrar_voto_feature
 AFTER INSERT ON feature_requests
 FOR EACH ROW
@@ -1078,10 +943,8 @@ BEGIN
     JOIN softwares s ON s.id = NEW.software_id
     WHERE e.fornecedor_id = s.fornecedor_id;
 END //
-DELIMITER ;
 
--- TRIGGER: Criar notificação para novo ticket de suporte
-DELIMITER //
+DROP TRIGGER IF EXISTS notificar_novo_ticket//
 CREATE TRIGGER notificar_novo_ticket
 AFTER INSERT ON tickets_suporte
 FOR EACH ROW
@@ -1093,3 +956,5 @@ BEGIN
             'sistema');
 END //
 DELIMITER ;
+
+SET FOREIGN_KEY_CHECKS = 1;

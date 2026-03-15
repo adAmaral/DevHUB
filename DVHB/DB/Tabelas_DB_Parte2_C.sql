@@ -1,14 +1,12 @@
+USE devhub_db;
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- =============================================
 -- BANCO DE DADOS MARKETPLACE - PARTE 2
 -- TABELAS COMPLEMENTARES ENTERPRISE
 -- =============================================
 
--- =============================================
--- TABELAS MANY-TO-MANY (RELACIONAMENTOS)
--- =============================================
-
--- 1. TABELA DE CATEGORIAS PARA SOFTWARES
-CREATE TABLE software_categorias (
+CREATE TABLE IF NOT EXISTS software_categorias (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     categoria VARCHAR(100) NOT NULL,
@@ -18,8 +16,7 @@ CREATE TABLE software_categorias (
     INDEX idx_categoria (categoria)
 );
 
--- 2. TABELA DE TAGS PARA SOFTWARES
-CREATE TABLE software_tags (
+CREATE TABLE IF NOT EXISTS software_tags (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     tag VARCHAR(50) NOT NULL,
@@ -29,8 +26,7 @@ CREATE TABLE software_tags (
     INDEX idx_tag (tag)
 );
 
--- 3. TABELA CARACTERÍSTICAS POR PLANO
-CREATE TABLE plano_caracteristicas (
+CREATE TABLE IF NOT EXISTS plano_caracteristicas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     plano_id INT NOT NULL,
     caracteristica_id INT NOT NULL,
@@ -39,8 +35,7 @@ CREATE TABLE plano_caracteristicas (
     UNIQUE KEY (plano_id, caracteristica_id)
 );
 
--- 4. TABELA DE VOTOS EM FEATURES (ONE VOTE PER USER)
-CREATE TABLE usuario_voto_feature (
+CREATE TABLE IF NOT EXISTS usuario_voto_feature (
     id INT PRIMARY KEY AUTO_INCREMENT,
     feature_id INT NOT NULL,
     usuario_id INT NOT NULL,
@@ -52,8 +47,7 @@ CREATE TABLE usuario_voto_feature (
     INDEX idx_usuario (usuario_id)
 );
 
--- 5. TABELA DE UTILIDADE DE AVALIAÇÕES
-CREATE TABLE avaliacao_utilidade (
+CREATE TABLE IF NOT EXISTS avaliacao_utilidade (
     id INT PRIMARY KEY AUTO_INCREMENT,
     avaliacao_id INT NOT NULL,
     usuario_id INT NOT NULL,
@@ -64,8 +58,7 @@ CREATE TABLE avaliacao_utilidade (
     UNIQUE KEY (avaliacao_id, usuario_id)
 );
 
--- 6. TABELA DE SOFTWARES RELACIONADOS
-CREATE TABLE softwares_relacionados (
+CREATE TABLE IF NOT EXISTS softwares_relacionados (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_a INT NOT NULL,
     software_b INT NOT NULL,
@@ -76,8 +69,7 @@ CREATE TABLE softwares_relacionados (
     UNIQUE KEY (software_a, software_b)
 );
 
--- 7. TABELA DE BUNDLES (PACOTES COM MÚLTIPLOS SOFTWARES)
-CREATE TABLE bundles_software (
+CREATE TABLE IF NOT EXISTS bundles_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     descricao TEXT,
@@ -90,8 +82,7 @@ CREATE TABLE bundles_software (
     FOREIGN KEY (criado_por) REFERENCES fornecedores(id)
 );
 
--- 8. TABELA DE ITENS DO BUNDLE
-CREATE TABLE bundle_itens (
+CREATE TABLE IF NOT EXISTS bundle_itens (
     id INT PRIMARY KEY AUTO_INCREMENT,
     bundle_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -102,8 +93,7 @@ CREATE TABLE bundle_itens (
     UNIQUE KEY (bundle_id, software_id)
 );
 
--- 9. TABELA DE EXTENSÕES/PLUGINS
-CREATE TABLE extensoes_software (
+CREATE TABLE IF NOT EXISTS extensoes_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_host_id INT NOT NULL,
     software_extensao_id INT NOT NULL,
@@ -116,12 +106,7 @@ CREATE TABLE extensoes_software (
     UNIQUE KEY (software_host_id, software_extensao_id)
 );
 
--- =============================================
--- TABELAS DE CONFIGURAÇÃO
--- =============================================
-
--- 10. CONFIGURAÇÕES DO MARKETPLACE
-CREATE TABLE configuracoes_marketplace (
+CREATE TABLE IF NOT EXISTS configuracoes_marketplace (
     id INT PRIMARY KEY AUTO_INCREMENT,
     chave_config VARCHAR(100) UNIQUE NOT NULL,
     valor_config TEXT,
@@ -131,8 +116,7 @@ CREATE TABLE configuracoes_marketplace (
     data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 11. CONFIGURAÇÕES POR FORNECEDOR
-CREATE TABLE configuracoes_fornecedor (
+CREATE TABLE IF NOT EXISTS configuracoes_fornecedor (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     chave_config VARCHAR(100),
@@ -142,8 +126,7 @@ CREATE TABLE configuracoes_fornecedor (
     UNIQUE KEY (fornecedor_id, chave_config)
 );
 
--- 12. CONFIGURAÇÕES POR USUÁRIO
-CREATE TABLE configuracoes_usuario (
+CREATE TABLE IF NOT EXISTS configuracoes_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tema VARCHAR(50) DEFAULT 'light',
@@ -161,8 +144,7 @@ CREATE TABLE configuracoes_usuario (
     UNIQUE KEY (usuario_id)
 );
 
--- 13. CONFIGURAÇÕES DE NOTIFICAÇÃO
-CREATE TABLE configuracoes_notificacao (
+CREATE TABLE IF NOT EXISTS configuracoes_notificacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo_notificacao VARCHAR(100),
@@ -175,12 +157,7 @@ CREATE TABLE configuracoes_notificacao (
     UNIQUE KEY (usuario_id, tipo_notificacao)
 );
 
--- =============================================
--- TABELAS DE SEGURANÇA AVANÇADA
--- =============================================
-
--- 14. SESSÕES DO USUÁRIO
-CREATE TABLE sessoes_usuario (
+CREATE TABLE IF NOT EXISTS sessoes_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     token_sessao VARCHAR(255) UNIQUE NOT NULL,
@@ -195,8 +172,7 @@ CREATE TABLE sessoes_usuario (
     INDEX idx_usuario_id (usuario_id)
 );
 
--- 15. TENTATIVAS DE LOGIN FALHADAS
-CREATE TABLE tentativas_login_falhas (
+CREATE TABLE IF NOT EXISTS tentativas_login_falhas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255),
     ip_address VARCHAR(50),
@@ -209,8 +185,7 @@ CREATE TABLE tentativas_login_falhas (
     INDEX idx_email (email)
 );
 
--- 16. LOGS DE SEGURANÇA
-CREATE TABLE logs_seguranca (
+CREATE TABLE IF NOT EXISTS logs_seguranca (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT,
     tipo_evento ENUM('login', 'logout', 'mudanca_senha', 'mudanca_email', 'falha_login', 'acesso_negado', 'dados_exportados', 'dados_deletados') NOT NULL,
@@ -224,8 +199,7 @@ CREATE TABLE logs_seguranca (
     INDEX idx_data (data_evento)
 );
 
--- 17. CHAVES API
-CREATE TABLE chaves_api (
+CREATE TABLE IF NOT EXISTS chaves_api (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     chave_publica VARCHAR(255) UNIQUE NOT NULL,
@@ -242,8 +216,7 @@ CREATE TABLE chaves_api (
     INDEX idx_chave_publica (chave_publica)
 );
 
--- 18. AUTENTICAÇÕES 2FA
-CREATE TABLE autenticacao_2fa (
+CREATE TABLE IF NOT EXISTS autenticacao_2fa (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo_2fa ENUM('totp', 'email', 'sms') NOT NULL,
@@ -257,8 +230,7 @@ CREATE TABLE autenticacao_2fa (
     UNIQUE KEY (usuario_id, tipo_2fa)
 );
 
--- 19. IPs BLOQUEADOS
-CREATE TABLE ips_bloqueados (
+CREATE TABLE IF NOT EXISTS ips_bloqueados (
     id INT PRIMARY KEY AUTO_INCREMENT,
     ip_address VARCHAR(50) UNIQUE NOT NULL,
     motivo VARCHAR(255),
@@ -269,12 +241,7 @@ CREATE TABLE ips_bloqueados (
     FOREIGN KEY (bloqueado_por) REFERENCES usuarios(id)
 );
 
--- =============================================
--- TABELAS DE PAGAMENTO AVANÇADO
--- =============================================
-
--- 20. HISTÓRICO DE PAGAMENTOS DO FORNECEDOR
-CREATE TABLE historico_pagamento_fornecedor (
+CREATE TABLE IF NOT EXISTS historico_pagamento_fornecedor (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     periodo_inicio DATE,
@@ -296,8 +263,7 @@ CREATE TABLE historico_pagamento_fornecedor (
     INDEX idx_fornecedor_periodo (fornecedor_id, periodo_inicio)
 );
 
--- 21. TAXAS CUSTOMIZADAS POR FORNECEDOR
-CREATE TABLE taxas_fornecedor_customizado (
+CREATE TABLE IF NOT EXISTS taxas_fornecedor_customizado (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     categoria_software VARCHAR(100),
@@ -312,8 +278,7 @@ CREATE TABLE taxas_fornecedor_customizado (
     FOREIGN KEY (aprovado_admin) REFERENCES usuarios(id)
 );
 
--- 22. CICLOS DE PAGAMENTO
-CREATE TABLE ciclo_pagamento (
+CREATE TABLE IF NOT EXISTS ciclo_pagamento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     tipo_ciclo ENUM('diario', 'semanal', 'quinzenal', 'mensal') DEFAULT 'mensal',
@@ -328,8 +293,7 @@ CREATE TABLE ciclo_pagamento (
     UNIQUE KEY (fornecedor_id)
 );
 
--- 23. RETENÇÃO DE PAGAMENTO
-CREATE TABLE retencao_pagamento (
+CREATE TABLE IF NOT EXISTS retencao_pagamento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     valor_retido DECIMAL(12, 2),
@@ -342,8 +306,7 @@ CREATE TABLE retencao_pagamento (
     INDEX idx_status (status)
 );
 
--- 24. REEMBOLSOS (SEPARADO DE DEVOLUÇÕES)
-CREATE TABLE reembolsos (
+CREATE TABLE IF NOT EXISTS reembolsos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     venda_id INT NOT NULL,
     usuario_id INT NOT NULL,
@@ -361,8 +324,7 @@ CREATE TABLE reembolsos (
     INDEX idx_status (status)
 );
 
--- 25. BOLETOS EMITIDOS
-CREATE TABLE boletos_emitidos (
+CREATE TABLE IF NOT EXISTS boletos_emitidos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     numero_boleto VARCHAR(50) UNIQUE NOT NULL,
@@ -377,12 +339,7 @@ CREATE TABLE boletos_emitidos (
     INDEX idx_status (status)
 );
 
--- =============================================
--- TABELAS DE EMAIL E COMUNICAÇÃO
--- =============================================
-
--- 26. CAMPANHAS DE EMAIL
-CREATE TABLE campanhas_email (
+CREATE TABLE IF NOT EXISTS campanhas_email (
     id INT PRIMARY KEY AUTO_INCREMENT,
     criada_por INT NOT NULL,
     titulo VARCHAR(255) NOT NULL,
@@ -404,8 +361,7 @@ CREATE TABLE campanhas_email (
     FOREIGN KEY (criada_por) REFERENCES usuarios(id)
 );
 
--- 27. EMAILS AGENDADOS
-CREATE TABLE emails_agendados (
+CREATE TABLE IF NOT EXISTS emails_agendados (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     destinatario_email VARCHAR(255),
@@ -420,8 +376,7 @@ CREATE TABLE emails_agendados (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 28. TEMPLATES DE EMAIL
-CREATE TABLE templates_email (
+CREATE TABLE IF NOT EXISTS templates_email (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome_template VARCHAR(100) UNIQUE NOT NULL,
     categoria VARCHAR(50),
@@ -434,8 +389,7 @@ CREATE TABLE templates_email (
     FOREIGN KEY (criado_por) REFERENCES usuarios(id)
 );
 
--- 29. HISTÓRICO DE ENVIO DE EMAILS
-CREATE TABLE historico_envio_email (
+CREATE TABLE IF NOT EXISTS historico_envio_email (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT,
     email_destinatario VARCHAR(255),
@@ -452,10 +406,9 @@ CREATE TABLE historico_envio_email (
     INDEX idx_data_envio (data_envio)
 );
 
--- 30. UNSUBSCRIBE DE USUARIOS
-CREATE TABLE unsubscribe_usuario (
+CREATE TABLE IF NOT EXISTS unsubscribe_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario_id INT NOT NULL,
+    usuario_id INT,
     email VARCHAR(255),
     tipo_email VARCHAR(50),
     data_unsubscribe TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -465,8 +418,7 @@ CREATE TABLE unsubscribe_usuario (
     UNIQUE KEY (email, tipo_email)
 );
 
--- 31. NOTIFICAÇÕES PUSH
-CREATE TABLE notificacoes_push (
+CREATE TABLE IF NOT EXISTS notificacoes_push (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     titulo VARCHAR(255),
@@ -482,12 +434,7 @@ CREATE TABLE notificacoes_push (
     INDEX idx_usuario_lida (usuario_id, lida)
 );
 
--- =============================================
--- TABELAS DE ANÁLISE E RELATÓRIOS
--- =============================================
-
--- 32. FUNIL DE CONVERSÃO
-CREATE TABLE funil_conversao (
+CREATE TABLE IF NOT EXISTS funil_conversao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     data_relatorio DATE,
     etapa_funil VARCHAR(100),
@@ -500,8 +447,7 @@ CREATE TABLE funil_conversao (
     FOREIGN KEY (software_id) REFERENCES softwares(id)
 );
 
--- 33. ANÁLISE DE BUSCA
-CREATE TABLE analise_busca (
+CREATE TABLE IF NOT EXISTS analise_busca (
     id INT PRIMARY KEY AUTO_INCREMENT,
     termo_busca VARCHAR(255),
     quantidade_buscas INT DEFAULT 1,
@@ -513,8 +459,7 @@ CREATE TABLE analise_busca (
     INDEX idx_termo (termo_busca)
 );
 
--- 34. ANÁLISE DE ABANDONO DE CARRINHO
-CREATE TABLE analise_abandono_carrinho (
+CREATE TABLE IF NOT EXISTS analise_abandono_carrinho (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     carrinho_id INT NOT NULL,
@@ -528,8 +473,7 @@ CREATE TABLE analise_abandono_carrinho (
     INDEX idx_usuario_data (usuario_id, data_abandono)
 );
 
--- 35. ANÁLISE DE CHURN (USUÁRIOS INATIVOS)
-CREATE TABLE analise_churn_usuario (
+CREATE TABLE IF NOT EXISTS analise_churn_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     dias_inatividade INT,
@@ -542,8 +486,7 @@ CREATE TABLE analise_churn_usuario (
     UNIQUE KEY (usuario_id, data_analise)
 );
 
--- 36. HEATMAP DE APLICAÇÃO
-CREATE TABLE heatmap_aplicacao (
+CREATE TABLE IF NOT EXISTS heatmap_aplicacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     sessao_id VARCHAR(255),
@@ -558,8 +501,7 @@ CREATE TABLE heatmap_aplicacao (
     INDEX idx_sessao (sessao_id)
 );
 
--- 37. PERFORMANCE DO SERVIDOR
-CREATE TABLE performance_servidor (
+CREATE TABLE IF NOT EXISTS performance_servidor (
     id INT PRIMARY KEY AUTO_INCREMENT,
     cpu_percentual DECIMAL(5, 2),
     memoria_usada_gb DECIMAL(5, 2),
@@ -574,12 +516,7 @@ CREATE TABLE performance_servidor (
     INDEX idx_timestamp (timestamp)
 );
 
--- =============================================
--- TABELAS DE CONTEÚDO E DOCUMENTAÇÃO
--- =============================================
-
--- 38. FAQ DO SOFTWARE
-CREATE TABLE faq_software (
+CREATE TABLE IF NOT EXISTS faq_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     pergunta VARCHAR(500) NOT NULL,
@@ -594,8 +531,7 @@ CREATE TABLE faq_software (
     FOREIGN KEY (software_id) REFERENCES softwares(id) ON DELETE CASCADE
 );
 
--- 39. ARTIGOS DE CONHECIMENTO
-CREATE TABLE artigos_conhecimento (
+CREATE TABLE IF NOT EXISTS artigos_conhecimento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(255) UNIQUE NOT NULL,
     descricao TEXT,
@@ -611,8 +547,7 @@ CREATE TABLE artigos_conhecimento (
     FOREIGN KEY (autor_id) REFERENCES usuarios(id)
 );
 
--- 40. VÍDEOS DE TUTORIAL
-CREATE TABLE video_tutorials (
+CREATE TABLE IF NOT EXISTS video_tutorials (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     titulo VARCHAR(255),
@@ -628,8 +563,7 @@ CREATE TABLE video_tutorials (
     FOREIGN KEY (software_id) REFERENCES softwares(id) ON DELETE CASCADE
 );
 
--- 41. GUIAS DE INSTALAÇÃO
-CREATE TABLE guias_instalacao (
+CREATE TABLE IF NOT EXISTS guias_instalacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     sistema_operacional VARCHAR(50),
@@ -645,8 +579,7 @@ CREATE TABLE guias_instalacao (
     UNIQUE KEY (software_id, sistema_operacional)
 );
 
--- 42. DOCUMENTAÇÃO API
-CREATE TABLE documentacao_api (
+CREATE TABLE IF NOT EXISTS documentacao_api (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     endpoint VARCHAR(500),
@@ -662,12 +595,7 @@ CREATE TABLE documentacao_api (
     FOREIGN KEY (software_id) REFERENCES softwares(id) ON DELETE CASCADE
 );
 
--- =============================================
--- TABELAS DE AVALIAÇÕES E MODERAÇÃO
--- =============================================
-
--- 43. MODERAÇÃO DE CONTEÚDO
-CREATE TABLE moderacao_conteudo (
+CREATE TABLE IF NOT EXISTS moderacao_conteudo (
     id INT PRIMARY KEY AUTO_INCREMENT,
     avaliacao_id INT NOT NULL,
     status_moderacao ENUM('pendente', 'aprovada', 'rejeitada', 'editada') DEFAULT 'pendente',
@@ -680,8 +608,7 @@ CREATE TABLE moderacao_conteudo (
     FOREIGN KEY (moderador_id) REFERENCES usuarios(id)
 );
 
--- 44. DENÚNCIA DE AVALIAÇÃO
-CREATE TABLE denuncia_avaliacao (
+CREATE TABLE IF NOT EXISTS denuncia_avaliacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     avaliacao_id INT NOT NULL,
     usuario_id INT NOT NULL,
@@ -696,8 +623,7 @@ CREATE TABLE denuncia_avaliacao (
     FOREIGN KEY (moderador_id) REFERENCES usuarios(id)
 );
 
--- 45. RESPOSTAS A AVALIAÇÕES
-CREATE TABLE resposta_avaliacao (
+CREATE TABLE IF NOT EXISTS resposta_avaliacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     avaliacao_id INT NOT NULL,
     fornecedor_id INT NOT NULL,
@@ -709,12 +635,7 @@ CREATE TABLE resposta_avaliacao (
     UNIQUE KEY (avaliacao_id)
 );
 
--- =============================================
--- TABELAS DE CONFORMIDADE E LEGAL (LGPD/GDPR)
--- =============================================
-
--- 46. POLÍTICAS DO MARKETPLACE
-CREATE TABLE politicas_marketplace (
+CREATE TABLE IF NOT EXISTS politicas_marketplace (
     id INT PRIMARY KEY AUTO_INCREMENT,
     tipo_politica ENUM('termos_servico', 'privacidade', 'cookies', 'devolucao', 'intelectual') NOT NULL,
     titulo VARCHAR(255),
@@ -726,8 +647,7 @@ CREATE TABLE politicas_marketplace (
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 47. ACEITE DE USUÁRIO A POLÍTICAS
-CREATE TABLE aceite_usuario_politicas (
+CREATE TABLE IF NOT EXISTS aceite_usuario_politicas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     politica_id INT NOT NULL,
@@ -739,8 +659,7 @@ CREATE TABLE aceite_usuario_politicas (
     UNIQUE KEY (usuario_id, politica_id)
 );
 
--- 48. DADOS LGPD (DIREITO AO ESQUECIMENTO)
-CREATE TABLE dados_lgpd_usuario (
+CREATE TABLE IF NOT EXISTS dados_lgpd_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo_solicitacao ENUM('anonimizacao', 'delecao', 'portabilidade') NOT NULL,
@@ -753,8 +672,7 @@ CREATE TABLE dados_lgpd_usuario (
     UNIQUE KEY (usuario_id, tipo_solicitacao)
 );
 
--- 49. CONSENTIMENTO DE PRIVACIDADE
-CREATE TABLE consentimento_privacidade (
+CREATE TABLE IF NOT EXISTS consentimento_privacidade (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo_dado ENUM('marketing', 'analiticos', 'cookies', 'compartilhamento') NOT NULL,
@@ -767,8 +685,7 @@ CREATE TABLE consentimento_privacidade (
     UNIQUE KEY (usuario_id, tipo_dado)
 );
 
--- 50. BACKUP DE DADOS DO USUÁRIO (PARA GDPR)
-CREATE TABLE dados_backup_usuario (
+CREATE TABLE IF NOT EXISTS dados_backup_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     tipo_backup VARCHAR(50),
@@ -781,12 +698,7 @@ CREATE TABLE dados_backup_usuario (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- =============================================
--- TABELAS DE PROGRAMA DE AFILIADOS
--- =============================================
-
--- 51. AFILIADOS
-CREATE TABLE afiliados (
+CREATE TABLE IF NOT EXISTS afiliados (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     comissao_percentual DECIMAL(5, 2),
@@ -802,8 +714,7 @@ CREATE TABLE afiliados (
     UNIQUE KEY (usuario_id)
 );
 
--- 52. RASTREAMENTO DE AFILIADOS
-CREATE TABLE rastreamento_afiliado (
+CREATE TABLE IF NOT EXISTS rastreamento_afiliado (
     id INT PRIMARY KEY AUTO_INCREMENT,
     afiliado_id INT NOT NULL,
     link_afiliado VARCHAR(500),
@@ -816,8 +727,7 @@ CREATE TABLE rastreamento_afiliado (
     FOREIGN KEY (software_id) REFERENCES softwares(id)
 );
 
--- 53. COMISSÃO POR VENDA DE AFILIADO
-CREATE TABLE comissao_afiliado (
+CREATE TABLE IF NOT EXISTS comissao_afiliado (
     id INT PRIMARY KEY AUTO_INCREMENT,
     afiliado_id INT NOT NULL,
     venda_id INT NOT NULL,
@@ -833,8 +743,7 @@ CREATE TABLE comissao_afiliado (
     FOREIGN KEY (software_id) REFERENCES softwares(id)
 );
 
--- 54. PAGAMENTO DE AFILIADOS
-CREATE TABLE pagamento_afiliado (
+CREATE TABLE IF NOT EXISTS pagamento_afiliado (
     id INT PRIMARY KEY AUTO_INCREMENT,
     afiliado_id INT NOT NULL,
     valor_total DECIMAL(12, 2),
@@ -849,12 +758,7 @@ CREATE TABLE pagamento_afiliado (
     INDEX idx_status (status_pagamento)
 );
 
--- =============================================
--- TABELAS DE GAMIFICAÇÃO
--- =============================================
-
--- 55. PONTOS DO USUÁRIO
-CREATE TABLE usuario_pontos (
+CREATE TABLE IF NOT EXISTS usuario_pontos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     pontos_totais INT DEFAULT 0,
@@ -865,8 +769,7 @@ CREATE TABLE usuario_pontos (
     UNIQUE KEY (usuario_id)
 );
 
--- 56. BADGES DO USUÁRIO
-CREATE TABLE usuario_badges (
+CREATE TABLE IF NOT EXISTS usuario_badges (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     nome_badge VARCHAR(100),
@@ -877,8 +780,7 @@ CREATE TABLE usuario_badges (
     UNIQUE KEY (usuario_id, nome_badge)
 );
 
--- 57. ACHIEVEMENTS DO USUÁRIO
-CREATE TABLE usuario_achievements (
+CREATE TABLE IF NOT EXISTS usuario_achievements (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     nome_achievement VARCHAR(100),
@@ -891,8 +793,7 @@ CREATE TABLE usuario_achievements (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- 58. REPUTAÇÃO DO USUÁRIO
-CREATE TABLE usuario_reputacao (
+CREATE TABLE IF NOT EXISTS usuario_reputacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     score_reputacao INT DEFAULT 0,
@@ -905,8 +806,7 @@ CREATE TABLE usuario_reputacao (
     UNIQUE KEY (usuario_id)
 );
 
--- 59. NÍVEL DO USUÁRIO
-CREATE TABLE usuario_nivel (
+CREATE TABLE IF NOT EXISTS usuario_nivel (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     nivel_atual INT DEFAULT 1,
@@ -918,12 +818,7 @@ CREATE TABLE usuario_nivel (
     UNIQUE KEY (usuario_id)
 );
 
--- =============================================
--- TABELAS DE ALERTAS E PREFERÊNCIAS
--- =============================================
-
--- 60. ALERTA DE PREÇO ATIVADO
-CREATE TABLE alerta_preco_ativado (
+CREATE TABLE IF NOT EXISTS alerta_preco_ativado (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -936,8 +831,7 @@ CREATE TABLE alerta_preco_ativado (
     UNIQUE KEY (usuario_id, software_id)
 );
 
--- 61. HISTÓRICO DE ALERTA DE PREÇO
-CREATE TABLE historico_alerta_preco (
+CREATE TABLE IF NOT EXISTS historico_alerta_preco (
     id INT PRIMARY KEY AUTO_INCREMENT,
     alerta_id INT NOT NULL,
     preco_anterior DECIMAL(10, 2),
@@ -947,8 +841,7 @@ CREATE TABLE historico_alerta_preco (
     FOREIGN KEY (alerta_id) REFERENCES alerta_preco_ativado(id) ON DELETE CASCADE
 );
 
--- 62. ALERTA DE NOVO PRODUTO
-CREATE TABLE alerta_novo_produto (
+CREATE TABLE IF NOT EXISTS alerta_novo_produto (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     categoria_monitorada VARCHAR(100),
@@ -962,8 +855,7 @@ CREATE TABLE alerta_novo_produto (
     FOREIGN KEY (fornecedor_monitorado) REFERENCES fornecedores(id)
 );
 
--- 63. ALERTA DE ATUALIZAÇÃO
-CREATE TABLE alerta_atualizacao_software (
+CREATE TABLE IF NOT EXISTS alerta_atualizacao_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -977,12 +869,7 @@ CREATE TABLE alerta_atualizacao_software (
     UNIQUE KEY (usuario_id, software_id)
 );
 
--- =============================================
--- ANÁLISE DE CONVERSÃO
--- =============================================
-
--- 64. IMPRESSÕES DE PRODUTO
-CREATE TABLE impressoes_produto (
+CREATE TABLE IF NOT EXISTS impressoes_produto (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     usuario_id INT,
@@ -995,8 +882,7 @@ CREATE TABLE impressoes_produto (
     INDEX idx_data (data_impressao)
 );
 
--- 65. CLIQUES EM CALL-TO-ACTION
-CREATE TABLE cliques_cta (
+CREATE TABLE IF NOT EXISTS cliques_cta (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     usuario_id INT,
@@ -1008,8 +894,7 @@ CREATE TABLE cliques_cta (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 66. TEMPO DE VISUALIZAÇÃO
-CREATE TABLE tempo_visualizacao (
+CREATE TABLE IF NOT EXISTS tempo_visualizacao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -1020,12 +905,7 @@ CREATE TABLE tempo_visualizacao (
     FOREIGN KEY (software_id) REFERENCES softwares(id)
 );
 
--- =============================================
--- TABELAS DE ADMINISTRAÇÃO
--- =============================================
-
--- 67. USUÁRIOS ADMIN
-CREATE TABLE usuario_admin (
+CREATE TABLE IF NOT EXISTS usuario_admin (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT NOT NULL,
     nivel_acesso ENUM('super_admin', 'admin_conteudo', 'admin_financeiro', 'admin_suporte', 'moderador') NOT NULL,
@@ -1035,8 +915,7 @@ CREATE TABLE usuario_admin (
     UNIQUE KEY (usuario_id)
 );
 
--- 68. PERMISSÕES ADMIN
-CREATE TABLE permissoes_admin (
+CREATE TABLE IF NOT EXISTS permissoes_admin (
     id INT PRIMARY KEY AUTO_INCREMENT,
     admin_id INT NOT NULL,
     permissao VARCHAR(100) NOT NULL,
@@ -1046,8 +925,7 @@ CREATE TABLE permissoes_admin (
     UNIQUE KEY (admin_id, permissao, recurso_alvo)
 );
 
--- 69. AÇÕES DE ADMIN
-CREATE TABLE acoes_admin (
+CREATE TABLE IF NOT EXISTS acoes_admin (
     id INT PRIMARY KEY AUTO_INCREMENT,
     admin_id INT NOT NULL,
     tipo_acao VARCHAR(100) NOT NULL,
@@ -1063,8 +941,7 @@ CREATE TABLE acoes_admin (
     INDEX idx_data_acao (data_acao)
 );
 
--- 70. TICKETS PARA SUPORTE DO MARKETPLACE
-CREATE TABLE tickets_admin_marketplace (
+CREATE TABLE IF NOT EXISTS tickets_admin_marketplace (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fornecedor_id INT NOT NULL,
     assunto VARCHAR(255),
@@ -1079,12 +956,7 @@ CREATE TABLE tickets_admin_marketplace (
     FOREIGN KEY (assignado_para) REFERENCES usuario_admin(id)
 );
 
--- =============================================
--- VERIFICAÇÃO E QUALIDADE
--- =============================================
-
--- 71. VERIFICAÇÃO DE QUALIDADE
-CREATE TABLE verificacao_qualidade_software (
+CREATE TABLE IF NOT EXISTS verificacao_qualidade_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     score_qualidade DECIMAL(3, 2),
@@ -1100,8 +972,7 @@ CREATE TABLE verificacao_qualidade_software (
     FOREIGN KEY (revisado_por) REFERENCES usuario_admin(id)
 );
 
--- 72. TESTE DE COMPATIBILIDADE
-CREATE TABLE teste_compatibilidade (
+CREATE TABLE IF NOT EXISTS teste_compatibilidade (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     sistema_operacional VARCHAR(50),
@@ -1112,8 +983,7 @@ CREATE TABLE teste_compatibilidade (
     FOREIGN KEY (software_id) REFERENCES softwares(id)
 );
 
--- 73. SCAN DE MALWARE
-CREATE TABLE malware_scan_resultado (
+CREATE TABLE IF NOT EXISTS malware_scan_resultado (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     versao_software VARCHAR(50),
@@ -1125,8 +995,7 @@ CREATE TABLE malware_scan_resultado (
     hash_arquivo VARCHAR(255)
 );
 
--- 74. CERTIFICADO DE SEGURANÇA
-CREATE TABLE certificado_seguranca (
+CREATE TABLE IF NOT EXISTS certificado_seguranca (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     tipo_certificado VARCHAR(100),
@@ -1136,10 +1005,6 @@ CREATE TABLE certificado_seguranca (
     autoridade_certificadora VARCHAR(255),
     certificado_arquivo VARCHAR(500)
 );
-
--- =============================================
--- ÍNDICES FINAIS DE PERFORMANCE
--- =============================================
 
 CREATE INDEX idx_usuario_tipo ON configuracoes_usuario(tipo_usuario);
 CREATE INDEX idx_usuario_bloqueado ON usuarios(ativo);
@@ -1156,3 +1021,5 @@ CREATE INDEX idx_admin_nivel ON usuario_admin(nivel_acesso);
 CREATE INDEX idx_campanhas_status ON campanhas_email(status);
 CREATE INDEX idx_sessoes_token ON sessoes_usuario(token_sessao);
 CREATE INDEX idx_tentativas_email ON tentativas_login_falhas(email);
+
+SET FOREIGN_KEY_CHECKS = 1;

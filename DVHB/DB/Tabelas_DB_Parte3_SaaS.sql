@@ -1,14 +1,12 @@
+USE devhub_db;
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- =============================================
 -- BANCO DE DADOS MARKETPLACE - PARTE 3
 -- SUPORTE A SAAS/SOFTWARES HOSTED
 -- =============================================
 
--- =============================================
--- TIPOS DE ENTREGA DE SOFTWARE
--- =============================================
-
--- 1. CLASSIFICAÇÃO DO TIPO DE SOFTWARE
-CREATE TABLE tipo_distribuicao_software (
+CREATE TABLE IF NOT EXISTS tipo_distribuicao_software (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     tipo_distribuicao ENUM('download', 'saas', 'cloud', 'api', 'plugin', 'extensao', 'hibrido') NOT NULL,
@@ -19,12 +17,7 @@ CREATE TABLE tipo_distribuicao_software (
     UNIQUE KEY (software_id, tipo_distribuicao)
 );
 
--- =============================================
--- TABELAS PARA SAAS/SOFTWARES HOSTED
--- =============================================
-
--- 2. CONFIGURAÇÃO DO SAAS
-CREATE TABLE saas_configuracao (
+CREATE TABLE IF NOT EXISTS saas_configuracao (
     id INT PRIMARY KEY AUTO_INCREMENT,
     software_id INT NOT NULL,
     dominio_principal VARCHAR(255),
@@ -43,8 +36,7 @@ CREATE TABLE saas_configuracao (
     UNIQUE KEY (software_id)
 );
 
--- 3. INSTÂNCIAS DO SAAS POR USUÁRIO
-CREATE TABLE saas_instancia_usuario (
+CREATE TABLE IF NOT EXISTS saas_instancia_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     licenca_id INT NOT NULL,
     software_id INT NOT NULL,
@@ -68,8 +60,7 @@ CREATE TABLE saas_instancia_usuario (
     INDEX idx_status (status_instancia)
 );
 
--- 4. ACESSOS À INSTÂNCIA (USERNAME/PASSWORD)
-CREATE TABLE saas_acessos_instancia (
+CREATE TABLE IF NOT EXISTS saas_acessos_instancia (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     tipo_acesso ENUM('admin', 'usuario', 'desenvolvedor', 'suporte', 'leitura') DEFAULT 'admin',
@@ -85,8 +76,7 @@ CREATE TABLE saas_acessos_instancia (
     INDEX idx_username (username)
 );
 
--- 5. LIMITES E QUOTAS POR PLANO
-CREATE TABLE saas_limites_plano (
+CREATE TABLE IF NOT EXISTS saas_limites_plano (
     id INT PRIMARY KEY AUTO_INCREMENT,
     plano_id INT NOT NULL,
     limite_usuarios INT,
@@ -108,8 +98,7 @@ CREATE TABLE saas_limites_plano (
     UNIQUE KEY (plano_id)
 );
 
--- 6. CONSUMO ATUAL DO USUÁRIO
-CREATE TABLE saas_consumo_usuario (
+CREATE TABLE IF NOT EXISTS saas_consumo_usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     mes_referencia DATE,
@@ -127,8 +116,7 @@ CREATE TABLE saas_consumo_usuario (
     INDEX idx_data_calculo (data_calculo)
 );
 
--- 7. HEALTH CHECK / UPTIME MONITORAMENTO
-CREATE TABLE saas_health_check (
+CREATE TABLE IF NOT EXISTS saas_health_check (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     endpoint_verificacao VARCHAR(500),
@@ -142,8 +130,7 @@ CREATE TABLE saas_health_check (
     INDEX idx_instancia_data (instancia_id, data_verificacao)
 );
 
--- 8. HISTÓRICO DE UPTIME
-CREATE TABLE saas_historico_uptime (
+CREATE TABLE IF NOT EXISTS saas_historico_uptime (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     data_relatorio DATE,
@@ -156,8 +143,7 @@ CREATE TABLE saas_historico_uptime (
     UNIQUE KEY (instancia_id, data_relatorio)
 );
 
--- 9. BACKUP AUTOMÁTICO
-CREATE TABLE saas_backup (
+CREATE TABLE IF NOT EXISTS saas_backup (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     tipo_backup ENUM('incremental', 'completo', 'diferencial') DEFAULT 'incremental',
@@ -172,8 +158,7 @@ CREATE TABLE saas_backup (
     INDEX idx_data (data_backup)
 );
 
--- 10. RESTAURAÇÃO DE BACKUP
-CREATE TABLE saas_restauracao_backup (
+CREATE TABLE IF NOT EXISTS saas_restauracao_backup (
     id INT PRIMARY KEY AUTO_INCREMENT,
     backup_id INT NOT NULL,
     instancia_id INT NOT NULL,
@@ -189,12 +174,7 @@ CREATE TABLE saas_restauracao_backup (
     FOREIGN KEY (solicitado_por) REFERENCES usuarios(id)
 );
 
--- =============================================
--- LOGS E ATIVIDADES
--- =============================================
-
--- 11. LOGS DE ACESSO À INSTÂNCIA
-CREATE TABLE saas_logs_acesso (
+CREATE TABLE IF NOT EXISTS saas_logs_acesso (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     usuario_id INT,
@@ -203,7 +183,7 @@ CREATE TABLE saas_logs_acesso (
     user_agent VARCHAR(500),
     tipo_acesso ENUM('login', 'logout', 'api_call', 'webhook', 'integracao') DEFAULT 'login',
     endpoint_acessado VARCHAR(500),
-    metodo HTTP VARCHAR(10),
+    metodo VARCHAR(10),
     codigo_resposta INT,
     tempo_requisicao_ms INT,
     bytes_enviados INT,
@@ -215,8 +195,7 @@ CREATE TABLE saas_logs_acesso (
     INDEX idx_tipo_acesso (tipo_acesso)
 );
 
--- 12. LOGS DE ERRO/EXCEÇÃO
-CREATE TABLE saas_logs_erro (
+CREATE TABLE IF NOT EXISTS saas_logs_erro (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     tipo_erro VARCHAR(100),
@@ -233,8 +212,7 @@ CREATE TABLE saas_logs_erro (
     INDEX idx_severidade (severidade)
 );
 
--- 13. ATIVIDADES/EVENTOS DA INSTÂNCIA
-CREATE TABLE saas_atividades_instancia (
+CREATE TABLE IF NOT EXISTS saas_atividades_instancia (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     tipo_atividade VARCHAR(100),
@@ -248,12 +226,7 @@ CREATE TABLE saas_atividades_instancia (
     INDEX idx_data (data_atividade)
 );
 
--- =============================================
--- INTEGRAÇÃO E EXTENSIBILIDADE
--- =============================================
-
--- 14. INTEGRAÇÕES DA INSTÂNCIA
-CREATE TABLE saas_integracao_instancia (
+CREATE TABLE IF NOT EXISTS saas_integracao_instancia (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     software_integrado_id INT,
@@ -271,8 +244,7 @@ CREATE TABLE saas_integracao_instancia (
     UNIQUE KEY (instancia_id, nome_integracao)
 );
 
--- 15. WEBHOOKS CUSTOMIZADOS
-CREATE TABLE saas_webhooks (
+CREATE TABLE IF NOT EXISTS saas_webhooks (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     url_webhook VARCHAR(500),
@@ -289,8 +261,7 @@ CREATE TABLE saas_webhooks (
     INDEX idx_ativo (ativo)
 );
 
--- 16. CHAMADAS DE WEBHOOK
-CREATE TABLE saas_webhook_chamadas (
+CREATE TABLE IF NOT EXISTS saas_webhook_chamadas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     webhook_id INT NOT NULL,
     dados_enviados JSON,
@@ -304,12 +275,7 @@ CREATE TABLE saas_webhook_chamadas (
     INDEX idx_data (data_chamada)
 );
 
--- =============================================
--- CONFIGURAÇÕES E PERSONALIZAÇÕES
--- =============================================
-
--- 17. CONFIGURAÇÕES CUSTOMIZADAS DA INSTÂNCIA
-CREATE TABLE saas_configuracoes_instancia (
+CREATE TABLE IF NOT EXISTS saas_configuracoes_instancia (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     chave_config VARCHAR(100),
@@ -320,8 +286,7 @@ CREATE TABLE saas_configuracoes_instancia (
     UNIQUE KEY (instancia_id, chave_config)
 );
 
--- 18. TEMAS E BRANDING (WHITE LABEL)
-CREATE TABLE saas_branding_instancia (
+CREATE TABLE IF NOT EXISTS saas_branding_instancia (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     logo_url VARCHAR(500),
@@ -339,8 +304,7 @@ CREATE TABLE saas_branding_instancia (
     FOREIGN KEY (instancia_id) REFERENCES saas_instancia_usuario(id) ON DELETE CASCADE
 );
 
--- 19. CERTIFICADOS SSL/TLS
-CREATE TABLE saas_certificado_ssl (
+CREATE TABLE IF NOT EXISTS saas_certificado_ssl (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     dominio_certificado VARCHAR(255),
@@ -355,12 +319,7 @@ CREATE TABLE saas_certificado_ssl (
     UNIQUE KEY (instancia_id, dominio_certificado)
 );
 
--- =============================================
--- ESCALABILIDADE E RECURSOS
--- =============================================
-
--- 20. ALOCAÇÃO DE RECURSOS
-CREATE TABLE saas_recursos_alocados (
+CREATE TABLE IF NOT EXISTS saas_recursos_alocados (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     cpu_cores DECIMAL(3, 1),
@@ -375,8 +334,7 @@ CREATE TABLE saas_recursos_alocados (
     FOREIGN KEY (instancia_id) REFERENCES saas_instancia_usuario(id) ON DELETE CASCADE
 );
 
--- 21. AUTO-SCALING
-CREATE TABLE saas_auto_scaling (
+CREATE TABLE IF NOT EXISTS saas_auto_scaling (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     auto_scaling_habilitado BOOLEAN DEFAULT FALSE,
@@ -391,8 +349,7 @@ CREATE TABLE saas_auto_scaling (
     FOREIGN KEY (instancia_id) REFERENCES saas_instancia_usuario(id) ON DELETE CASCADE
 );
 
--- 22. METRICAS DE USO EM TEMPO REAL
-CREATE TABLE saas_metricas_tempo_real (
+CREATE TABLE IF NOT EXISTS saas_metricas_tempo_real (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     timestamp_metrica TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -407,12 +364,7 @@ CREATE TABLE saas_metricas_tempo_real (
     INDEX idx_instancia_timestamp (instancia_id, timestamp_metrica)
 );
 
--- =============================================
--- UPGRADE/DOWNGRADE E MUDANÇAS DE PLANO
--- =============================================
-
--- 23. HISTÓRICO DE MUDANÇAS DE PLANO
-CREATE TABLE saas_mudanca_plano (
+CREATE TABLE IF NOT EXISTS saas_mudanca_plano (
     id INT PRIMARY KEY AUTO_INCREMENT,
     licenca_id INT NOT NULL,
     plano_anterior_id INT,
@@ -428,12 +380,7 @@ CREATE TABLE saas_mudanca_plano (
     FOREIGN KEY (plano_novo_id) REFERENCES planos_preco(id)
 );
 
--- =============================================
--- ALERTAS E NOTIFICAÇÕES
--- =============================================
-
--- 24. ALERTAS DE SAÚDE
-CREATE TABLE saas_alertas_saude (
+CREATE TABLE IF NOT EXISTS saas_alertas_saude (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     tipo_alerta ENUM('high_cpu', 'high_memory', 'low_storage', 'downtime', 'error_rate', 'slow_response') NOT NULL,
@@ -448,8 +395,7 @@ CREATE TABLE saas_alertas_saude (
     INDEX idx_status (status_alerta)
 );
 
--- 25. CONFIGURAÇÕES DE ALERTAS
-CREATE TABLE saas_configuracao_alertas (
+CREATE TABLE IF NOT EXISTS saas_configuracao_alertas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     notificar_email BOOLEAN DEFAULT TRUE,
@@ -465,12 +411,7 @@ CREATE TABLE saas_configuracao_alertas (
     UNIQUE KEY (instancia_id)
 );
 
--- =============================================
--- SUPORTE E ESCALAÇÃO
--- =============================================
-
--- 26. TICKETS DE SUPORTE SAAS
-CREATE TABLE saas_tickets_suporte (
+CREATE TABLE IF NOT EXISTS saas_tickets_suporte (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT NOT NULL,
     usuario_id INT NOT NULL,
@@ -487,8 +428,7 @@ CREATE TABLE saas_tickets_suporte (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 27. MANUTENÇÃO AGENDADA
-CREATE TABLE saas_manutencao_agendada (
+CREATE TABLE IF NOT EXISTS saas_manutencao_agendada (
     id INT PRIMARY KEY AUTO_INCREMENT,
     instancia_id INT,
     data_inicio TIMESTAMP,
@@ -501,10 +441,6 @@ CREATE TABLE saas_manutencao_agendada (
     FOREIGN KEY (instancia_id) REFERENCES saas_instancia_usuario(id)
 );
 
--- =============================================
--- ÍNDICES FINAIS PARA PART 3
--- =============================================
-
 CREATE INDEX idx_saas_instancia_usuario ON saas_instancia_usuario(usuario_id);
 CREATE INDEX idx_saas_instancia_software ON saas_instancia_usuario(software_id);
 CREATE INDEX idx_saas_consumo_mes ON saas_consumo_usuario(mes_referencia);
@@ -513,10 +449,4 @@ CREATE INDEX idx_saas_logs_instancia ON saas_logs_acesso(instancia_id);
 CREATE INDEX idx_saas_integracao_ativa ON saas_integracao_instancia(status_integracao);
 CREATE INDEX idx_saas_metricas_instancia ON saas_metricas_tempo_real(instancia_id);
 
--- =============================================
--- SUMMARY
--- =============================================
--- Total de 27 tabelas adicionadas para suporte SaaS
--- Cobrindo: Deployments, Health, Monitoramento, Logs, 
--- Integrações, Personalizações, Recursos, Alertas
--- =============================================
+SET FOREIGN_KEY_CHECKS = 1;
