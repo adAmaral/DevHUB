@@ -16,6 +16,21 @@ const softwareRouter = require('./routes/software');
 const respostasSuporteRouter = require('./routes/respostasSuporte');
 const requisitosSoftwareRouter = require('./routes/requisitosSoftware');
 const planosPrecoRouter = require('./routes/planosPreco');
+const midiaSoftwareRouter = require('./routes/midiaSoftware');
+const licencasRouter = require('./routes/licensas');
+const integracaoGitRouter = require('./routes/integracao_git');
+const fornecedoresRouter = require('./routes/fornecedores');
+const featureRequestsRouter = require('./routes/featureRequests');
+const estatisticasSoftwareRouter = require('./routes/estatisticasSoftware');
+const equipeDesenvolvimentoRouter = require('./routes/equipeDesenvolvimento');
+const wishlistRouter = require('./routes/wishlist');
+const favoritosRouter = require('./routes/favoritos');
+const denunciasRouter = require('./routes/denuncias');
+const devolucoesRouter = require('./routes/devolucoes');
+const mensagensRouter = require('./routes/mensagens');
+const notificacoesRouter = require('./routes/notificacoes');
+const auditoriaSoftwareRouter = require('./routes/auditoriaSoftware');
+const caracteristicasSoftwareRouter = require('./routes/caracteristicasSoftware');
 
 const app = express();
 
@@ -38,6 +53,21 @@ app.use('/api/software', softwareRouter);
 app.use('/api/respostas', respostasSuporteRouter);
 app.use('/api/requisitos', requisitosSoftwareRouter);
 app.use('/api/planospreco', planosPrecoRouter);
+app.use('/api/midia', midiaSoftwareRouter);
+app.use('/api/licencas', licencasRouter);
+app.use('/api/integracoes-git', integracaoGitRouter);
+app.use('/api/fornecedores', fornecedoresRouter);
+app.use('/api/feature-requests', featureRequestsRouter);
+app.use('/api/estatisticas-software', estatisticasSoftwareRouter);
+app.use('/api/equipe-desenvolvimento', equipeDesenvolvimentoRouter);
+app.use('/api/wishlist', wishlistRouter);
+app.use('/api/favoritos', favoritosRouter);
+app.use('/api/denuncias', denunciasRouter);
+app.use('/api/devolucoes', devolucoesRouter);
+app.use('/api/mensagens', mensagensRouter);
+app.use('/api/notificacoes', notificacoesRouter);
+app.use('/api/auditoria-software', auditoriaSoftwareRouter);
+app.use('/api/caracteristicas-software', caracteristicasSoftwareRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);

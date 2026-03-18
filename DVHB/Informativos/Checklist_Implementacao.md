@@ -82,14 +82,14 @@
 - [ ] GET /api/usuarios/{id}/favoritos
 
 ### Carrinho e Compra
-- [ ] POST /api/carrinho (adicionar item)
-- [ ] GET /api/carrinho
-- [ ] PUT /api/carrinho/{id} (atualizar quantidade)
-- [ ] DELETE /api/carrinho/{id} (remover item)
+- [x] POST /api/carrinho (adicionar item)
+- [x] GET /api/carrinho
+- [x] PUT /api/carrinho/{id} (atualizar quantidade)
+- [x] DELETE /api/carrinho/{id} (remover item)
 - [ ] DELETE /api/carrinho (limpar)
 - [ ] POST /api/carrinho/aplicar-cupom
 - [ ] DELETE /api/carrinho/remover-cupom
-- [ ] POST /api/pedidos/checkout
+- [x] POST /api/pedidos/checkout
 - [ ] GET /api/pedidos
 - [ ] GET /api/pedidos/{id}
 - [ ] GET /api/pedidos/{id}/itens
