@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevHub477 | Produto</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">DevHub477</div>
+      <a class="btn btn-secondary" href="./index.html">Voltar ao marketplace</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Detalhes do Produto</h1>
+    <div id="produtoDetalhe" class="card">Carregando produto...</div>
+  </main>
+
+  <script type="module">
+    import { obterProduto } from './js/services/produtosService.js';
+
+    const container = document.querySelector('#produtoDetalhe');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    async function carregarProduto() {
+      container.innerHTML = '<p class="message info">Carregando detalhes...</p>';
+
+      try {
+        const produto = await obterProduto(id);
+        container.innerHTML = `
+          <img class="image" src="${produto.imagem}" alt="${produto.nome}" />
+          <h2>${produto.nome}</h2>
+          <p>${produto.descricao}</p>
+          <p><strong>Preço:</strong> R$ ${produto.preco.toFixed(2)}</p>
+          <p class="small">Estrutura pronta para substituir por API real (fetch + backend/MySQL).</p>
+        `;
+      } catch (error) {
+        container.innerHTML = `<p class="message error">${error.message}</p>`;
+      }
+    }
+
+    carregarProduto();
+  </script>
+</body>
+</html>
