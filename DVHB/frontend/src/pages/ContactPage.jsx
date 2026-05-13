@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';export default function ContactPage(){return <section className='card'><Seo title='Contato | DEVHUB' description='Fale com o time DEVHUB.' path='/contato'/><h1>Contato</h1><p className='muted'>Canal oficial de atendimento e suporte.</p></section>}

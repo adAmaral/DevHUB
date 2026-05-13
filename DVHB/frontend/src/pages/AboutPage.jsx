@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';export default function AboutPage(){return <section className='card'><Seo title='Sobre | DEVHUB' description='Conheça o DEVHUB.' path='/sobre'/><h1>Sobre o DEVHUB</h1><p className='muted'>Marketplace profissional para software e SaaS.</p></section>}

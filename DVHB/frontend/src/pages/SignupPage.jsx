@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';export default function SignupPage(){return <section className='card'><Seo title='Cadastro | DEVHUB' description='Crie sua conta DEVHUB.' path='/cadastro'/><h1>Cadastro</h1><p className='muted'>Selecione o tipo de conta durante a integração de backend.</p></section>}

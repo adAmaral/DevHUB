@@ -1,44 +1,147 @@
-# DevHub477 Web (Next.js 14 + App Router + JavaScript)
+# DEVHUB
 
-Projeto preparado para deploy na Vercel com App Router, APIs server-side e telas legadas preservadas.
+Marketplace SaaS em **React + Vite**, com foco em arquitetura pronta para integração com backend REST/MySQL.
 
-## ✅ Status atual
+## Visão geral
 
-- Base migrada para **JavaScript/JSX** (sem TypeScript no código-fonte).
-- Rotas do App Router organizadas em `app/`.
-- APIs de autenticação, marketplace e checkout em `app/api/*`.
-- Contexto de carrinho client-side com persistência em localStorage.
-- HTMLs legados preservados em `pages/`.
-- Exemplo de marketplace em HTML/CSS/JS puro em `public/marketplace-refactor/`.
+O DEVHUB é uma aplicação frontend para descoberta, avaliação e compra de software/SaaS.
 
-## Estrutura
+Principais objetivos da base atual:
+- código limpo e modular;
+- navegação SPA com React Router;
+- checkout/carrinho com estado global;
+- SEO técnico por página;
+- estrutura preparada para API real (`/api/*`).
+
+## Stack
+
+- **React 18**
+- **Vite 5**
+- **React Router DOM 6**
+- **React Helmet Async** (SEO)
+
+## Estrutura do projeto
 
 ```bash
 .
-├── app/                             # App Router (páginas e APIs)
-├── components/                      # Componentes reutilizáveis
-├── contexts/                        # Context API (carrinho)
-├── lib/                             # Utilitários (auth, prisma, stripe, etc.)
-├── pages/                           # HTMLs originais preservados
-├── prisma/                          # Schema e client Prisma
-├── public/assets/                   # Assets estáticos
-├── public/marketplace-refactor/      # Exemplo HTML/CSS/JS puro
+├── public/
+│   ├── robots.txt
+│   └── sitemap.xml
+├── src/
+│   ├── components/
+│   │   ├── checkout/
+│   │   ├── EmptyState.jsx
+│   │   ├── ErrorState.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Header.jsx
+│   │   ├── LoadingState.jsx
+│   │   ├── MarketplaceFilters.jsx
+│   │   └── ProductCard.jsx
+│   ├── context/
+│   │   └── CartContext.jsx
+│   ├── data/
+│   │   └── products.js
+│   ├── layouts/
+│   │   └── BaseLayout.jsx
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   ├── MarketplacePage.jsx
+│   │   ├── ProductPage.jsx
+│   │   ├── CartPage.jsx
+│   │   ├── CheckoutPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── SignupPage.jsx
+│   │   ├── ProfilePage.jsx
+│   │   ├── OrdersPage.jsx
+│   │   ├── FavoritesPage.jsx
+│   │   ├── CategoriesPage.jsx
+│   │   ├── TermsPage.jsx
+│   │   ├── PrivacyPage.jsx
+│   │   ├── AboutPage.jsx
+│   │   ├── ContactPage.jsx
+│   │   └── NotFoundPage.jsx
+│   ├── seo/
+│   │   └── Seo.jsx
+│   ├── services/
+│   │   ├── productService.js
+│   │   ├── cartService.js
+│   │   └── checkoutService.js
+│   ├── styles/
+│   │   └── global.css
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── routes.jsx
+├── index.html
 ├── package.json
-├── vercel.json
-└── README.md
+└── vite.config.js
 ```
 
-## Scripts
+## Rotas principais
 
-```bash
-npm run dev          # Desenvolvimento
-npm run build        # Build de produção
-npm run start        # Start em produção
-npm run lint         # Lint do Next
-npm run check:no-ts  # Verifica se restou arquivo TypeScript
-```
+- `/` Home
+- `/mercado` Vitrine
+- `/produto/:slug` Detalhe do produto
+- `/carrinho` Carrinho
+- `/checkout` Pagamento
+- `/login` Login
+- `/cadastro` Cadastro
+- `/perfil` Perfil
+- `/pedidos` Pedidos
+- `/favoritos` Favoritos
+- `/categorias` Categorias
+- `/termos` Termos
+- `/privacidade` Privacidade
+- `/sobre` Sobre
+- `/contato` Contato
+- `/404` Não encontrada
 
-> `postinstall` executa `prisma generate` automaticamente.
+## Fluxo de carrinho e checkout
+
+### CartContext (`src/context/CartContext.jsx`)
+Centraliza:
+- itens do carrinho;
+- subtotal, desconto e total;
+- quantidade total;
+- estados de loading/erro;
+- ações `loadCart`, `addToCart`, `removeFromCart`, `applyCoupon`.
+
+### Services
+
+#### `src/services/productService.js`
+- `fetchProducts(params)`
+- `fetchProductBySlug(slug)`
+
+#### `src/services/cartService.js`
+- `fetchCart()`
+- `addCartItem(payload)`
+- `removeCartItem(itemId)`
+- `applyCoupon(code)`
+
+#### `src/services/checkoutService.js`
+- `createCheckout(payload)`
+- `finalizeOrder(payload)`
+
+> Observação: a UI está pronta para backend real. Em ausência de API, telas usam estados de erro/vazio em vez de conteúdo fictício.
+
+## SEO técnico
+
+- Metatags base em `index.html`;
+- metadados por rota com `Seo.jsx` + `react-helmet-async`;
+- `robots.txt` ativo;
+- `sitemap.xml` com rotas principais.
+
+## Padrões de UI/UX adotados
+
+- um `h1` por página principal;
+- feedback claro para loading/erro/empty/sucesso;
+- checkout com validação básica de cartão;
+- design responsivo (desktop e mobile);
+- identidade visual consistente em `src/styles/global.css`.
+
+## Requisitos
+
+- Node.js 18+
+- npm 9+
 
 ## Como rodar localmente
 
@@ -47,37 +150,55 @@ npm install
 npm run dev
 ```
 
-Acesse: `http://localhost:3000`
+A aplicação sobe por padrão em:
+- `http://localhost:5173`
 
-## Deploy na Vercel
+## Build de produção
 
-### 1) Requisitos
+```bash
+npm run build
+npm run preview
+```
 
-- Node **20.x** (definido em `package.json -> engines`).
-- Banco de dados configurado para Prisma (URL válida em `DATABASE_URL`).
+## Integração esperada de API
 
-### 2) Variáveis de ambiente recomendadas
+Endpoints esperados hoje pela camada de serviços:
 
-- `DATABASE_URL`
-- `NEXTAUTH_SECRET`
-- `NEXTAUTH_URL`
-- `STRIPE_SECRET_KEY`
-- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
-- `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET`
-- `RESEND_API_KEY` (opcional para e-mail de confirmação)
-- `ORDER_FROM_EMAIL` (opcional para e-mail de confirmação)
+### Produtos
+- `GET /api/products`
+- `GET /api/products/:slug`
 
-### 3) Passos
+### Carrinho
+- `GET /api/cart`
+- `POST /api/cart/items`
+- `DELETE /api/cart/items/:itemId`
+- `POST /api/cart/coupon`
 
-1. Faça push para o GitHub.
-2. Importe o repositório na Vercel.
-3. Framework detectado automaticamente: **Next.js**.
-4. Configure as variáveis de ambiente no painel da Vercel.
-5. Deploy.
+### Checkout
+- `POST /api/checkout/create`
+- `POST /api/checkout/finalize`
 
-## Checklist de migração para JavaScript
+## Checklist rápido de qualidade
 
-- [x] Sem `.ts`, `.tsx` ou `.d.ts` no projeto de runtime.
-- [x] Dependências TypeScript removidas.
-- [x] App Router e APIs em `.js/.jsx`.
-- [x] Projeto pronto para build/deploy na Vercel com Node 20.x.
+- [x] Rotas críticas com páginas reais
+- [x] Sem dependência de HTML legado
+- [x] Carrinho centralizado em contexto
+- [x] Serviços desacoplados da UI
+- [x] SEO por página
+- [x] Sitemap e robots
+- [x] Estados de loading/erro/empty
+
+## Próximos passos sugeridos
+
+1. Adicionar autenticação real (JWT/session);
+2. adicionar testes (unitário + integração);
+3. implementar paginação backend no marketplace;
+4. registrar telemetria de erro (Sentry, por exemplo);
+5. criar CI para lint/build/test automático.
+
+---
+
+Se quiser, na próxima etapa eu também posso entregar:
+- documentação de contrato de API (OpenAPI/Swagger);
+- guia de padrões de componentes;
+- estratégia de versionamento e release.
