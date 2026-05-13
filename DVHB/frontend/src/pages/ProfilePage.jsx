@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';export default function ProfilePage(){return <section className='card'><Seo title='Perfil | DEVHUB' description='Gerencie seu perfil.' path='/perfil'/><h1>Perfil</h1><p className='muted'>Dados de perfil serão carregados via API.</p></section>}

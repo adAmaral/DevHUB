@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';import { Link } from 'react-router-dom';export default function NotFoundPage(){return <section className='card'><Seo title='404 | DEVHUB' description='Página não encontrada.' path='/404'/><h1>Página não encontrada</h1><p className='muted'>A rota informada não existe.</p><Link className='btn btn-primary' to='/'>Voltar para início</Link></section>}

@@ -1,0 +1,1 @@
+export default function OrderTotals({subtotal,discount,total}){const br=(v)=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v);return <div className='totals'><p><span>Subtotal</span><strong>{br(subtotal)}</strong></p><p><span>Desconto</span><strong>- {br(discount)}</strong></p><p className='final'><span>Total</span><strong>{br(total)}</strong></p></div>}

@@ -1,0 +1,1 @@
+export default function EmptyState({title='Sem dados disponíveis',message='Quando houver conteúdo, ele aparecerá aqui.',action}){return <section className='card'><h2>{title}</h2><p className='muted'>{message}</p>{action}</section>}

@@ -1,0 +1,1 @@
+export default function SecurityInfo(){return <div className='card'><h3>Segurança</h3><ul className='badges'><li>Conexão criptografada HTTPS</li><li>Dados sensíveis tratados com segurança</li><li>Processamento validado no backend</li></ul></div>}

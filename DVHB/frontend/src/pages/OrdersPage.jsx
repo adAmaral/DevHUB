@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';import EmptyState from '../components/EmptyState';export default function OrdersPage(){return <section className='card'><Seo title='Pedidos | DEVHUB' description='Acompanhe seus pedidos.' path='/pedidos'/><h1>Pedidos</h1><EmptyState title='Nenhum pedido encontrado' message='Seus pedidos aparecerão aqui quando existirem no backend.'/></section>}

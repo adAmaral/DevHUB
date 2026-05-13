@@ -1,0 +1,1 @@
+import Seo from '../seo/Seo';export default function LoginPage(){return <section className='card'><Seo title='Login | DEVHUB' description='Acesse sua conta DEVHUB.' path='/login'/><h1>Login</h1><p className='muted'>Autenticação pronta para integração com API.</p></section>}

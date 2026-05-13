@@ -1,0 +1,2 @@
+import { Link } from 'react-router-dom';
+export default function Header(){return <header className='header'><div className='container header-inner'><Link className='brand' to='/'>DEVHUB</Link><nav className='nav'>{[['/mercado','Mercado'],['/categorias','Categorias'],['/favoritos','Favoritos'],['/pedidos','Pedidos'],['/sobre','Sobre']].map(([to,l])=><Link key={to} className='btn btn-secondary' to={to}>{l}</Link>)}<Link className='btn btn-primary' to='/login'>Entrar</Link></nav></div></header>}
