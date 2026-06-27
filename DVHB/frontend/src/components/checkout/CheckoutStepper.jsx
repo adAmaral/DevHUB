@@ -1,1 +1,0 @@
-export default function CheckoutStepper(){const steps=['Carrinho','Informações','Pagamento'];return <ol className='stepper'>{steps.map((s,i)=><li key={s} className={i===2?'active':''}><span>{i+1}</span>{s}</li>)}</ol>}
