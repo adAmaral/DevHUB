@@ -2,10 +2,10 @@
     "name": "DevHub-Backend",
     "version": "0.0.1",
     "description": "API do MarketPlace devHub",
-    "main": "src/server.js",
+    "main": "src/utils/server.js",
     "scripts": {
-        "start": "node src/server.js",
-        "dev": "nodemon src/server.js",
+        "start": "node src/utils/server.js",
+        "dev": "nodemon src/utils/server.js",
         "test": "Jest"
     },
     "dependencies": {
