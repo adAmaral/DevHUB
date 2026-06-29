@@ -1,4 +1,4 @@
-const Software = require('../models/software.model');
+const Software = require('../models/softwares.model');
 
 exports.getAll = async (req, res, next) => {
     try {

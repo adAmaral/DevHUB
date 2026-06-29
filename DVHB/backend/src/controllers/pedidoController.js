@@ -19,6 +19,16 @@ exports.getPedidos = async (req, res, next) => {
     }
 };
 
+exports.getPedidosByUsuario = async (req, res, next) => {
+    try {
+        const { usuario_id } = req.params;
+        const pedidos = await Pedidos.findAll({ where: { usuario_id } });
+        res.json(pedidos);
+    } catch (err) {
+        next(err);
+    }
+};
+
 exports.getPedidoById = async (req, res, next) => {
     try{
         const { id } = req.params;
