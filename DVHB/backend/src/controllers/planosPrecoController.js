@@ -60,8 +60,8 @@ exports.update = async (req, res, next) => {
 
 exports.remove = async (req, res, next) => {
     try {
-        const { id } = req.parms;
-        const plano = await PlanoPreco.findByPk(id);
+        const { id } = req.params;
+        const plano = await PlanosPreco.findByPk(id);
 
         if (!plano){
             return res.status(404).json({message: 'Plano de preço não encontrado'})

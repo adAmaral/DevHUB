@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const licencasController = require('../controllers/licencasController');
+const licencasController = require('../controllers/licensasController');
 
 router.get('/', licencasController.getAll);
 router.get('/:id', licencasController.getById);

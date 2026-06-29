@@ -1,4 +1,4 @@
-const RespostaSuporte = require('../models/resposta_suporte.model');
+const RespostaSuporte = require('../models/respostas_suporte.model');
 
 exports.getAll = async (req, res, next) => {
 

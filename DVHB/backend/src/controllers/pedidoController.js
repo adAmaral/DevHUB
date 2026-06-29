@@ -82,7 +82,7 @@ exports.createPedido = async (req, res, next) => {
     if (cupom_id) {
         cupomAplicado = await Cupon.findByPk(cupom_id, { transaction: t });
 
-        if (!cupomAplicado || cupomAplicado.Ativo || (cupomAplicado.minimo_compra && subtotal < cupomAplicado.minimo_compra)) {
+        if (!cupomAplicado || !cupomAplicado.ativo || (cupomAplicado.minimo_compra && subtotal < cupomAplicado.minimo_compra)) {
             await t.rollback();
             return res.status(400).json({ message: 'Cupom inválido ou não aplicável' });
         }

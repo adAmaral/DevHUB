@@ -1,7 +1,7 @@
 const TelemetriaSoftware = require('../models/telemetria_software.model');
-const Telemetria = require('../models/telemetria_software.model');
 
-exports.getAll = async (req, res) => {
+
+exports.getAll = async (req, res, next) => {
     try {
         const where = {};
 
