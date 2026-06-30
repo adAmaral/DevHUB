@@ -10,6 +10,7 @@ export default function SignupPage() {
         email: '',
         cpf: '',
         telefone: '',
+        tipo_conta: 'usuario',
         senha: '',
         confirmar_senha: '',
     });
@@ -44,6 +45,7 @@ export default function SignupPage() {
                     email: form.email,
                     cpf: form.cpf,
                     telefone: form.telefone,
+                    tipo_conta: form.tipo_conta,
                     senha: form.senha,
                 }),
             });
@@ -88,10 +90,29 @@ export default function SignupPage() {
                 )}
 
                 <form onSubmit={handleSubmit} noValidate>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <label htmlFor="tipo_conta" style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>
+                            Tipo de Conta *
+                        </label>
+                        <select
+                            id="tipo_conta"
+                            name="tipo_conta"
+                            className="input"
+                            value={form.tipo_conta}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="usuario">Usuário Comum</option>
+                            <option value="freelancer">Freelancer</option>
+                            <option value="empresa fornecedora">Empresa Fornecedora</option>
+                            <option value="empresa consumidora">Empresa Consumidora</option>
+                        </select>
+                    </div>
+
                     {[
-                        { id: 'nome', label: 'Nome completo *', type: 'text', placeholder: 'Seu nome', autoComplete: 'name' },
+                        { id: 'nome', label: 'Nome completo / Nome da Empresa *', type: 'text', placeholder: 'Seu nome ou Razão Social', autoComplete: 'name' },
                         { id: 'email', label: 'E-mail *', type: 'email', placeholder: 'seu@email.com', autoComplete: 'email' },
-                        { id: 'cpf', label: 'CPF *', type: 'text', placeholder: '000.000.000-00', autoComplete: 'off' },
+                        { id: 'cpf', label: 'CPF / CNPJ *', type: 'text', placeholder: '000.000.000-00 ou 00.000.000/0000-00', autoComplete: 'off' },
                         { id: 'telefone', label: 'Telefone', type: 'tel', placeholder: '(11) 90000-0000', autoComplete: 'tel' },
                         { id: 'senha', label: 'Senha *', type: 'password', placeholder: 'Mínimo 8 caracteres', autoComplete: 'new-password' },
                         { id: 'confirmar_senha', label: 'Confirmar senha *', type: 'password', placeholder: 'Repita a senha', autoComplete: 'new-password' },

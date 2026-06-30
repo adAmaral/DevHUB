@@ -1,3 +1,4 @@
+SET sql_mode = '';
 USE devhub_db;
 SET FOREIGN_KEY_CHECKS = 0;
 

@@ -19,6 +19,7 @@ const CategoriesPage  = lazy(() => import('./pages/CategoriesPage'));
 const TermsPage       = lazy(() => import('./pages/TermsPage'));
 const PrivacyPage     = lazy(() => import('./pages/PrivacyPage'));
 const NotFoundPage    = lazy(() => import('./pages/NotFoundPage'));
+const CreateProductPage = lazy(() => import('./pages/CreateProductPage'));
 
 const wrap = (el) => <BaseLayout>{el}</BaseLayout>;
 const protect = (el) => <BaseLayout><ProtectedRoute>{el}</ProtectedRoute></BaseLayout>;
@@ -29,6 +30,7 @@ export const routes = [
     { path: '/produto/:slug', element: wrap(<ProductPage />) },
     { path: '/checkout',  element: wrap(<CheckoutPage />) },
     { path: '/carrinho',  element: wrap(<CartPage />) },
+    { path: '/publicar-produto', element: protect(<CreateProductPage />) },
     { path: '/login',     element: wrap(<LoginPage />) },
     { path: '/cadastro',  element: wrap(<SignupPage />) },
     { path: '/perfil',    element: protect(<ProfilePage />) },

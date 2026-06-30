@@ -23,10 +23,12 @@ export default function ProductPage() {
   if (!product) return <EmptyState title='Produto indisponível' message='Este produto não está disponível no momento.' action={<Link className='btn btn-primary' to='/mercado'>Ir para o mercado</Link>} />;
 
   return <article className='card'>
-    <Seo title={`${product.name} | DEVHUB`} description={product.description || 'Detalhes do produto DEVHUB.'} path={`/produto/${slug}`} ogType='product' jsonLd={{ '@context': 'https://schema.org', '@type': 'Product', name: product.name, description: product.description }} />
-    <h1>{product.name}</h1><p className='muted'>{product.description}</p>
-    <p><strong>Fornecedor:</strong> {product.vendor || 'Não informado'}</p>
-    <p><strong>Categoria:</strong> {product.category || 'Não informada'} · <strong>Plataforma:</strong> {product.platform || 'Não informada'}</p>
+    <Seo title={`${product.nome} | DEVHUB`} description={product.descricao || 'Detalhes do produto DEVHUB.'} path={`/produto/${slug}`} ogType='product' jsonLd={{ '@context': 'https://schema.org', '@type': 'Product', name: product.nome, description: product.descricao }} />
+    <img src={product.imagem_principal || 'https://via.placeholder.com/300x150?text=Sem+Imagem'} alt={product.nome} style={{ width: '100%', height: '300px', objectFit: 'contain', borderRadius: '0.5rem', marginBottom: '1.5rem', backgroundColor: '#f3f4f6' }} />
+    <h1>{product.nome}</h1><p className='muted'>{product.descricao}</p>
+    <p><strong>Fornecedor:</strong> Fornecedor Verificado</p>
+    <p><strong>Categoria:</strong> {product.categoria || 'Não informada'}</p>
+    <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>R$ {product.preco},00/mês</h2>
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
       <button className='btn btn-primary' onClick={handleAdd}>Adicionar ao carrinho</button>
       <Link className='btn btn-secondary' to='/checkout'>Comprar</Link>
