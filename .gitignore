@@ -1,3 +1,5 @@
 node_modules/
 DVHB/node_modules/
 .env
+DVHB/package-lock.json
+DVHB/package.json
