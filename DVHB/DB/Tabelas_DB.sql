@@ -1,3 +1,4 @@
+SET sql_mode = '';
 CREATE DATABASE IF NOT EXISTS devhub_db;
 USE devhub_db;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -15,7 +16,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     senha VARCHAR(255) NOT NULL,
     foto_perfil VARCHAR(255),
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    data_ultimo_acesso TIMESTAMP,
+    data_ultimo_acesso TIMESTAMP NULL DEFAULT NULL,
     ativo BOOLEAN DEFAULT TRUE
 );
 

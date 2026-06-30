@@ -27,7 +27,7 @@ export default function LoginPage() {
         setLoading(true);
         try {
             await login(form.email, form.senha);
-            navigate('/perfil');
+            navigate('/mercado');
         } catch (err) {
             setError(err.message || 'Falha ao conectar ao servidor.');
         } finally {
