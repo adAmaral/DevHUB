@@ -2,7 +2,11 @@ const Product = require('../models/product.model');
 
 exports.getProducts = async (req, res, next) => {
     try {
-        const products = await Product.findAll();
+        const where = {};
+        if (req.query.fornecedor_id) {
+            where.fornecedor_id = req.query.fornecedor_id;
+        }
+        const products = await Product.findAll({ where });
         res.json(products);
     }
     catch (err) {

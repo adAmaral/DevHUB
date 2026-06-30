@@ -29,6 +29,11 @@ export default function Header() {
 
                     {user ? (
                         <>
+                            {(user.tipo_conta === 'freelancer' || user.tipo_conta === 'empresa fornecedora') && (
+                                <Link className="btn btn-secondary" to="/meus-produtos">
+                                    Meus Produtos
+                                </Link>
+                            )}
                             <Link className="btn btn-secondary" to="/perfil">
                                 {user.nome?.split(' ')[0] || 'Perfil'}
                             </Link>

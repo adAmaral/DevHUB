@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Seo from '../seo/Seo';
 import { useAuth } from '../context/AuthContext';
+import LoadingState from '../components/LoadingState';
 
-export default function CreateProductPage() {
+export default function EditProductPage() {
     const { user } = useAuth();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
+    const { id } = useParams();
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState('');
 
-    // Simple skeleton state
     const [form, setForm] = useState({
         nome: '',
         descricao: '',
@@ -17,13 +20,41 @@ export default function CreateProductPage() {
         urlImagem: ''
     });
 
-    // Security block: Only freelancer or supplier can access
+    useEffect(() => {
+        loadProduct();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
+
+    const loadProduct = async () => {
+        try {
+            const res = await fetch(`/api/products/${id}`);
+            if (!res.ok) throw new Error('Produto não encontrado');
+            const data = await res.json();
+            
+            // Segurança: Se não for o dono, bloqueia
+            if (data.fornecedor_id !== user.id) {
+                throw new Error('Você não tem permissão para editar este produto.');
+            }
+
+            setForm({
+                nome: data.nome || '',
+                descricao: data.descricao || '',
+                preco: data.preco || '',
+                categoria: data.categoria || '',
+                urlImagem: data.imagem_principal || ''
+            });
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (!user || (user.tipo_conta !== 'freelancer' && user.tipo_conta !== 'empresa fornecedora')) {
         return (
             <section style={{ maxWidth: 600, margin: '2rem auto', textAlign: 'center' }}>
-                <Seo title="Acesso Negado | DEVHUB" description="Área restrita" path="/publicar-produto" />
+                <Seo title="Acesso Negado | DEVHUB" description="Área restrita" path="/editar-produto" />
                 <h1>Acesso Restrito</h1>
-                <p>Apenas freelancers e empresas fornecedoras podem publicar produtos ou serviços no DevHub.</p>
                 <button className="btn btn-primary" onClick={() => navigate('/mercado')} style={{ marginTop: '1rem' }}>
                     Voltar ao Mercado
                 </button>
@@ -31,17 +62,27 @@ export default function CreateProductPage() {
         );
     }
 
+    if (loading) return <LoadingState message="Carregando informações do produto..." />;
+    if (error) return (
+        <section style={{ maxWidth: 600, margin: '2rem auto', textAlign: 'center' }}>
+             <h2 style={{color: 'var(--error)'}}>{error}</h2>
+             <button className="btn btn-primary" onClick={() => navigate('/meus-produtos')} style={{ marginTop: '1rem' }}>
+                 Voltar aos Meus Produtos
+             </button>
+        </section>
+    );
+
     const handleChange = (e) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-
+        setSaving(true);
+        
         try {
-            const res = await fetch('/api/products', {
-                method: 'POST',
+            const res = await fetch(`/api/products/${id}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     nome: form.nome,
@@ -49,33 +90,31 @@ export default function CreateProductPage() {
                     categoria: form.categoria,
                     preco: Number(form.preco),
                     preco_original: Number(form.preco),
-                    estoque: 9999,
                     imagem_principal: form.urlImagem,
-                    fornecedor_id: user.id
                 }),
             });
 
             if (!res.ok) {
                 const body = await res.json().catch(() => ({}));
-                throw new Error(body.message || 'Erro ao publicar produto.');
+                throw new Error(body.message || 'Erro ao salvar produto.');
             }
 
-            alert('Produto publicado com sucesso e salvo no banco de dados!');
-            navigate('/mercado');
+            alert('Produto atualizado com sucesso!');
+            navigate('/meus-produtos');
         } catch (err) {
             alert(err.message || 'Falha ao conectar ao servidor.');
         } finally {
-            setLoading(false);
+            setSaving(false);
         }
     };
 
     return (
         <section style={{ maxWidth: 600, margin: '2rem auto' }}>
-            <Seo title="Publicar Produto | DEVHUB" description="Publique seu software ou serviço" path="/publicar-produto" />
+            <Seo title="Editar Produto | DEVHUB" description="Edite seu produto" path={`/editar-produto/${id}`} />
             <div className="card" style={{ padding: '2rem' }}>
-                <h1 style={{ marginBottom: '0.5rem' }}>Publicar Produto / Serviço</h1>
+                <h1 style={{ marginBottom: '0.5rem' }}>Editar Produto</h1>
                 <p className="muted" style={{ marginBottom: '2rem' }}>
-                    Preencha as informações básicas para adicionar seu item à vitrine de software do DevHub.
+                    Altere as informações do seu produto abaixo.
                 </p>
 
                 <form onSubmit={handleSubmit}>
@@ -86,13 +125,13 @@ export default function CreateProductPage() {
 
                     <div style={{ marginBottom: '1rem' }}>
                         <label htmlFor="descricao" style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>Descrição Completa *</label>
-                        <textarea id="descricao" name="descricao" className="input" rows="4" placeholder="Descreva as funcionalidades e diferenciais do seu produto..." required value={form.descricao} onChange={handleChange} />
+                        <textarea id="descricao" name="descricao" className="input" rows="4" placeholder="Descreva as funcionalidades e diferenciais..." required value={form.descricao} onChange={handleChange} />
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
                         <div style={{ flex: 1 }}>
                             <label htmlFor="preco" style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>Preço (R$)</label>
-                            <input id="preco" name="preco" type="number" step="0.01" className="input" placeholder="Ex: 199.90" value={form.preco} onChange={handleChange} />
+                            <input id="preco" name="preco" type="number" step="0.01" className="input" value={form.preco} onChange={handleChange} />
                         </div>
                         <div style={{ flex: 1 }}>
                             <label htmlFor="categoria" style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>Categoria</label>
@@ -108,13 +147,13 @@ export default function CreateProductPage() {
 
                     <div style={{ marginBottom: '2rem' }}>
                         <label htmlFor="urlImagem" style={{ display: 'block', marginBottom: '0.35rem', fontWeight: 600 }}>URL da Imagem de Capa</label>
-                        <input id="urlImagem" name="urlImagem" type="url" className="input" placeholder="https://exemplo.com/sua-imagem.png" value={form.urlImagem} onChange={handleChange} />
+                        <input id="urlImagem" name="urlImagem" type="url" className="input" value={form.urlImagem} onChange={handleChange} />
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                        <button type="button" className="btn btn-outlined" onClick={() => navigate('/mercado')} disabled={loading}>Cancelar</button>
-                        <button type="submit" className="btn btn-primary" disabled={loading}>
-                            {loading ? 'Publicando...' : 'Publicar Produto'}
+                        <button type="button" className="btn btn-outlined" onClick={() => navigate('/meus-produtos')} disabled={saving}>Cancelar</button>
+                        <button type="submit" className="btn btn-primary" disabled={saving}>
+                            {saving ? 'Salvando...' : 'Salvar Alterações'}
                         </button>
                     </div>
                 </form>
