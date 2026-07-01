@@ -3,3 +3,4 @@ DVHB/node_modules/
 .env
 DVHB/package-lock.json
 DVHB/package.json
+DVHB/frontend/package-lock.json

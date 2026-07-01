@@ -6,9 +6,9 @@
 
 ## Nome dos Integrantes
 
-*   [Seu Nome/Nome do Integrante 1]
-*   [Nome do Integrante 2]
-*   [Adicione mais integrantes conforme necessário]
+*   Adriel Amaral Alegrette
+*   Eduardo Rubel
+*   Gustavo Bau
 
 ## Descrição Resumida do Sistema
 
@@ -131,11 +131,11 @@ O DevHUB oferece as seguintes funcionalidades principais:
 *   **Gestão de Fornecedores**: Cadastro e administração de fornecedores.
 *   **Integração Git**: (Potencialmente) Funcionalidades relacionadas à integração com repositórios Git.
 
+## Participação dos integrantes
+
+* **Adriel** - Backend
+* **Eduardo** - Banco de Dados
+* **Gustavo** - Frontend/Documentações
+
 ## Link do Vídeo de Demonstração
-
-[Insira o link do vídeo de demonstração aqui, quando houver.]
-
----
-
-**Autor:** Manus AI
-**Data:** 30 de Junho de 2026
+https://www.youtube.com/watch?v=eHB1SXB9Zbo
